@@ -1,9 +1,13 @@
 "use client";
 
 import { useGLTF } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, extend, Primitive } from "@react-three/fiber";
 import { FC, useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
+import { PrimitiveProps } from "@react-three/fiber";
+
+// Remove custom global declaration for 'primitive'.
+// @react-three/fiber already provides correct types for 'primitive'.
 
 interface ISSProps {
   orbitParams?: {
@@ -69,5 +73,5 @@ export const ISS: FC<ISSProps> = ({
     }
   });
 
-  return <primitive object={clonedScene} ref={issRef} scale={0.05} />;
+  return <Primitive object={clonedScene} ref={issRef} scale={0.05} />;
 };
