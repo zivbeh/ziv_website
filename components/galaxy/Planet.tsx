@@ -1,26 +1,31 @@
 // @ts-nocheck
 "use client";
 
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
 import { Mesh, TextureLoader, Vector3, BackSide } from "three";
 import { Html } from "@react-three/drei";
 import { Select } from "@react-three/postprocessing";
-import { PlanetVehicle } from "./PlanetVehicle";
+import dynamic from "next/dynamic";
 import { Project } from "@/lib/types";
 
 interface PlanetProps {
   project: Project & { position: [number, number, number] };
   onClick: (position: Vector3, id: string) => void;
   position: [number, number, number];
+  showVehicle?: boolean;
 }
 
-export const Planet = ({ project, onClick, position }: PlanetProps) => {
+export const Planet = ({ project, onClick, position, showVehicle = false }: PlanetProps) => {
   const meshRef = useRef<Mesh>(null);
   const [hovered, setHovered] = useState(false);
   const texture = useLoader(
     TextureLoader,
     project.texture || "/textures/planets/2k_moon.jpg"
+  );
+  const PlanetVehicle = useMemo(
+    () => dynamic(() => import("./PlanetVehicle").then((m) => m.PlanetVehicle), { ssr: false }),
+    []
   );
 
   const sizeMap = {
@@ -57,7 +62,7 @@ export const Planet = ({ project, onClick, position }: PlanetProps) => {
           <meshStandardMaterial
             map={texture}
           />
-          <PlanetVehicle project={project} planetSize={planetSize} />
+          {showVehicle && <PlanetVehicle project={project} planetSize={planetSize} />}
         </mesh>
       </Select>
       <Html position={[0, planetSize + 1, 0]} center style={{ pointerEvents: "none" }}>

@@ -3,10 +3,9 @@
 import { Canvas, useThree } from "@react-three/fiber";
 import { Suspense, useMemo, useState } from "react";
 import { Planet } from "./Planet";
-import { Spaceship } from "./Spaceship";
 import { Stars, Html, useProgress } from "@react-three/drei";
-import { ISS } from "./ISS";
 import { CameraControls } from "./CameraControls";
+import dynamic from "next/dynamic";
 import {
   EffectComposer,
   Outline,
@@ -49,6 +48,7 @@ interface GalaxyProps {
   projects: Project[];
   cameraTarget: ThreeVector3 | null;
   onCameraYChange?: (y: number) => void;
+  showVehicles?: boolean;
 }
 
 export const Galaxy = ({
@@ -56,7 +56,16 @@ export const Galaxy = ({
   projects,
   cameraTarget,
   onCameraYChange,
+  showVehicles = false,
 }: GalaxyProps) => {
+  const ISSLazy = useMemo(
+    () => dynamic(() => import("./ISS").then((m) => m.ISS), { ssr: false }),
+    []
+  );
+  const SpaceshipLazy = useMemo(
+    () => dynamic(() => import("./Spaceship").then((m) => m.Spaceship), { ssr: false }),
+    []
+  );
   const { active } = useProgress();
   const [cameraY, setCameraY] = useState(0);
   const { planetLayout, titles } = useMemo(() => {
@@ -176,11 +185,15 @@ export const Galaxy = ({
       <Suspense fallback={null}>
         <SceneLights />
         <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade />
-        <ISS orbitParams={{ radius: 15, speed: 0.1, yOffset: 5 }} />
-        <ISS
-          orbitParams={{ radius: 20, speed: 0.08, yOffset: -5 }}
-          color="lightblue"
-        />
+        {showVehicles && (
+          <>
+            <ISSLazy orbitParams={{ radius: 15, speed: 0.1, yOffset: 5 }} />
+            <ISSLazy
+              orbitParams={{ radius: 20, speed: 0.08, yOffset: -5 }}
+              color="lightblue"
+            />
+          </>
+        )}
         <Selection>
           <EffectComposer multisampling={8} autoClear={false}>
             <Outline
@@ -196,6 +209,7 @@ export const Galaxy = ({
               project={project}
               position={project.position}
               onClick={(position) => onPlanetClick(position, project.id)}
+              showVehicle={showVehicles}
             />
           ))}
         </Selection>
@@ -225,7 +239,7 @@ export const Galaxy = ({
             <ContactMe />
           </div>
         </Html>
-        <Spaceship planetLayout={planetLayout} />
+        {showVehicles && <SpaceshipLazy planetLayout={planetLayout} />}
         <CameraControls
           targetPosition={cameraTarget}
           yRange={[Math.floor(minY - 6), 13]}

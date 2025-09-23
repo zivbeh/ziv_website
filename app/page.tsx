@@ -13,6 +13,7 @@ export default function Home() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [cameraTarget, setCameraTarget] = useState<Vector3 | null>(null);
   const [isZoomed, setIsZoomed] = useState(false);
+  const [showVehicles, setShowVehicles] = useState(false);
 
   const handlePlanetClick = (position: Vector3, projectId: string) => {
     const project = projects.find((p) => p.id === projectId);
@@ -33,7 +34,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-black">
-      <Preloader />
+      <Preloader onHidden={() => setShowVehicles(true)} />
       <div className="absolute top-4 left-4 z-10">
         <div className="flex items-center gap-3 bg-black/60 backdrop-blur-sm rounded-lg p-2.5 shadow-2xl">
           <img
@@ -51,6 +52,7 @@ export default function Home() {
         onPlanetClick={handlePlanetClick}
         projects={projects}
         cameraTarget={cameraTarget}
+        showVehicles={showVehicles}
       />
       <ProjectView project={selectedProject} onClose={handleClose} />
       {/* ContactMe is now rendered inside the 3D galaxy below the Games section */}

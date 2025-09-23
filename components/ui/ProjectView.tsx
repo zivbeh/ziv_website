@@ -31,6 +31,61 @@ export const ProjectView = ({ project, onClose }: ProjectViewProps) => {
     return [];
   }, [project]);
 
+  const hasImages = images.length > 0;
+
+  const getDisplayName = useCallback((src: string) => {
+    const base = (src.split("/").pop() ?? src).replace(/\.[^/.]+$/, "");
+    return base.replace(/[-_]+/g, " ");
+  }, []);
+
+  const getSpanClasses = useCallback((idx: number, src: string) => {
+    // 1) Explicit overrides via project.imageSpans (index, basename, or substring match)
+    const spansMap = (project?.imageSpans ?? undefined) as Record<string, string> | undefined;
+    if (spansMap) {
+      const byIndex = spansMap[String(idx)];
+      if (byIndex) return byIndex;
+
+      const baseLower = (src.split("/").pop() ?? src).toLowerCase();
+      if (spansMap[baseLower]) return spansMap[baseLower];
+
+      for (const [key, value] of Object.entries(spansMap)) {
+        if (baseLower.includes(key.toLowerCase())) return value;
+      }
+    }
+
+    // 2) Heuristic big tiles by filename keywords
+    const lower = src.toLowerCase();
+    const isHero = [
+      "hero",
+      "cover",
+      "entire",
+      "entirepage",
+      "full",
+      "start",
+      "floor",
+      "map",
+      "datapath",
+      "version1",
+      "websitelook",
+      "screenshot",
+    ].some((k) => lower.includes(k));
+
+    if (isHero) {
+      return "col-span-2 row-span-2 md:col-span-3 md:row-span-3";
+    }
+
+    // 3) Quilted pattern fallback by index
+    const pattern = [
+      "col-span-2 row-span-2 md:col-span-3 md:row-span-2",
+      "col-span-2 row-span-1 md:col-span-2 md:row-span-2",
+      "col-span-1 row-span-1 md:col-span-1 md:row-span-1",
+      "col-span-1 row-span-1 md:col-span-2 md:row-span-1",
+      "col-span-2 row-span-2 md:col-span-3 md:row-span-2",
+      "col-span-1 row-span-1 md:col-span-1 md:row-span-2",
+    ];
+    return pattern[idx % pattern.length];
+  }, [project]);
+
   const openLightbox = useCallback((index: number) => {
     setLightboxIndex(index);
   }, []);
@@ -87,7 +142,7 @@ export const ProjectView = ({ project, onClose }: ProjectViewProps) => {
               >
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
                   {/* Left: Textual content */}
-                  <div className="lg:col-span-5">
+                  <div className={`${hasImages ? "lg:col-span-5" : "lg:col-span-12"}`}>
                     <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 tracking-tight">
                       {project.name}
                     </h2>
@@ -130,43 +185,57 @@ export const ProjectView = ({ project, onClose }: ProjectViewProps) => {
                   </div>
 
                   {/* Right: Media gallery */}
-                  <div className="lg:col-span-7">
-                    {images.length === 0 && (
-                      <div className="w-full h-64 rounded-xl bg-white/5 border border-white/10" />
-                    )}
-
-                    {images.length === 1 && (
-                      <div className="w-full overflow-hidden rounded-xl bg-black/30 border border-white/10">
-                        <img
-                          src={images[0]}
-                          alt={project.name}
-                          className="w-full h-auto max-h-[70vh] object-contain"
-                        />
-                      </div>
-                    )}
-
-                    {images.length > 1 && (
-                      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                        {images.map((src, idx) => (
-                          <button
-                            key={src + idx}
-                            className="group relative overflow-hidden rounded-lg bg-black/40 border border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-400"
-                            onClick={() => openLightbox(idx)}
-                            aria-label={`Open image ${idx + 1}`}
-                          >
-                            <div className="h-36 md:h-40 lg:h-44 w-full">
+                  {hasImages && (
+                    <div className="lg:col-span-7">
+                      {images.length === 1 && (
+                        <button
+                          className="w-full overflow-hidden rounded-xl bg-black/30 border border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                          onClick={() => openLightbox(0)}
+                          aria-label={`Open image 1`}
+                        >
+                          <div className="flex h-full flex-col">
+                            <div className="relative">
                               <img
-                                src={src}
-                                alt={`Screenshot ${idx + 1}`}
-                                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                                loading="lazy"
+                                src={images[0]}
+                                alt={project.name}
+                                className="w-full h-auto max-h-[70vh] object-contain"
                               />
                             </div>
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
+                            <div className="px-3 py-2 text-sm md:text-base text-gray-300 bg-black/40 border-t border-white/10 truncate">
+                              {getDisplayName(images[0])}
+                            </div>
+                          </div>
+                        </button>
+                      )}
+
+                      {images.length > 1 && (
+                        <div className="grid grid-cols-2 md:grid-cols-6 auto-rows-[7rem] sm:auto-rows-[8rem] md:auto-rows-[7.5rem] lg:auto-rows-[8rem] gap-4">
+                          {images.map((src, idx) => (
+                            <button
+                              key={src + idx}
+                              className={`group relative overflow-hidden rounded-lg bg-black/40 border border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-400 ${getSpanClasses(idx, src)}`}
+                              onClick={() => openLightbox(idx)}
+                              aria-label={`Open image ${idx + 1}`}
+                            >
+                              <div className="flex h-full flex-col min-h-0">
+                                <div className="relative flex-1">
+                                  <img
+                                    src={src}
+                                    alt={`Screenshot ${idx + 1}`}
+                                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                    loading="lazy"
+                                  />
+                                </div>
+                                <div className="px-2 py-1 text-xs md:text-sm text-gray-300 bg-black/40 border-t border-white/10 truncate">
+                                  {getDisplayName(src)}
+                                </div>
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               </motion.div>
             </div>

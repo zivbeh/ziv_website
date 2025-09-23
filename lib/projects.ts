@@ -33,6 +33,21 @@ export const projects = [
       "/status/websitelook.png",
       "/status/wifiap.png",
     ],
+    imageSpans: {
+      // Use tailwind grid span classes; base grid has 2 cols, md has 6 cols
+      // Tip: keep base at col-span-1/2; for md you can use md:col-span-1..6
+      // Big hero chart/screen
+      "websitelook.png": "col-span-2 row-span-2 md:col-span-3 md:row-span-3",
+      // Logos medium squares
+      "StatusLogo.png": "col-span-2 row-span-2 md:col-span-2 md:row-span-2",
+      "skydeck_berkeley_logo.jpeg": "col-span-2 row-span-2 md:col-span-2 md:row-span-2",
+      // Stats tall card
+      "outreachStats.png": "col-span-1 row-span-2 md:col-span-2 md:row-span-3",
+      // Analytics wide
+      "websiteEngagment.png": "col-span-2 row-span-1 md:col-span-3 md:row-span-2",
+      // Device photo tall
+      "wifiap.png": "col-span-1 row-span-2 md:col-span-2 md:row-span-3",
+    },
     texture: "/textures/planets/lib_radar.png",
     theme: {
       surfaceColor1: "#99ccff",
@@ -50,6 +65,11 @@ export const projects = [
     tools: ["Node.js", "TypeScript/JavaScript", "MySQL", "AWS (autoscaling, CI/CD)", "WebSockets/SSE", "Canvas/Grid UI", "Git"],
     repoUrl: "https://github.com/zivbeh/OrderCubic",
     size: "medium",
+    images: [
+      "/ordercubic/ordercubic.png",
+      "/ordercubic/floorplan2.jpg",
+      "/ordercubic.svg",
+    ],
     texture: "/textures/planets/ordercubic.png",
     theme: {
       surfaceColor1: "#ffccff",
@@ -66,6 +86,9 @@ export const projects = [
     tools: ["Python", "MoviePy", "GPT-4 (script editing)", "Requests/BS4 or Playwright (scraping)", "media APIs", "TTS", "YouTube Data API (OAuth)", "Git"],
     repoUrl: "https://github.com/zivbeh/auto-video-gen",
     size: "medium",
+    images: [
+      "/ai-video-generator.svg",
+    ],
     texture: "/textures/planets/vidgen.png",
     theme: {
       surfaceColor1: "#ccffcc",
@@ -159,6 +182,11 @@ export const projects = [
       "I designed and tested a pipelined RISC-V CPU in Logisim. I laid out the datapath, wrote the control logic, handled hazards, and verified behavior against ISA-level tests. It taught me to keep the pipeline honest and the timing predictable.",
     tools: ["Logisim", "RISC-V ISA/specs", "unit tests/trace benches", "Git"],
     size: "medium",
+    images: [
+      "/c61cpu/datapath.png",
+      "/c61cpu/datapathinlogisim.png",
+      "/c61cpu/arithmeticunit.png",
+    ],
     texture: "/textures/planets/61cpu.png",
     theme: {
       surfaceColor1: "#FDA4AF",
@@ -174,6 +202,9 @@ export const projects = [
       "I built and characterized a multi-stage guitar amp with filters and op-amp gain stages on breadboards, then measured it with lab gear. I tuned frequency response and gain/linearity while learning to chase noise and oscillations with a scope.",
     tools: ["Breadboards", "op-amps/passives", "signal generator", "oscilloscope", "DMM", "(optionally) SPICE"],
     size: "small",
+    images: [
+      "/guitarAMP/guitar.jpeg",
+    ],
     texture: "/textures/planets/guitaramplifier.png",
     theme: {
       surfaceColor1: "#F0ABFC",
@@ -190,6 +221,10 @@ export const projects = [
     tools: ["HTML5 Canvas", "JavaScript", "CSS3", "sprite/animation pipeline", "Git"],
     liveUrl: "https://zivbeh.github.io/BalloonsPOP/",
     size: "medium",
+    images: [
+      "/balloonspopgame/choose world.png",
+      "/balloonspopgame/map.png",
+    ],
     theme: {
       surfaceColor1: "#FCA5A5",
       surfaceColor2: "#DC2626",
@@ -261,6 +296,10 @@ export const projects = [
     description: "I prototyped a portal-and-gravity playground where you navigate linked spaces under simple physics. It’s a toybox for experimenting with movement and surprise.",
     tools: ["HTML5 Canvas", "JavaScript", "custom physics", "level configs", "Git"],
     size: "small",
+    images: [
+      "/MoneyPortal/start.png",
+      "/MoneyPortal/portals!.png",
+    ],
     theme: {
       surfaceColor1: "#F9A8D4",
       surfaceColor2: "#DB2777",
@@ -288,6 +327,10 @@ export const projects = [
     tools: ["Java", "OOP design", "RNG/procedural gen", "lightweight renderer", "Git"],
     liveUrl: "https://sp25.datastructur.es/projects/proj3/",
     size: "small",
+    images: [
+      "/roomgame/Screenshot 2025-09-22 230008.png",
+      "/roomgame/seed441.png",
+    ],
 theme: {
       surfaceColor1: "#F87171",
       surfaceColor2: "#B91C1C",
@@ -302,6 +345,13 @@ theme: {
       "I designed a variety of models in Onshape, focusing on mechanical design, assembly, and 3D printing. Projects include interlocking wooden modules for custom storage, a miniature Tie Fighter, a Minion figurine, a mini basketball desk game, and a compact marble maze. For each, I focused on tolerances, clean constraints, and design for manufacturability.",
     tools: ["Onshape", "3D Printing (STL Export)"],
     size: "medium",
+    images: [
+      "/3dprojs/minion.png",
+      "/3dprojs/tiefighter.png",
+      "/3dprojs/basketball.png",
+      "/3dprojs/marblegame.png",
+      "/3dprojs/boxes.png",
+    ],
     texture: "/textures/planets/ordercubic.png",
     theme: {
       surfaceColor1: "#CA8A04",

@@ -11,9 +11,11 @@ interface PreloaderProps {
   forceShow?: boolean;
   /** Minimum time to show the loader (ms) to avoid flash */
   minDurationMs?: number;
+  /** Callback when the preloader has fully hidden (after fade out) */
+  onHidden?: () => void;
 }
 
-export function Preloader({ forceShow = false, minDurationMs = 600 }: PreloaderProps) {
+export function Preloader({ forceShow = false, minDurationMs = 600, onHidden }: PreloaderProps) {
   const { active, progress } = useProgress();
   const [mountedAt] = useState(() => performance.now());
   const [ready, setReady] = useState(false);
@@ -49,6 +51,13 @@ export function Preloader({ forceShow = false, minDurationMs = 600 }: PreloaderP
       return () => window.clearTimeout(t);
     }
   }, [ready]);
+
+  // Notify when fully hidden
+  useEffect(() => {
+    if (hidden && onHidden) {
+      onHidden();
+    }
+  }, [hidden, onHidden]);
 
   const pct = useMemo(() => Math.round(progress), [progress]);
 
