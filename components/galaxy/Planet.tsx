@@ -1,7 +1,7 @@
 // @ts-nocheck
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
 import { Mesh, TextureLoader, Vector3, BackSide } from "three";
 import { Html } from "@react-three/drei";
@@ -14,15 +14,37 @@ interface PlanetProps {
   onClick: (position: Vector3, id: string) => void;
   position: [number, number, number];
   showVehicle?: boolean;
+  shouldLoadTexture?: boolean;
+  eagerTextureLoad?: boolean;
+  showLabel?: boolean;
 }
 
-export const Planet = ({ project, onClick, position, showVehicle = false }: PlanetProps) => {
+export const Planet = ({ project, onClick, position, showVehicle = false, shouldLoadTexture = true, eagerTextureLoad = false, showLabel = true }: PlanetProps) => {
   const meshRef = useRef<Mesh>(null);
   const [hovered, setHovered] = useState(false);
+  // Delay texture loading and prioritize nearby planets
+  const [allowTextureLoad, setAllowTextureLoad] = useState(eagerTextureLoad);
   const texture = useLoader(
     TextureLoader,
-    project.texture || "/textures/planets/2k_moon.jpg"
+    allowTextureLoad ? (project.texture || "/textures/planets/2k_moon.jpg") : "/textures/planets/2k_moon.jpg"
   );
+  useEffect(() => {
+    if (!allowTextureLoad && shouldLoadTexture) {
+      const anyWindow = window as unknown as { requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => void };
+      const schedule = (cb: () => void) => {
+        if (eagerTextureLoad) {
+          cb();
+          return;
+        }
+        if (anyWindow.requestIdleCallback) {
+          anyWindow.requestIdleCallback(cb, { timeout: 1200 });
+        } else {
+          setTimeout(cb, 400);
+        }
+      };
+      schedule(() => setAllowTextureLoad(true));
+    }
+  }, [allowTextureLoad, shouldLoadTexture, eagerTextureLoad]);
   const PlanetVehicle = useMemo(
     () => dynamic(() => import("./PlanetVehicle").then((m) => m.PlanetVehicle), { ssr: false }),
     []
@@ -65,14 +87,16 @@ export const Planet = ({ project, onClick, position, showVehicle = false }: Plan
           {showVehicle && <PlanetVehicle project={project} planetSize={planetSize} />}
         </mesh>
       </Select>
-      <Html position={[0, planetSize + 1, 0]} center style={{ pointerEvents: "none" }}>
+      {showLabel && (
+        <Html position={[0, planetSize + 1, 0]} center style={{ pointerEvents: "none" }}>
         <div
           className="text-white text-center text-lg font-bold whitespace-normal break-words max-w-[220px] px-2"
           style={{ textShadow: "0 0 8px black, 0 0 8px black" }}
         >
           {project.name}
         </div>
-      </Html>
+        </Html>
+      )}
     </group>
   );
 };

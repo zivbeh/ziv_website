@@ -6,11 +6,7 @@ import { Planet } from "./Planet";
 import { Stars, Html, useProgress } from "@react-three/drei";
 import { CameraControls } from "./CameraControls";
 import dynamic from "next/dynamic";
-import {
-  EffectComposer,
-  Outline,
-  Selection,
-} from "@react-three/postprocessing";
+import { EffectComposer, Outline, Selection } from "@react-three/postprocessing";
 import { Project } from "@/lib/types";
 import type { Vector3 as ThreeVector3 } from "three";
 import * as THREE from "three";
@@ -49,6 +45,7 @@ interface GalaxyProps {
   cameraTarget: ThreeVector3 | null;
   onCameraYChange?: (y: number) => void;
   showVehicles?: boolean;
+  showEffects?: boolean;
 }
 
 export const Galaxy = ({
@@ -57,6 +54,7 @@ export const Galaxy = ({
   cameraTarget,
   onCameraYChange,
   showVehicles = false,
+  showEffects = false,
 }: GalaxyProps) => {
   const ISSLazy = useMemo(
     () => dynamic(() => import("./ISS").then((m) => m.ISS), { ssr: false }),
@@ -184,7 +182,9 @@ export const Galaxy = ({
     >
       <Suspense fallback={null}>
         <SceneLights />
-        <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade />
+        {showEffects && (
+          <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade />
+        )}
         {showVehicles && (
           <>
             <ISSLazy orbitParams={{ radius: 15, speed: 0.1, yOffset: 5 }} />
@@ -195,23 +195,37 @@ export const Galaxy = ({
           </>
         )}
         <Selection>
-          <EffectComposer multisampling={8} autoClear={false}>
-            <Outline
-              blur
-              visibleEdgeColor={0x42a5f5}
-              edgeStrength={5}
-              width={1000 as unknown as number}
-            />
-          </EffectComposer>
-          {planetLayout.map((project) => (
-            <Planet
-              key={project.id}
-              project={project}
-              position={project.position}
-              onClick={(position) => onPlanetClick(position, project.id)}
-              showVehicle={showVehicles}
-            />
-          ))}
+          {showEffects && (
+            <EffectComposer multisampling={8} autoClear={false}>
+              <Outline
+                blur
+                visibleEdgeColor={0x42a5f5}
+                edgeStrength={5}
+                width={1000 as unknown as number}
+              />
+            </EffectComposer>
+          )}
+          {planetLayout.map((project) => {
+            const diffY = Math.abs(project.position[1] - cameraY);
+            const loadRange = 22; // planets within this Y-distance should start loading
+            const priorityRange = 10; // closest planets load textures eagerly
+            const labelRange = 28; // show labels a bit earlier
+            const shouldLoadTexture = diffY <= loadRange;
+            const eagerTextureLoad = diffY <= priorityRange;
+            const showLabel = diffY <= labelRange;
+            return (
+              <Planet
+                key={project.id}
+                project={project}
+                position={project.position}
+                onClick={(position) => onPlanetClick(position, project.id)}
+                showVehicle={showVehicles && shouldLoadTexture}
+                shouldLoadTexture={shouldLoadTexture}
+                eagerTextureLoad={eagerTextureLoad}
+                showLabel={showLabel}
+              />
+            );
+          })}
         </Selection>
         {titles.map(({ category, title, position }) => (
           <Html key={category} position={position} center style={{ pointerEvents: "none" }}>

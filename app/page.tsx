@@ -14,6 +14,7 @@ export default function Home() {
   const [cameraTarget, setCameraTarget] = useState<Vector3 | null>(null);
   const [isZoomed, setIsZoomed] = useState(false);
   const [showVehicles, setShowVehicles] = useState(false);
+  const [showEffects, setShowEffects] = useState(false);
 
   const handlePlanetClick = (position: Vector3, projectId: string) => {
     const project = projects.find((p) => p.id === projectId);
@@ -34,7 +35,26 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-black">
-      <Preloader onHidden={() => setShowVehicles(true)} />
+      <Preloader
+        onHidden={() => {
+          const schedule = (cb: () => void, delay = 800) => {
+            // Prefer browser idle time first
+            const anyWindow = window as unknown as { requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => void };
+            if (anyWindow.requestIdleCallback) {
+              anyWindow.requestIdleCallback(() => {
+                setTimeout(cb, 0);
+              }, { timeout: 1200 });
+            } else {
+              setTimeout(cb, delay);
+            }
+          };
+
+          // Defer vehicles to the next idle slice for interactivity
+          schedule(() => setShowVehicles(true), 800);
+          // Defer heavy postprocessing a bit further
+          schedule(() => setShowEffects(true), 1200);
+        }}
+      />
       <div className="absolute top-4 left-4 z-10">
         <div className="flex items-center gap-3 bg-black/60 backdrop-blur-sm rounded-lg p-2.5 shadow-2xl">
           <img
@@ -53,6 +73,7 @@ export default function Home() {
         projects={projects}
         cameraTarget={cameraTarget}
         showVehicles={showVehicles}
+        showEffects={showEffects}
       />
       <ProjectView project={selectedProject} onClose={handleClose} />
       {/* ContactMe is now rendered inside the 3D galaxy below the Games section */}
