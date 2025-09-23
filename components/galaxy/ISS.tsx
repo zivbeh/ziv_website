@@ -2,10 +2,19 @@
 
 import { useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
-import { useEffect, useMemo, useRef } from "react";
+import { FC, useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 
-export const ISS = ({
+interface ISSProps {
+  orbitParams?: {
+    radius: number;
+    speed: number;
+    yOffset: number;
+  };
+  color?: string;
+}
+
+export const ISS: FC<ISSProps> = ({
   orbitParams = { radius: 15, speed: 0.1, yOffset: 2 },
   color = "hotpink",
 }) => {
