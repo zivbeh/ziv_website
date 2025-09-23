@@ -17,3 +17,14 @@ export interface Project {
   liveUrl?: string;
 }
 
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      primitive: React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement> & { object: any },
+        HTMLElement
+      >;
+    }
+  }
+}
+
