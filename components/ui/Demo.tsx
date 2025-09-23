@@ -74,7 +74,7 @@ const Clustering = () => {
   );
 };
 
-export const Demo = ({ demo }) => {
+export const Demo = ({ demo }: { demo: "heatmap" | "clustering" }) => {
   if (demo === "heatmap") {
     return <Heatmap />;
   }
