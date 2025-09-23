@@ -2,8 +2,14 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useState, useCallback } from "react";
+import { Project } from "@/lib/types";
 
-export const ProjectView = ({ project, onClose }) => {
+type ProjectViewProps = {
+  project: Project | null;
+  onClose: () => void;
+};
+
+export const ProjectView = ({ project, onClose }: ProjectViewProps) => {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   useEffect(() => {

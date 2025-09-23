@@ -1,10 +1,9 @@
 "use client";
 
 import { useGLTF } from "@react-three/drei";
-import { useFrame, extend, Primitive } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import { FC, useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
-import { PrimitiveProps } from "@react-three/fiber";
 
 // Remove custom global declaration for 'primitive'.
 // @react-three/fiber already provides correct types for 'primitive'.
@@ -24,7 +23,7 @@ export const ISS: FC<ISSProps> = ({
 }) => {
   const { scene } = useGLTF("/models/iss.glb");
   const clonedScene = useMemo(() => scene.clone(), [scene]);
-  const issRef = useRef<THREE.Group>(null);
+  const issRef = useRef<THREE.Object3D>(null);
 
   useEffect(() => {
     // Keep only the largest visible group in the model to remove stray pieces
@@ -72,6 +71,6 @@ export const ISS: FC<ISSProps> = ({
       issRef.current.rotation.y += 0.002;
     }
   });
-
-  return <Primitive object={clonedScene} ref={issRef} scale={0.05} />;
+  // @ts-ignore
+  return <primitive object={clonedScene} ref={issRef} scale={0.05} />;
 };
