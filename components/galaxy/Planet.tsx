@@ -17,9 +17,10 @@ interface PlanetProps {
   shouldLoadTexture?: boolean;
   eagerTextureLoad?: boolean;
   showLabel?: boolean;
+  animate?: boolean;
 }
 
-export const Planet = ({ project, onClick, position, showVehicle = false, shouldLoadTexture = true, eagerTextureLoad = false, showLabel = true }: PlanetProps) => {
+export const Planet = ({ project, onClick, position, showVehicle = false, shouldLoadTexture = true, eagerTextureLoad = false, showLabel = true, animate = true }: PlanetProps) => {
   const meshRef = useRef<Mesh>(null);
   const [hovered, setHovered] = useState(false);
   // Delay texture loading and prioritize nearby planets
@@ -66,7 +67,7 @@ export const Planet = ({ project, onClick, position, showVehicle = false, should
   const planetSize = Math.max(1, baseSize + rand * 0.6);
 
   useFrame((state, delta) => {
-    if (meshRef.current) {
+    if (meshRef.current && animate) {
       meshRef.current.rotation.y += 0.05 * delta;
     }
   });

@@ -6,7 +6,7 @@ import { Preloader } from "@/components/ui/Preloader";
 // import AboutMe from "@/components/ui/AboutMe";
 import { projects } from "@/lib/projects";
 import { Project } from "@/lib/types";
-import { useState } from "react";
+import { startTransition, useState } from "react";
 import { Vector3 } from "three";
 
 export default function Home() {
@@ -50,9 +50,9 @@ export default function Home() {
           };
 
           // Defer vehicles to the next idle slice for interactivity
-          schedule(() => setShowVehicles(true), 800);
+          schedule(() => startTransition(() => setShowVehicles(true)), 800);
           // Defer heavy postprocessing a bit further
-          schedule(() => setShowEffects(true), 1200);
+          schedule(() => startTransition(() => setShowEffects(true)), 1200);
         }}
       />
       <div className="absolute top-4 left-4 z-10">

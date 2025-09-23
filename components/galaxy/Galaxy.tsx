@@ -172,6 +172,8 @@ export const Galaxy = ({
   return (
     <Canvas
       camera={{ position: [0, 0, 10], fov: 75 }}
+      dpr={showEffects ? [1, 2] : 1}
+      gl={{ powerPreference: "high-performance" }}
       style={{
         width: "100vw",
         height: "100vh",
@@ -196,7 +198,7 @@ export const Galaxy = ({
         )}
         <Selection>
           {showEffects && (
-            <EffectComposer multisampling={8} autoClear={false}>
+            <EffectComposer multisampling={2} autoClear={false}>
               <Outline
                 blur
                 visibleEdgeColor={0x42a5f5}
@@ -223,6 +225,7 @@ export const Galaxy = ({
                 shouldLoadTexture={shouldLoadTexture}
                 eagerTextureLoad={eagerTextureLoad}
                 showLabel={showLabel}
+                animate={eagerTextureLoad}
               />
             );
           })}
