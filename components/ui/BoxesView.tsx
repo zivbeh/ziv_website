@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Project } from "@/lib/types";
 import AboutMe from "@/components/ui/AboutMe";
 import ContactMe from "@/components/ui/ContactMe";
@@ -13,6 +13,7 @@ type BoxesViewProps = {
 const featuredProjectIds = ["stealth-founder", "library-seat-radar"];
 
 export function BoxesView({ projects, onSelect }: BoxesViewProps) {
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
   const grouped = useMemo(() => {
     const buckets: Record<"Featured" | "Projects" | "Games", Project[]> = {
       Featured: [],
@@ -39,11 +40,16 @@ export function BoxesView({ projects, onSelect }: BoxesViewProps) {
           const xlMod = i % 3;
           const xlOrigin = xlMod === 0 ? "xl:origin-left" : xlMod === 1 ? "xl:origin-center" : "xl:origin-right";
           const originClasses = `${originBase} ${mdOrigin} ${xlOrigin}`;
+          const isHovered = hoveredId === p.id;
           return (
             <button
               key={p.id}
               onClick={() => onSelect(p)}
-              className={`text-left rounded-2xl border border-white/10 shadow-xl overflow-hidden group relative transition-transform duration-300 will-change-transform hover:scale-[1.05] md:hover:scale-[1.5] xl:hover:scale-[1.9] hover:z-10 focus:outline-none focus:ring-2 focus:ring-white/20 ${originClasses}`}
+              onMouseEnter={() => setHoveredId(p.id)}
+              onMouseLeave={() => setHoveredId(null)}
+              onFocus={() => setHoveredId(p.id)}
+              onBlur={() => setHoveredId(null)}
+              className={`text-left rounded-2xl border border-white/10 shadow-xl overflow-hidden relative ${originClasses} transition-transform duration-300 transform-gpu ${isHovered ? "z-20 will-change-transform md:scale-[1.4] xl:scale-[1.4]" : "z-0 scale-100"} focus:outline-none focus:ring-2 focus:ring-white/20`}
             >
               {(() => {
                 if (video) {
@@ -62,12 +68,12 @@ export function BoxesView({ projects, onSelect }: BoxesViewProps) {
                       <div className="relative p-6">
                         <div className="text-white text-xl md:text-2xl font-semibold mb-2 leading-snug">{p.name}</div>
                         {p.description && (
-                          <div className="text-white/85 text-sm md:text-base leading-relaxed line-clamp-1 group-hover:line-clamp-6 transition-all duration-200">
+                          <div className={`text-white/85 text-sm md:text-base leading-relaxed transition-all duration-200 line-clamp-2 md:line-clamp-3`}>
                             {p.description}
                           </div>
                         )}
                         {Array.isArray(p.tools) && p.tools.length > 0 && (
-                          <div className="flex flex-wrap gap-1.5 mt-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                          <div className={`flex flex-wrap gap-1.5 mt-3 transition-opacity duration-200 ${isHovered ? "opacity-100" : "opacity-0"}`}>
                             {p.tools.slice(0, 6).map((t, i) => (
                               <span key={i} className="px-2 py-0.5 rounded-full text-[11px] md:text-xs bg-black/40 text-white/90 border border-white/10">
                                 {t}
@@ -75,7 +81,7 @@ export function BoxesView({ projects, onSelect }: BoxesViewProps) {
                             ))}
                           </div>
                         )}
-                        <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                        <div className={`mt-4 transition-opacity duration-200 ${isHovered ? "opacity-100" : "opacity-0"}`}>
                           <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs md:text-sm font-medium text-black bg-white/90 border border-white/10">
                             View demo →
                           </span>
@@ -92,12 +98,12 @@ export function BoxesView({ projects, onSelect }: BoxesViewProps) {
                       <div className="relative p-6">
                         <div className="text-white text-xl md:text-2xl font-semibold mb-2 leading-snug">{p.name}</div>
                         {p.description && (
-                          <div className="text-white/85 text-sm md:text-base leading-relaxed line-clamp-1 group-hover:line-clamp-6 transition-all duration-200">
+                          <div className={`text-white/85 text-sm md:text-base leading-relaxed transition-all duration-200 line-clamp-2 md:line-clamp-3`}>
                             {p.description}
                           </div>
                         )}
                         {Array.isArray(p.tools) && p.tools.length > 0 && (
-                          <div className="flex flex-wrap gap-1.5 mt-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                          <div className={`flex flex-wrap gap-1.5 mt-3 transition-opacity duration-200 ${isHovered ? "opacity-100" : "opacity-0"}`}>
                             {p.tools.slice(0, 6).map((t, i) => (
                               <span key={i} className="px-2 py-0.5 rounded-full text-[11px] md:text-xs bg-black/40 text-white/90 border border-white/10">
                                 {t}
@@ -105,7 +111,7 @@ export function BoxesView({ projects, onSelect }: BoxesViewProps) {
                             ))}
                           </div>
                         )}
-                        <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                        <div className={`mt-4 transition-opacity duration-200 ${isHovered ? "opacity-100" : "opacity-0"}`}>
                           <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs md:text-sm font-medium text-black bg-white/90 border border-white/10">
                             View demo →
                           </span>
@@ -118,12 +124,12 @@ export function BoxesView({ projects, onSelect }: BoxesViewProps) {
                   <div className="bg-black/55 backdrop-blur p-6 hover:bg-black/65 transition-colors min-h-[220px] md:min-h-[260px] flex flex-col">
                     <div className="text-white text-xl md:text-2xl font-semibold mb-2 leading-snug">{p.name}</div>
                     {p.description && (
-                      <div className="text-white/80 text-sm md:text-base leading-relaxed line-clamp-1 group-hover:line-clamp-6">
+                      <div className={`text-white/80 text-sm md:text-base leading-relaxed line-clamp-2 md:line-clamp-3`}>
                         {p.description}
                       </div>
                     )}
                     {Array.isArray(p.tools) && p.tools.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5 mt-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                      <div className={`flex flex-wrap gap-1.5 mt-3 transition-opacity duration-200 ${isHovered ? "opacity-100" : "opacity-0"}`}>
                         {p.tools.slice(0, 6).map((t, i) => (
                           <span key={i} className="px-2 py-0.5 rounded-full text-[11px] md:text-xs bg-white/10 text-white/90 border border-white/10">
                             {t}
@@ -131,7 +137,7 @@ export function BoxesView({ projects, onSelect }: BoxesViewProps) {
                         ))}
                       </div>
                     )}
-                    <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    <div className={`mt-4 transition-opacity duration-200 ${isHovered ? "opacity-100" : "opacity-0"}`}>
                       <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs md:text-sm font-medium text-black bg-white/90 border border-white/10">
                         View demo →
                       </span>

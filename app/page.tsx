@@ -5,6 +5,7 @@ import { BoxesView } from "@/components/ui/BoxesView";
 import { Stars2D } from "@/components/ui/Stars2D";
 import { ProjectView } from "@/components/ui/ProjectView";
 import { Preloader } from "@/components/ui/Preloader";
+import PortfolioSelection from "@/components/ui/PortfolioSelection";
 // import AboutMe from "@/components/ui/AboutMe";
 import { projects } from "@/lib/projects";
 import { Project } from "@/lib/types";
@@ -146,26 +147,7 @@ export default function Home() {
     <main className="min-h-screen bg-black">
       {/* Mode selection gate BEFORE any heavy preload */}
       {isReady && !modeChosen && (
-        <div className="fixed inset-0 z-[200] grid place-items-center bg-black/90 backdrop-blur-sm">
-          <div className="w-[min(92vw,680px)] bg-black/60 border border-white/10 rounded-xl shadow-2xl p-5">
-            <h2 className="text-white text-xl font-semibold mb-2 text-center">Choose your experience</h2>
-            <p className="text-white/70 text-sm text-center mb-4">3D Galaxy (high requirements) or Boxed Portfolio (lightweight)</p>
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2">
-              <button
-                onClick={() => handleModeSwitch("3d")}
-                className="px-4 py-2 rounded-md border text-sm transition-colors bg-white text-black border-white"
-              >
-                3D Galaxy (High reqs)
-              </button>
-              <button
-                onClick={() => handleModeSwitch("boxes")}
-                className="px-4 py-2 rounded-md border text-sm transition-colors bg-black/40 text-white border-white/20 hover:bg-white/10"
-              >
-                Boxed Portfolio (Light)
-              </button>
-            </div>
-          </div>
-        </div>
+        <PortfolioSelection onSelect={handleModeSwitch} />
       )}
 
       {/* Only show the 3D preloader when 3D mode is chosen */}
