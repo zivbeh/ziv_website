@@ -31,6 +31,12 @@ export const ProjectView = ({ project, onClose }: ProjectViewProps) => {
     return [];
   }, [project]);
 
+  const videos: string[] = useMemo(() => {
+    if (!project) return [];
+    if (Array.isArray((project as any).videos)) return (project as any).videos as string[];
+    return [];
+  }, [project]);
+
   const hasImages = images.length > 0;
 
   const getDisplayName = useCallback((src: string) => {
@@ -130,7 +136,7 @@ export const ProjectView = ({ project, onClose }: ProjectViewProps) => {
             <button
               onClick={onClose}
               aria-label="Close"
-              className="absolute top-6 right-6 md:top-8 md:right-8 text-4xl text-white hover:text-gray-300 transition-colors z-30"
+              className="absolute top-12 right-6 md:top-14 md:right-8 text-4xl text-white hover:text-gray-300 transition-colors z-30"
             >
               &times;
             </button>
@@ -184,9 +190,47 @@ export const ProjectView = ({ project, onClose }: ProjectViewProps) => {
                     </div>
                   </div>
 
-                  {/* Right: Media gallery */}
-                  {hasImages && (
+                  {/* Right: Media gallery (videos first if present) */}
+                  {(hasImages || videos.length > 0) && (
                     <div className="lg:col-span-7">
+                      {/* Single video */}
+                      {videos.length === 1 && images.length === 0 && (
+                        <div className="w-full overflow-hidden rounded-xl bg-black/30 border border-white/10">
+                          <video
+                            controls
+                            className="w-full h-auto max-h-[70vh]"
+                            preload="metadata"
+                            src={videos[0]}
+                          />
+                          <div className="px-3 py-2 text-sm md:text-base text-gray-300 bg-black/40 border-t border-white/10 truncate">
+                            {getDisplayName(videos[0])}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Multiple videos grid */}
+                      {videos.length > 1 && (
+                        <div className="grid grid-cols-2 md:grid-cols-6 auto-rows-[7rem] sm:auto-rows-[8rem] md:auto-rows-[7.5rem] lg:auto-rows-[8rem] gap-4 mb-4">
+                          {videos.map((src, idx) => (
+                            <div
+                              key={src + idx}
+                              className={`relative overflow-hidden rounded-lg bg-black/40 border border-white/10 ${getSpanClasses(idx, src)}`}
+                            >
+                              <video
+                                controls
+                                className="absolute inset-0 w-full h-full object-cover"
+                                preload="metadata"
+                                src={src}
+                              />
+                              <div className="absolute bottom-0 left-0 right-0 px-2 py-1 text-xs md:text-sm text-gray-200 bg-black/40 border-t border-white/10 truncate">
+                                {getDisplayName(src)}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Images below videos */}
                       {images.length === 1 && (
                         <button
                           className="w-full overflow-hidden rounded-xl bg-black/30 border border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-400"

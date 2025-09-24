@@ -11,6 +11,8 @@ interface PreloaderProps {
   forceShow?: boolean;
   /** Minimum time to show the loader (ms) to avoid flash */
   minDurationMs?: number;
+  /** Maximum time to wait before forcing the loader to hide (ms) */
+  maxWaitMs?: number;
   /** Callback when the preloader has fully hidden (after fade out) */
   onHidden?: () => void;
   /** Optional callback when the user explicitly chooses a mode */
@@ -19,7 +21,7 @@ interface PreloaderProps {
   showModeSelector?: boolean;
 }
 
-export function Preloader({ forceShow = false, minDurationMs = 600, onHidden, onModeSelected, showModeSelector = true }: PreloaderProps) {
+export function Preloader({ forceShow = false, minDurationMs = 600, maxWaitMs = 10000, onHidden, onModeSelected, showModeSelector = true }: PreloaderProps) {
   const { active, progress } = useProgress();
   const [mountedAt] = useState(() => performance.now());
   const [ready, setReady] = useState(false);
@@ -56,6 +58,15 @@ export function Preloader({ forceShow = false, minDurationMs = 600, onHidden, on
       return () => window.clearTimeout(t);
     }
   }, [active, forceShow, minDurationMs, mountedAt]);
+
+  // Safety: force-hide if we exceed maxWaitMs (prevents getting stuck)
+  useEffect(() => {
+    if (forceShow) return;
+    const elapsed = performance.now() - mountedAt;
+    const remaining = Math.max(0, maxWaitMs - elapsed);
+    const t = window.setTimeout(() => setReady(true), remaining);
+    return () => window.clearTimeout(t);
+  }, [forceShow, maxWaitMs, mountedAt]);
 
   // After we flag ready, delay a bit to let CSS fade complete, then unmount
   useEffect(() => {

@@ -129,7 +129,7 @@ export const Galaxy = ({
       seed: string,
       columnsX: [number, number, number] = [-9, 0, 9],
       rowSpacing = 8,
-      jitterX = 0.8,
+      jitterX = 0,
       jitterY = 1.2,
       jitterZ = 3
     ) => {
@@ -138,7 +138,7 @@ export const Galaxy = ({
         const col = index % 3;
         const row = Math.floor(index / 3);
         const xBase = columnsX[col] + (rng() * 2 - 1) * jitterX;
-        const x = Math.max(-9.5, Math.min(9.5, xBase));
+        const x = Math.max(-8.5, Math.min(8.5, xBase));
         const y = baseY - row * rowSpacing + (rng() * 2 - 1) * jitterY;
         const z = (rng() * 2 - 1) * jitterZ;
         placed.push({ ...p, position: [x, y, z] });

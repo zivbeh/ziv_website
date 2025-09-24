@@ -86,8 +86,10 @@ export const projects = [
     tools: ["Python", "MoviePy", "GPT-4 (script editing)", "Requests/BS4 or Playwright (scraping)", "media APIs", "TTS", "YouTube Data API (OAuth)", "Git"],
     repoUrl: "https://github.com/zivbeh/auto-video-gen",
     size: "medium",
-    images: [
-      "/ai-video-generator.svg",
+    images: [],
+    videos: [
+      "/aividgen/version1.mp4",
+      "/aividgen/version2.mp4",
     ],
     texture: "/textures/planets/vidgen.png",
     theme: {

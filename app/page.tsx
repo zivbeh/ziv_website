@@ -20,6 +20,7 @@ export default function Home() {
   const [useBoxes, setUseBoxes] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const [enableShip2D, setEnableShip2D] = useState(true);
+  const [modeChosen, setModeChosen] = useState(false);
 
   // Determine mode on mount (avoid SSR/client mismatch)
   useEffect(() => {
@@ -27,14 +28,28 @@ export default function Home() {
     const urlMode = params.get("mode");
     const urlBoxes = params.get("boxes");
     let prefersBoxes = false;
+    let decided = false;
     try {
       const saved = localStorage.getItem("preferredMode");
-      if (saved === "boxes") prefersBoxes = true;
-      if (saved === "3d") prefersBoxes = false;
+      if (saved === "boxes") {
+        prefersBoxes = true;
+        decided = true;
+      }
+      if (saved === "3d") {
+        prefersBoxes = false;
+        decided = true;
+      }
     } catch {}
-    if (urlBoxes === "1" || urlMode === "boxes") prefersBoxes = true;
-    if (urlMode === "3d") prefersBoxes = false;
+    if (urlBoxes === "1" || urlMode === "boxes") {
+      prefersBoxes = true;
+      decided = true;
+    }
+    if (urlMode === "3d") {
+      prefersBoxes = false;
+      decided = true;
+    }
     setUseBoxes(prefersBoxes);
+    setModeChosen(decided);
     setIsReady(true);
   }, []);
 
@@ -80,6 +95,23 @@ export default function Home() {
     };
   }, [useBoxes]);
 
+  // Listen for global mode changes from TopBar
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const anyEvent = e as unknown as { detail?: string };
+      const mode = anyEvent.detail === "boxes" ? "boxes" : "3d";
+      setUseBoxes(mode === "boxes");
+      setModeChosen(true);
+      if (mode === "boxes") {
+        setSelectedProject(null);
+        setIsZoomed(false);
+        setCameraTarget(null);
+      }
+    };
+    window.addEventListener("preferredModeChange", handler as EventListener);
+    return () => window.removeEventListener("preferredModeChange", handler as EventListener);
+  }, []);
+
   const handlePlanetClick = (position: Vector3, projectId: string) => {
     const project = projects.find((p) => p.id === projectId);
     if (project) {
@@ -102,6 +134,7 @@ export default function Home() {
       localStorage.setItem("preferredMode", mode);
     } catch {}
     setUseBoxes(mode === "boxes");
+    setModeChosen(true);
     if (mode === "boxes") {
       setSelectedProject(null);
       setIsZoomed(false);
@@ -111,13 +144,38 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-black">
-      {isReady && !useBoxes && (
+      {/* Mode selection gate BEFORE any heavy preload */}
+      {isReady && !modeChosen && (
+        <div className="fixed inset-0 z-[200] grid place-items-center bg-black/90 backdrop-blur-sm">
+          <div className="w-[min(92vw,680px)] bg-black/60 border border-white/10 rounded-xl shadow-2xl p-5">
+            <h2 className="text-white text-xl font-semibold mb-2 text-center">Choose your experience</h2>
+            <p className="text-white/70 text-sm text-center mb-4">3D Galaxy (high requirements) or Boxed Portfolio (lightweight)</p>
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2">
+              <button
+                onClick={() => handleModeSwitch("3d")}
+                className="px-4 py-2 rounded-md border text-sm transition-colors bg-white text-black border-white"
+              >
+                3D Galaxy (High reqs)
+              </button>
+              <button
+                onClick={() => handleModeSwitch("boxes")}
+                className="px-4 py-2 rounded-md border text-sm transition-colors bg-black/40 text-white border-white/20 hover:bg-white/10"
+              >
+                Boxed Portfolio (Light)
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Only show the 3D preloader when 3D mode is chosen */}
+      {isReady && modeChosen && !useBoxes && (
         <Preloader
           minDurationMs={2000}
           showModeSelector={false}
           onModeSelected={(mode) => {
-            // Immediately switch mode based on user choice
-            setUseBoxes(mode === "boxes");
+            // Not used when showModeSelector=false, but keep for safety
+            handleModeSwitch(mode);
           }}
           onHidden={() => {
             const schedule = (cb: () => void, delay = 800) => {
@@ -133,38 +191,7 @@ export default function Home() {
           }}
         />
       )}
-      <div className="absolute top-4 left-4 z-10">
-        <div className="flex items-center gap-3 bg-black/60 backdrop-blur-sm rounded-lg p-2.5 shadow-2xl">
-          <img
-            src="/profile.JPG"
-            alt="Ziv profile"
-            className="w-10 h-10 rounded-full object-cover"
-          />
-          <div>
-            <h1 className="text-sm font-semibold text-white">Ziv Beh</h1>
-            <p className="text-white/80 text-xs max-w-xs">AI, web, and games. Scroll to explore.</p>
-          </div>
-        </div>
-      </div>
-      {/* Top-right mode switcher */}
-      <div className="absolute top-4 right-4 z-[200] pointer-events-auto">
-        <div className="flex items-center gap-2 bg-black/60 backdrop-blur-sm rounded-lg p-2.5 shadow-2xl">
-          <button
-            onClick={() => handleModeSwitch("3d")}
-            className={`${!useBoxes ? "bg-white text-black" : "bg-transparent text-white hover:bg-white/10"} px-3 py-1.5 rounded-md text-xs border border-white/20 transition-colors`}
-            aria-pressed={!useBoxes}
-          >
-            3D
-          </button>
-          <button
-            onClick={() => handleModeSwitch("boxes")}
-            className={`${useBoxes ? "bg-white text-black" : "bg-transparent text-white hover:bg-white/10"} px-3 py-1.5 rounded-md text-xs border border-white/20 transition-colors`}
-            aria-pressed={useBoxes}
-          >
-            Boxes
-          </button>
-        </div>
-      </div>
+
       {isReady && (
         useBoxes ? (
           <div key="boxes">
@@ -177,15 +204,17 @@ export default function Home() {
             />
           </div>
         ) : (
-          <GalaxyLazy
-            key="3d"
-            onPlanetClick={handlePlanetClick}
-            projects={projects}
-            cameraTarget={cameraTarget}
-            showVehicles={showVehicles}
-            showEffects={showEffects}
-            useBoxes={false}
-          />
+          modeChosen ? (
+            <GalaxyLazy
+              key="3d"
+              onPlanetClick={handlePlanetClick}
+              projects={projects}
+              cameraTarget={cameraTarget}
+              showVehicles={showVehicles}
+              showEffects={showEffects}
+              useBoxes={false}
+            />
+          ) : null
         )
       )}
       <ProjectView project={selectedProject} onClose={handleClose} />

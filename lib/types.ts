@@ -7,6 +7,7 @@ export interface Project {
   size: string;
   image?: string;
   images?: string[];
+  videos?: string[]; // relative paths to mp4/webm
   // Optional mapping from image path (endsWith match) or index to span classes
   // Example: { "websitelook.png": "col-span-3 row-span-3", 0: "col-span-2 row-span-2" }
   imageSpans?: Record<string | number, string>;
