@@ -7,7 +7,7 @@ import * as THREE from "three";
 import { Trail, useTexture } from "@react-three/drei";
 import { MeshBasicMaterial } from "three";
 
-const BASE_LERP_FACTOR = 0.075; // Base speed factor for the ship's movement
+const BASE_LERP_FACTOR = 0.125; // Base speed factor for the ship's movement
 
 const velocity = new THREE.Vector3();
 const smoothedVelocity = new THREE.Vector3();
@@ -74,7 +74,7 @@ export const Spaceship = ({ planetLayout }: { planetLayout: unknown }) => {
     }
 
     // The interpolation factor is now dynamic based on the current speed
-    const lerpFactor = BASE_LERP_FACTOR * speed.current;
+    const lerpFactor = Math.min(0.16, BASE_LERP_FACTOR * speed.current);
 
     // Smoothly interpolate ship's position towards the target
     shipRef.current.position.lerp(targetPosition, lerpFactor);
@@ -103,13 +103,13 @@ export const Spaceship = ({ planetLayout }: { planetLayout: unknown }) => {
     velocity.copy(targetPosition).sub(shipRef.current.position);
 
     // Adjust smoothing factor for responsiveness
-    smoothedVelocity.lerp(velocity, 0.05);
+    smoothedVelocity.lerp(velocity, 0.12);
 
     if (smoothedVelocity.length() > 0.1) {
       const angle = Math.atan2(smoothedVelocity.y, smoothedVelocity.x);
       q.setFromAxisAngle(a, angle - Math.PI / 2);
       // Tie rotation speed to movement speed for a cohesive feel
-      shipRef.current.quaternion.slerp(q, lerpFactor);
+      shipRef.current.quaternion.slerp(q, lerpFactor * 0.9);
 
       // Add banking effect
       const bankAngle = -smoothedVelocity.x * 0.05;

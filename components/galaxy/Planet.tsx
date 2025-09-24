@@ -18,9 +18,10 @@ interface PlanetProps {
   eagerTextureLoad?: boolean;
   showLabel?: boolean;
   animate?: boolean;
+  segments?: number;
 }
 
-export const Planet = ({ project, onClick, position, showVehicle = false, shouldLoadTexture = true, eagerTextureLoad = false, showLabel = true, animate = true }: PlanetProps) => {
+export const Planet = ({ project, onClick, position, showVehicle = false, shouldLoadTexture = true, eagerTextureLoad = false, showLabel = true, animate = true, segments = 32 }: PlanetProps) => {
   const meshRef = useRef<Mesh>(null);
   const [hovered, setHovered] = useState(false);
   // Delay texture loading and prioritize nearby planets
@@ -29,6 +30,16 @@ export const Planet = ({ project, onClick, position, showVehicle = false, should
     TextureLoader,
     allowTextureLoad ? (project.texture || "/textures/planets/2k_moon.jpg") : "/textures/planets/2k_moon.jpg"
   );
+  // Improve texture sampling progressively as it loads
+  useEffect(() => {
+    if (texture && (texture as any).anisotropy !== undefined) {
+      // Start with low anisotropy; increase when eager/nearby
+      const gl = (document.querySelector('canvas') as HTMLCanvasElement | null)?.getContext('webgl2') as WebGL2RenderingContext | null;
+      const max = (gl && (gl as any).getParameter) ? (gl as any).getParameter((gl as any).MAX_TEXTURE_MAX_ANISOTROPY_EXT ?? 8) : 8;
+      (texture as any).anisotropy = eagerTextureLoad ? Math.min(8, max || 8) : 2;
+      texture.needsUpdate = true;
+    }
+  }, [texture, eagerTextureLoad]);
   useEffect(() => {
     if (!allowTextureLoad && shouldLoadTexture) {
       const anyWindow = window as unknown as { requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => void };
@@ -81,7 +92,7 @@ export const Planet = ({ project, onClick, position, showVehicle = false, should
     >
       <Select enabled={hovered}>
         <mesh ref={meshRef}>
-          <sphereGeometry args={[planetSize, 32, 32]} />
+        <sphereGeometry args={[planetSize, segments, segments]} />
           <meshStandardMaterial
             map={texture}
           />

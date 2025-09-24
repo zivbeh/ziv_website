@@ -27,6 +27,7 @@ export const CameraControls = ({ targetPosition, yRange, onCameraYChange, initia
   const z = useMotionValue(camera.position.z);
   const targetY = useRef(initialY ?? 0);
   const yRangeRef = useRef<[number, number]>([-20, 20]);
+  const dragState = useRef<{ active: boolean; lastY: number; velocity: number; lastT: number }>({ active: false, lastY: 0, velocity: 0, lastT: 0 });
 
   // Initialize camera Y and target with optional intro offset/hold
   useEffect(() => {
@@ -40,13 +41,64 @@ export const CameraControls = ({ targetPosition, yRange, onCameraYChange, initia
     if (!wheelEnabled) return;
     const handleWheel = (event: WheelEvent) => {
       event.preventDefault();
-      const scrollY = event.deltaY * -0.01;
+      const scrollY = event.deltaY * -0.02;
       const [minY, maxY] = yRangeRef.current;
       targetY.current = Math.max(minY, Math.min(maxY, targetY.current + scrollY));
     };
 
     window.addEventListener("wheel", handleWheel, { passive: false });
     return () => window.removeEventListener("wheel", handleWheel);
+  }, [wheelEnabled]);
+
+  // Touch drag with inertial scrolling
+  useEffect(() => {
+    const start = (clientY: number) => {
+      dragState.current.active = true;
+      dragState.current.lastY = clientY;
+      dragState.current.velocity = 0;
+      dragState.current.lastT = performance.now();
+    };
+    const move = (clientY: number) => {
+      if (!dragState.current.active) return;
+      const now = performance.now();
+      const dy = clientY - dragState.current.lastY;
+      const dt = Math.max(1, now - dragState.current.lastT);
+      dragState.current.velocity = (dy / dt) * 16; // px per 16ms frame
+      dragState.current.lastY = clientY;
+      dragState.current.lastT = now;
+      const [minY, maxY] = yRangeRef.current;
+      targetY.current = Math.max(minY, Math.min(maxY, targetY.current - dy * 0.03));
+    };
+    const end = () => {
+      if (!dragState.current.active) return;
+      dragState.current.active = false;
+      const initialVel = dragState.current.velocity;
+      if (Math.abs(initialVel) < 0.01) return;
+      const [minY, maxY] = yRangeRef.current;
+      // fling animation with decay
+      const controls = animate(initialVel, 0, {
+        type: "spring",
+        stiffness: 40,
+        damping: 22,
+        onUpdate: (v) => {
+          targetY.current = Math.max(minY, Math.min(maxY, targetY.current - v * 0.4));
+        },
+      });
+      return () => controls.stop();
+    };
+
+    const onTouchStart = (e: TouchEvent) => start(e.touches[0].clientY);
+    const onTouchMove = (e: TouchEvent) => { e.preventDefault(); move(e.touches[0].clientY); };
+    const onTouchEnd = () => { end(); };
+
+    window.addEventListener("touchstart", onTouchStart, { passive: false });
+    window.addEventListener("touchmove", onTouchMove, { passive: false });
+    window.addEventListener("touchend", onTouchEnd, { passive: false });
+    return () => {
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("touchend", onTouchEnd);
+    };
   }, [wheelEnabled]);
 
   useFrame((state, delta) => {

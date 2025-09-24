@@ -1,9 +1,9 @@
 "use client";
 
 import { Canvas, useThree } from "@react-three/fiber";
-import { Suspense, useMemo, useState } from "react";
+import { Suspense, useMemo, useRef, useState } from "react";
 import { Planet } from "./Planet";
-import { Stars, Html, useProgress } from "@react-three/drei";
+import { Stars, Html, useProgress, AdaptiveDpr } from "@react-three/drei";
 import { CameraControls } from "./CameraControls";
 import dynamic from "next/dynamic";
 import { EffectComposer, Outline, Selection } from "@react-three/postprocessing";
@@ -46,6 +46,8 @@ interface GalaxyProps {
   onCameraYChange?: (y: number) => void;
   showVehicles?: boolean;
   showEffects?: boolean;
+  /** If true, render HTML boxes (like About Me) instead of 3D planets */
+  useBoxes?: boolean;
 }
 
 export const Galaxy = ({
@@ -55,7 +57,16 @@ export const Galaxy = ({
   onCameraYChange,
   showVehicles = false,
   showEffects = false,
+  useBoxes = false,
 }: GalaxyProps) => {
+  const isCoarsePointer = useMemo(() => {
+    if (typeof window === "undefined" || !("matchMedia" in window)) return false;
+    try {
+      return window.matchMedia("(pointer: coarse)").matches;
+    } catch {
+      return false;
+    }
+  }, []);
   const ISSLazy = useMemo(
     () => dynamic(() => import("./ISS").then((m) => m.ISS), { ssr: false }),
     []
@@ -66,6 +77,9 @@ export const Galaxy = ({
   );
   const { active } = useProgress();
   const [cameraY, setCameraY] = useState(0);
+  const cameraYRef = useRef(0);
+  const lastCameraYUpdateRef = useRef(0);
+  const pendingCameraYTimeout = useRef<number | null>(null);
   const { planetLayout, titles } = useMemo(() => {
     const placed: (Project & { position: [number, number, number] })[] = [];
     const titles: ComputedTitle[] = [];
@@ -172,7 +186,7 @@ export const Galaxy = ({
   return (
     <Canvas
       camera={{ position: [0, 0, 10], fov: 75 }}
-      dpr={showEffects ? [1, 2] : 1}
+      dpr={isCoarsePointer ? 1 : showEffects ? [1, 2] : 1}
       gl={{ powerPreference: "high-performance" }}
       style={{
         width: "100vw",
@@ -180,14 +194,16 @@ export const Galaxy = ({
         position: "fixed",
         top: 0,
         left: 0,
+        touchAction: "none",
       }}
     >
       <Suspense fallback={null}>
+        {!useBoxes && <AdaptiveDpr pixelated />}
         <SceneLights />
-        {showEffects && (
-          <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade />
+        {!useBoxes && showEffects && (
+          <Stars radius={100} depth={50} count={isCoarsePointer ? 2500 : 5000} factor={4} saturation={0} fade />
         )}
-        {showVehicles && (
+        {!useBoxes && showVehicles && (
           <>
             <ISSLazy orbitParams={{ radius: 15, speed: 0.1, yOffset: 5 }} />
             <ISSLazy
@@ -197,7 +213,7 @@ export const Galaxy = ({
           </>
         )}
         <Selection>
-          {showEffects && (
+          {!useBoxes && showEffects && !isCoarsePointer && (
             <EffectComposer multisampling={2} autoClear={false}>
               <Outline
                 blur
@@ -207,28 +223,38 @@ export const Galaxy = ({
               />
             </EffectComposer>
           )}
-          {planetLayout.map((project) => {
-            const diffY = Math.abs(project.position[1] - cameraY);
-            const loadRange = 22; // planets within this Y-distance should start loading
-            const priorityRange = 10; // closest planets load textures eagerly
-            const labelRange = 28; // show labels a bit earlier
-            const shouldLoadTexture = diffY <= loadRange;
-            const eagerTextureLoad = diffY <= priorityRange;
-            const showLabel = diffY <= labelRange;
-            return (
-              <Planet
-                key={project.id}
-                project={project}
-                position={project.position}
-                onClick={(position) => onPlanetClick(position, project.id)}
-                showVehicle={showVehicles && shouldLoadTexture}
-                shouldLoadTexture={shouldLoadTexture}
-                eagerTextureLoad={eagerTextureLoad}
-                showLabel={showLabel}
-                animate={eagerTextureLoad}
-              />
-            );
-          })}
+          {useBoxes
+            ? planetLayout.map((project) => (
+                <Html key={project.id} position={project.position} center transform style={{ pointerEvents: "auto" }}>
+                  <button
+                    onClick={() => onPlanetClick(new THREE.Vector3(...project.position), project.id)}
+                    className="block w-[min(90vw,420px)] rounded-xl bg-black/50 border border-white/10 shadow-2xl backdrop-blur p-4 text-left hover:bg-black/60 transition-colors"
+                  >
+                    <div className="text-white text-xl font-semibold mb-2">{project.name}</div>
+                    {project.description && (
+                      <div className="text-white/80 text-sm leading-relaxed line-clamp-3">{project.description}</div>
+                    )}
+                    {Array.isArray((project as any).tools) && (project as any).tools.length > 0 && (
+                      <div className="flex flex-wrap gap-1.5 mt-3">
+                        {(project as any).tools.slice(0, 6).map((t: string, i: number) => (
+                          <span key={i} className="px-2 py-0.5 rounded-full text-xs bg-white/10 text-white/90 border border-white/10">
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </button>
+                </Html>
+              ))
+            : planetLayout.map((project) => (
+                <Planet
+                  key={project.id}
+                  project={project}
+                  position={project.position}
+                  onClick={(position) => onPlanetClick(position, project.id)}
+                  showVehicle={showVehicles}
+                />
+              ))}
         </Selection>
         {titles.map(({ category, title, position }) => (
           <Html key={category} position={position} center style={{ pointerEvents: "none" }}>
@@ -256,7 +282,7 @@ export const Galaxy = ({
             <ContactMe />
           </div>
         </Html>
-        {showVehicles && <SpaceshipLazy planetLayout={planetLayout} />}
+        {!useBoxes && showVehicles && !isCoarsePointer && <SpaceshipLazy planetLayout={planetLayout} />}
         <CameraControls
           targetPosition={cameraTarget}
           yRange={[Math.floor(minY - 6), 13]}
@@ -266,8 +292,22 @@ export const Galaxy = ({
           introTrigger={!active}
           wheelEnabled={!active}
           onCameraYChange={(y) => {
-            setCameraY(y);
-            if (onCameraYChange) onCameraYChange(y);
+            cameraYRef.current = y;
+            const now = performance.now();
+            const throttleMs = 30;
+            if (now - lastCameraYUpdateRef.current >= throttleMs) {
+              lastCameraYUpdateRef.current = now;
+              setCameraY(y);
+              if (onCameraYChange) onCameraYChange(y);
+            } else if (pendingCameraYTimeout.current === null) {
+              const remaining = throttleMs - (now - lastCameraYUpdateRef.current);
+              pendingCameraYTimeout.current = window.setTimeout(() => {
+                lastCameraYUpdateRef.current = performance.now();
+                pendingCameraYTimeout.current = null;
+                setCameraY(cameraYRef.current);
+                if (onCameraYChange) onCameraYChange(cameraYRef.current);
+              }, Math.max(10, remaining));
+            }
           }}
         />
       </Suspense>

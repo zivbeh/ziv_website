@@ -13,14 +13,27 @@ interface PreloaderProps {
   minDurationMs?: number;
   /** Callback when the preloader has fully hidden (after fade out) */
   onHidden?: () => void;
+  /** Optional callback when the user explicitly chooses a mode */
+  onModeSelected?: (mode: "3d" | "boxes") => void;
+  /** Control whether the mode selection UI is shown at all */
+  showModeSelector?: boolean;
 }
 
-export function Preloader({ forceShow = false, minDurationMs = 600, onHidden }: PreloaderProps) {
+export function Preloader({ forceShow = false, minDurationMs = 600, onHidden, onModeSelected, showModeSelector = true }: PreloaderProps) {
   const { active, progress } = useProgress();
   const [mountedAt] = useState(() => performance.now());
   const [ready, setReady] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [msgIndex, setMsgIndex] = useState(0);
+  const [userChoseMode, setUserChoseMode] = useState<null | "3d" | "boxes">(null);
+  const [hasPreferredMode, setHasPreferredMode] = useState<boolean>(() => {
+    try {
+      const saved = localStorage.getItem("preferredMode");
+      return saved === "3d" || saved === "boxes";
+    } catch {
+      return false;
+    }
+  });
 
   const messages = useMemo(
     () => [
@@ -70,6 +83,32 @@ export function Preloader({ forceShow = false, minDurationMs = 600, onHidden }: 
     return () => window.clearInterval(t);
   }, [messages.length, ready]);
 
+  // Lightweight device heuristic to suggest a mode
+  const recommendedMode = useMemo(() => {
+    const navAny = navigator as any;
+    const deviceMemory = typeof navAny.deviceMemory === "number" ? navAny.deviceMemory : undefined; // in GB
+    const cores = typeof navigator.hardwareConcurrency === "number" ? navigator.hardwareConcurrency : undefined;
+    const isLowEnd =
+      (deviceMemory !== undefined && deviceMemory <= 4) ||
+      (cores !== undefined && cores <= 4) ||
+      /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    return isLowEnd ? "boxes" : "3d";
+  }, []);
+
+  const handleChoose = (mode: "3d" | "boxes") => {
+    try {
+      localStorage.setItem("preferredMode", mode);
+    } catch {}
+    setUserChoseMode(mode);
+    setHasPreferredMode(true);
+    // Inform parent immediately so it can swap views without reload
+    if (onModeSelected) onModeSelected(mode);
+    // If user chose boxes, we can fade out immediately since we won't wait on 3D assets
+    if (mode === "boxes") {
+      setReady(true);
+    }
+  };
+
   if (hidden) return null;
 
   return (
@@ -101,6 +140,50 @@ export function Preloader({ forceShow = false, minDurationMs = 600, onHidden }: 
           />
         </div>
         <div className="text-white/70 text-xs">{pct}%</div>
+
+        {/* Mode selection: show only if no saved preference exists */}
+        {showModeSelector && !hasPreferredMode && (
+          <div className="mt-4 w-[min(92vw,640px)] text-center">
+            <div className="text-white/80 text-xs mb-2">
+              {recommendedMode === "boxes" ? (
+                <span>
+                  Based on your device, <span className="text-white font-medium">Light Mode</span> is recommended.
+                </span>
+              ) : (
+                <span>
+                  Your device can likely handle the <span className="text-white font-medium">3D Experience</span>.
+                </span>
+              )}
+            </div>
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2">
+              <button
+                onClick={() => handleChoose("3d")}
+                className={`px-4 py-2 rounded-md border text-sm transition-colors ${
+                  recommendedMode === "3d"
+                    ? "bg-white text-black border-white"
+                    : "bg-black/40 text-white border-white/20 hover:bg-white/10"
+                }`}
+              >
+                3D Experience
+                {recommendedMode === "3d" && <span className="ml-2 text-[10px] uppercase">(Recommended)</span>}
+              </button>
+              <button
+                onClick={() => handleChoose("boxes")}
+                className={`px-4 py-2 rounded-md border text-sm transition-colors ${
+                  recommendedMode === "boxes"
+                    ? "bg-white text-black border-white"
+                    : "bg-black/40 text-white border-white/20 hover:bg-white/10"
+                }`}
+              >
+                Light Mode (Boxes)
+                {recommendedMode === "boxes" && <span className="ml-2 text-[10px] uppercase">(Recommended)</span>}
+              </button>
+            </div>
+            {userChoseMode && (
+              <div className="mt-1 text-white/60 text-[11px]">Preference saved. You can change it next time.</div>
+            )}
+          </div>
+        )}
       </div>
       <style>{`@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}`}</style>
     </div>
