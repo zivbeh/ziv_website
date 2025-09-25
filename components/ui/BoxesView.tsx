@@ -35,11 +35,11 @@ export function BoxesView({ projects, onSelect }: BoxesViewProps) {
     const isFeatured = title === "Featured";
     const isSectionHovered = items.some((p) => p.id === hoveredId);
     const gridLayout = isFeatured
-      ? "inline-grid grid-cols-1 md:grid-cols-2 gap-5"
-      : "inline-grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3";
+      ? "inline-grid grid-cols-1 md:grid-cols-2 gap-8"
+      : "inline-grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3";
 
     return (
-      <section className={`w-[min(96vw,1400px)] mx-auto mb-10 ${isSectionHovered ? "relative z-10" : ""}`}>
+      <section className={`w-[70vw] mx-auto mb-10 ${isSectionHovered ? "relative z-10" : ""}`}>
         <h2 className={`text-3xl md:text-4xl font-bold text-white mb-5 tracking-wide text-center`}>{title}</h2>
         <div className={"text-center"}>
           <div className={gridLayout}>
@@ -134,7 +134,7 @@ export function BoxesView({ projects, onSelect }: BoxesViewProps) {
 
   return (
     <div className="relative z-10 pt-20 pb-32">
-      <section className="w-[min(92vw,900px)] mx-auto transition-opacity duration-500 mt-[-8vh] md:mt-[-10vh] mb-10">
+      <section className="w-[70vw] mx-auto transition-opacity duration-500 mt-[-8vh] md:mt-[-10vh] mb-10">
         <AboutMe />
       </section>
       {grouped.Featured.length > 0 && (
@@ -144,7 +144,7 @@ export function BoxesView({ projects, onSelect }: BoxesViewProps) {
         <Section title="Projects" items={grouped.Projects} />
       )}
       {grouped.Games.length > 0 && <Section title="Games" items={grouped.Games} />}
-      <section className="w-[min(96vw,1400px)] mx-auto mt-12">
+      <section className="w-[70vw] mx-auto mt-12">
         <ContactMe />
       </section>
     </div>

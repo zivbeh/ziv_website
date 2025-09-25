@@ -11,7 +11,7 @@ const PortfolioSelection: React.FC<PortfolioSelectionProps> = ({
 }) => {
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-black">
-      <h1 className="text-4xl text-white mb-8">Choose Your Portfolio Experience</h1>
+      <h1 className="text-4xl text-white mb-8 text-center">Choose Your Portfolio Experience</h1>
       <div className="flex space-x-8">
         <div
           className="flex flex-col items-center cursor-pointer"
