@@ -136,11 +136,11 @@ export const ProjectView = ({ project, onClose }: ProjectViewProps) => {
             <button
               onClick={onClose}
               aria-label="Close"
-              className="absolute top-12 right-6 md:top-14 md:right-8 text-4xl text-white hover:text-gray-300 transition-colors z-30"
+              className="absolute top-16 right-6 md:top-14 md:right-8 text-4xl text-white hover:text-gray-300 transition-colors z-30"
             >
               &times;
             </button>
-            <div className="container mx-auto px-6 md:px-8 py-10 md:py-16 max-w-7xl">
+            <div className="container mx-auto px-6 md:px-8 pt-28 pb-16 max-w-7xl">
               <motion.div
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}

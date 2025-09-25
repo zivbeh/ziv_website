@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { Project } from "@/lib/types";
 import AboutMe from "@/components/ui/AboutMe";
 import ContactMe from "@/components/ui/ContactMe";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 type BoxesViewProps = {
   projects: Project[];
@@ -14,6 +15,8 @@ const featuredProjectIds = ["stealth-founder", "library-seat-radar"];
 
 export function BoxesView({ projects, onSelect }: BoxesViewProps) {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const isMobile = useMediaQuery("(max-width: 768px)");
+
   const grouped = useMemo(() => {
     const buckets: Record<"Featured" | "Projects" | "Games", Project[]> = {
       Featured: [],
@@ -33,12 +36,12 @@ export function BoxesView({ projects, onSelect }: BoxesViewProps) {
     const isSectionHovered = items.some((p) => p.id === hoveredId);
     const gridLayout = isFeatured
       ? "inline-grid grid-cols-1 md:grid-cols-2 gap-5"
-      : "grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3";
+      : "inline-grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3";
 
     return (
       <section className={`w-[min(96vw,1400px)] mx-auto mb-10 ${isSectionHovered ? "relative z-10" : ""}`}>
-        <h2 className={`text-3xl md:text-4xl font-bold text-white mb-5 tracking-wide ${isFeatured ? "text-center" : ""}`}>{title}</h2>
-        <div className={isFeatured ? "text-center" : ""}>
+        <h2 className={`text-3xl md:text-4xl font-bold text-white mb-5 tracking-wide text-center`}>{title}</h2>
+        <div className={"text-center"}>
           <div className={gridLayout}>
             {items.map((p, i) => {
               const video = (p as any).videos?.[0] ?? null;
@@ -48,7 +51,7 @@ export function BoxesView({ projects, onSelect }: BoxesViewProps) {
               const xlMod = i % 3;
               const xlOrigin = xlMod === 0 ? "xl:origin-left" : xlMod === 1 ? "xl:origin-center" : "xl:origin-right";
               const originClasses = `${originBase} ${mdOrigin} ${xlOrigin}`;
-              const isHovered = hoveredId === p.id;
+              const isHovered = !isMobile && hoveredId === p.id;
               return (
                 <div
                   key={p.id}
@@ -86,15 +89,15 @@ export function BoxesView({ projects, onSelect }: BoxesViewProps) {
                     <div className="relative p-6 h-full flex flex-col justify-between">
                       <div>
                         <div
-                          className={`text-white font-semibold mb-2 leading-snug transition-all duration-1000 ease-in-out ${isHovered ? "text-lg md:text-xl" : "text-4xl md:text-5xl"}`}
+                          className={`text-white font-semibold mb-2 leading-snug transition-all duration-1000 ease-in-out ${isHovered || isMobile ? "text-lg md:text-xl" : "text-4xl md:text-5xl"}`}
                         >
                           {p.name}
                         </div>
                         {(p.punchline || p.description) && (
                           <div
-                            className={`text-white/85 text-base md:text-lg leading-relaxed flex-grow transition-all duration-200 ${isHovered ? "line-clamp-4" : "line-clamp-2"}`}
+                            className={`text-white/85 text-base md:text-lg leading-relaxed flex-grow transition-all duration-200 ${isHovered || isMobile ? "line-clamp-4" : "line-clamp-2"}`}
                           >
-                            {isHovered ? p.description : p.punchline}
+                            {isHovered || isMobile ? p.description : p.punchline}
                           </div>
                         )}
                       </div>
@@ -112,7 +115,7 @@ export function BoxesView({ projects, onSelect }: BoxesViewProps) {
                             ))}
                           </div>
                         )}
-                        <div className={`mt-4 transition-opacity duration-200 ${isHovered ? "opacity-100" : "opacity-0"}`}>
+                        <div className={`mt-4 transition-opacity duration-200 ${isHovered || isMobile ? "opacity-100" : "opacity-0"}`}>
                           <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs md:text-sm font-medium text-black bg-white/90 border border-white/10">
                             View demo →
                           </span>
