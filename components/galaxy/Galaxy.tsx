@@ -112,6 +112,49 @@ export const Galaxy = ({
       }
     }
 
+    // Mobile (coarse pointer): single-column vertical layout
+    if (isCoarsePointer) {
+      const rowSpacing = 7;
+      const gapBetween = 6;
+
+      // Featured stacked at the top
+      const featuredTopY = 0;
+      buckets.Featured.slice(0, 2).forEach((p, i) => {
+        const y = featuredTopY - i * rowSpacing;
+        placed.push({ ...p, position: [0, y, -1] });
+      });
+      titles.push({ category: "Featured", title: "Featured", position: [0, featuredTopY + 3, 0] });
+
+      // Projects stacked below
+      const projectsBaseY = -18; // increase gap from Featured to Projects on phones
+      buckets.Projects.forEach((p, i) => {
+        const y = projectsBaseY - i * rowSpacing;
+        placed.push({ ...p, position: [0, y, 0] });
+      });
+      titles.push({ category: "Projects", title: "Projects", position: [0, projectsBaseY + 3, 0] });
+
+      // Games stacked below projects
+      const gamesBaseY = projectsBaseY - buckets.Projects.length * rowSpacing - gapBetween;
+      buckets.Games.forEach((p, i) => {
+        const y = gamesBaseY - i * rowSpacing;
+        placed.push({ ...p, position: [0, y, 0] });
+      });
+      if (buckets.Games.length > 0) {
+        titles.push({ category: "Games", title: "Games", position: [0, gamesBaseY + 3, 0] });
+      }
+
+      // Keep depth nudge for specific projects
+      for (let i = 0; i < placed.length; i++) {
+        if (placed[i].id === "ai-video-generator") {
+          const [x, y, z] = placed[i].position;
+          placed[i] = { ...placed[i], position: [x, y, Math.min(z, -2)] };
+        }
+      }
+
+      return { planetLayout: placed, titles };
+    }
+
+    // Desktop/tablet: scattered 3-column grid
     // Featured (top, two planets)
     const featuredPositions: [number, number, number][] = [
       [-4, 0, -1],
@@ -173,7 +216,7 @@ export const Galaxy = ({
     }
 
     return { planetLayout: placed, titles };
-  }, [projects]);
+  }, [projects, isCoarsePointer]);
 
   const minY = useMemo(() => {
     if (planetLayout.length === 0) return -20;

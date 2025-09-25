@@ -28,6 +28,15 @@ export const CameraControls = ({ targetPosition, yRange, onCameraYChange, initia
   const targetY = useRef(initialY ?? 0);
   const yRangeRef = useRef<[number, number]>([-20, 20]);
   const dragState = useRef<{ active: boolean; lastY: number; velocity: number; lastT: number }>({ active: false, lastY: 0, velocity: 0, lastT: 0 });
+  const isCoarsePointerRef = useRef(false);
+
+  // Detect phones/tablets (coarse pointers) to adjust scrolling behavior
+  useEffect(() => {
+    if (typeof window === "undefined" || !("matchMedia" in window)) return;
+    try {
+      isCoarsePointerRef.current = window.matchMedia("(pointer: coarse)").matches;
+    } catch {}
+  }, []);
 
   // Initialize camera Y and target with optional intro offset/hold
   useEffect(() => {
@@ -67,11 +76,14 @@ export const CameraControls = ({ targetPosition, yRange, onCameraYChange, initia
       dragState.current.lastY = clientY;
       dragState.current.lastT = now;
       const [minY, maxY] = yRangeRef.current;
-      targetY.current = Math.max(minY, Math.min(maxY, targetY.current - dy * 0.03));
+      // Reduce touch move sensitivity for a more controlled scroll on phones
+      targetY.current = Math.max(minY, Math.min(maxY, targetY.current - dy * 0.015));
     };
     const end = () => {
       if (!dragState.current.active) return;
       dragState.current.active = false;
+      // On phones, disable inertial fling for non-accelerated feel
+      if (isCoarsePointerRef.current) return;
       const initialVel = dragState.current.velocity;
       if (Math.abs(initialVel) < 0.01) return;
       const [minY, maxY] = yRangeRef.current;
@@ -79,9 +91,10 @@ export const CameraControls = ({ targetPosition, yRange, onCameraYChange, initia
       const controls = animate(initialVel, 0, {
         type: "spring",
         stiffness: 40,
-        damping: 22,
+        // Increase damping and reduce fling contribution to feel less accelerated on phones
+        damping: 28,
         onUpdate: (v) => {
-          targetY.current = Math.max(minY, Math.min(maxY, targetY.current - v * 0.4));
+          targetY.current = Math.max(minY, Math.min(maxY, targetY.current - v * 0.18));
         },
       });
       return () => controls.stop();

@@ -3,6 +3,7 @@ export interface Project {
   name: string;
   category: string;
   description: string;
+  punchline?: string;
   tools: string[];
   size: string;
   image?: string;
