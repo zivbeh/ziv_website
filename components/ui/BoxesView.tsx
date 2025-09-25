@@ -63,7 +63,7 @@ export function BoxesView({ projects, onSelect }: BoxesViewProps) {
                     className={`w-full h-full text-left rounded-2xl border border-white/10 shadow-xl overflow-hidden transition-transform duration-1000 ease-in-out transform-gpu focus:outline-none focus:ring-2 focus:ring-white/20 ${originClasses} ${isHovered ? "scale-[1.4]" : "scale-100"}`}
                   >
                     <div
-                      className={`absolute inset-0 transition-transform duration-1000 ease-in-out transform-gpu ${originClasses} ${isHovered ? "scale-[1.7]" : "scale-100"}`}
+                      className={`absolute inset-0 transition-transform duration-1000 ease-in-out transform-gpu ${originClasses} scale-100`}
                     >
                       {video ? (
                         <video
@@ -92,7 +92,7 @@ export function BoxesView({ projects, onSelect }: BoxesViewProps) {
                         </div>
                         {(p.punchline || p.description) && (
                           <div
-                            className={`text-white/85 text-base md:text-lg leading-relaxed flex-grow transition-all duration-200 ${isHovered ? "" : "line-clamp-2"}`}
+                            className={`text-white/85 text-base md:text-lg leading-relaxed flex-grow transition-all duration-200 ${isHovered ? "line-clamp-4" : "line-clamp-2"}`}
                           >
                             {isHovered ? p.description : p.punchline}
                           </div>
