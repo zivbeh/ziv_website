@@ -64,7 +64,7 @@ export const projects = [
     category: "Other",
     punchline: "SaaS for optimizing office seating plans with live, multiuser updates.",
     description:
-      "I built a SaaS app that helps companies cut office costs by managing shared cubicles and seating plans. On the front end, I implemented grid/canvas editors for layouts with instant, multiuser updates; on the back end, I designed a Node.js service with a MySQL schema that broadcasts DB changes so everyone sees edits live. I run it on AWS with autoscaling and CI/CD so deploys and traffic spikes are boring—in the best way.",
+      "A SaaS application designed to help companies reduce office costs by managing shared cubicles and seating plans. The front end features grid and canvas editors for layouts with instant, multiuser updates. The back end is a Node.js service with a MySQL schema that broadcasts database changes, ensuring all users see edits live. The application runs on AWS with autoscaling and CI/CD for reliable deployments and handling of traffic spikes.",
     tools: ["Node.js", "TypeScript/JavaScript", "MySQL", "AWS (autoscaling, CI/CD)", "WebSockets/SSE", "Canvas/Grid UI", "Git"],
     repoUrl: "https://github.com/zivbeh/OrderCubic",
     size: "medium",
@@ -86,7 +86,7 @@ export const projects = [
     category: "Other",
     punchline: "An automated pipeline that turns a text prompt into a YouTube video.",
     description:
-      "I created a pipeline that turns a single prompt into a published YouTube video. I scrape story material, have GPT-4 reshape it into a script, fetch images/clips via media APIs, then stitch everything with MoviePy into a cohesive MP4. I added TTS narration and OAuth upload so the pipeline is truly hands-off—from idea to live video in one run.",
+      "An automated pipeline that transforms a single prompt into a published YouTube video. The process involves scraping online for story material, using GPT-4 to reshape it into a catchy script, fetching images and clips via media APIs, and then stitching everything together with MoviePy into a cohesive MP4 file. The pipeline is fully automated, with TTS narration and OAuth upload, allowing a video to go from an idea to live on YouTube in a single run within a minute, easy to create hundreds of videos daily.",
     tools: ["Python", "MoviePy", "GPT-4 (script editing)", "Requests/BS4 or Playwright (scraping)", "media APIs", "TTS", "YouTube Data API (OAuth)", "Git"],
     repoUrl: "https://github.com/zivbeh/auto-video-gen",
     size: "medium",
@@ -108,7 +108,7 @@ export const projects = [
     category: "Other",
     punchline: "A secure web messenger with 2FA, group chats, and a focus on UX.",
     description:
-      "I built a secure web messenger before the current AI wave. I implemented two-factor auth, group chats, profile customization, and an SQL data model with clean permissioning. Most of the effort went into getting auth flows and UX right so sessions are safe and the interface feels fast on every device.",
+      "A secure web messenger developed before the current AI wave. It implements two-factor authentication, group chats, profile customization, and an SQL data model with clean permissioning. Significant effort was dedicated to perfecting auth flows and user experience to ensure sessions are secure and the interface is fast on all devices.",
     tools: ["Node.js/Express", "SQL (PostgreSQL/MySQL)", "JWT/sessions", "email/OTP 2FA", "HTML/CSS/JS (responsive)", "Git"],
     size: "medium",
     image: "/chatup/bg.png",
@@ -125,7 +125,7 @@ export const projects = [
     category: "Other",
     punchline: "A fast, SEO-optimized marketing site for a venture studio.",
     description:
-      "I designed and shipped a fast, SEO-friendly marketing site for a venture studio. I tuned metadata and OG tags, set up Vercel hosting, and integrated a mailing system for leads and updates. It’s the kind of project where details—image sizing, CLS/LCP, copy structure—matter more than flashy effects.",
+      "A fast, SEO-friendly marketing site designed and shipped for a venture studio. The project involved tuning metadata and OG tags, setting up Vercel hosting, and integrating a mailing system for leads and updates. The focus was on the details that matter for performance and visibility, such as image sizing, Core Web Vitals (CLS/LCP), and copy structure, rather than flashy effects.",
     tools: ["Next.js/React (site)", "Vercel (hosting)", "HTML/CSS", "SEO/OG metadata", "email service (SMTP/API)", "Git"],
     liveUrl: "https://www.capiros.ventures/",
     size: "medium",
@@ -143,7 +143,7 @@ export const projects = [
     category: "Other",
     punchline: "My first major project: a feature-rich to-do app with auth and notifications.",
     description:
-      "I went all-in on a classic but feature-rich to-do app: SQL persistence, email-based 2-step auth, notifications, timers/reminders, priorities, and deep search/filtering. It’s where I learned to wire authentication, scheduled jobs, and data models that stay simple as features pile up.",
+      "A classic but feature-rich to-do application. It includes SQL persistence, email-based 2-step authentication, notifications, timers/reminders, priorities, and deep search/filtering. This project was an opportunity to learn how to wire authentication, scheduled jobs, and data models that remain simple as features are added.",
     tools: ["Node.js/Express", "SQL (PostgreSQL/MySQL)", "email OTP/2FA", "cron/schedulers", "HTML/CSS/JS", "Git"],
     repoUrl: "https://github.com/zivbeh/ToDoList",
     size: "medium",
@@ -161,7 +161,7 @@ export const projects = [
     category: "Other",
     punchline: "A classical music generator using an advanced Markov process.",
     description:
-      "I wrote a classical-style music generator using an improved Markov process that supports effectively unbounded state and sequence length. I work with MIDI files directly, focusing on transitions that feel musical rather than random.",
+      "A classical-style music generator that uses a custom, improved Markov process, supporting effectively unbounded state and sequence length. It works directly with MIDI files, focusing on creating transitions that feel musical rather than random.",
     tools: ["Python", "MIDI libraries (mido/music21)", "custom Markov modeling", "Git"],
     size: "small",
     image: "/musicgen/bg.png",
@@ -178,7 +178,7 @@ export const projects = [
     category: "Other",
     punchline: "A web app to see where friends are and plan summer meetups.",
     description:
-      "I built a small web app to visualize where my friends are over the summer and plan meetups. I kept it lightweight: a simple auth/sharing model, a map UI, and a friendly way to update status without spamming group chats.",
+      "A small web application for visualizing friends' locations over the summer and planning meetups. It was designed to be lightweight, with a simple sharing model, a map-based UI, and a user-friendly way to update status without spamming group chats.",
     tools: ["JavaScript/TypeScript", "HTML/CSS", "a mapping API (Google Maps or Leaflet)", "lightweight backend", "Git"],
     repoUrl: "https://github.com/zivbeh/AEPiInIsrael",
     size: "small",
@@ -192,11 +192,11 @@ export const projects = [
   },
   {
     id: "cs61c-cpu",
-    name: "CS61C RISC-V CPU (class project)",
+    name: "RISK-V CPU with parallelism",
     category: "Other",
     punchline: "A pipelined RISC-V CPU designed and tested in Logisim.",
     description:
-      "I designed and tested a pipelined RISC-V CPU in Logisim. I laid out the datapath, wrote the control logic, handled hazards, and verified behavior against ISA-level tests. It taught me to keep the pipeline honest and the timing predictable.",
+      "A pipelined RISC-V CPU designed and tested in Logisim. The project involved laying out the datapath, writing the control logic, handling hazards, and verifying behavior against ISA-level tests. The experience taught the importance of keeping the pipeline honest and the timing predictable.",
     tools: ["Logisim", "RISC-V ISA/specs", "unit tests/trace benches", "Git"],
     size: "medium",
     images: [
@@ -213,11 +213,11 @@ export const projects = [
   },
   {
     id: "electric-guitar-amplifier",
-    name: "Electric Guitar Amplifier (EECS16B)",
+    name: "Electric Guitar Amplifier",
     category: "Other",
     punchline: "A multi-stage guitar amplifier built from scratch with op-amps.",
     description:
-      "I built and characterized a multi-stage guitar amp with filters and op-amp gain stages on breadboards, then measured it with lab gear. I tuned frequency response and gain/linearity while learning to chase noise and oscillations with a scope.",
+      "A multi-stage guitar amplifier built and characterized with filters and op-amp gain stages on breadboards, then measured with lab equipment. The project involved tuning frequency response and gain/linearity while learning to chase noise and oscillations with an oscilloscope.",
     tools: ["Breadboards", "op-amps/passives", "signal generator", "oscilloscope", "DMM", "(optionally) SPICE"],
     size: "small",
     images: [
@@ -236,7 +236,7 @@ export const projects = [
     name: "Balloons Pop",
     category: "Games",
     punchline: "A collaborative web strategy game with unit upgrades and tricky waves.",
-    description: "I co-built a web strategy game where you place and upgrade units and pop increasingly tricky balloon waves. I used the Canvas API for rendering, tuned the game loop for responsiveness, and handled everything from mechanics to deployment with a teammate overseas.",
+    description: "A web strategy defense game where players place and upgrade units to pop increasingly tricky balloon waves. The game was co-built with a teammate overseas and uses the Canvas API for rendering. The game loop was tuned for responsiveness, and the project covered everything from mechanics to deployment. It encompases wise data structures for easy scalability and game state management.",
     tools: ["HTML5 Canvas", "JavaScript", "CSS3", "sprite/animation pipeline", "Git"],
     liveUrl: "https://zivbeh.github.io/BalloonsPOP/",
     size: "medium",
@@ -255,7 +255,7 @@ export const projects = [
     name: "Sticky Fred",
     category: "Games",
     punchline: "A platformer with a custom physics engine for wall-sticking.",
-    description: "I wrote a minimal physics engine for wall-stick movement, gravity, and collisions, then built a coin-collecting platformer packed with blade hazards and effects. I also built a lightweight level editor so I can author new stages and tweak gameplay constants in minutes.",
+    description: "A minimal physics engine for wall-stick movement, gravity, and collisions for this coin-collecting web-based game, which is packed with blade hazards and effects. A lightweight level editor was also built to allow for authoring new stages and tweaking gameplay constants in minutes. It is a fun blend of physics and game mechanics.",
     tools: ["HTML5 Canvas", "JavaScript", "custom physics/collision", "simple level editor (JSON/objects)", "Git"],
     size: "medium",
     images: [
@@ -273,7 +273,7 @@ export const projects = [
     name: "Birthday Game for My Dad",
     category: "Games",
     punchline: "A celebratory arcade mini-game for my dad's birthday.",
-    description: "I made a celebratory arcade mini-game where you collect coins, dodge moving obstacles, and unlock an animation + music finale when you win—designed for quick joy and a nice reveal.",
+    description: "A celebratory arcade mini-game where players collect coins, dodge moving obstacles, and unlock an animation and music finale upon winning. The game was designed for quick joy and a nice reveal for my dad's birthday.",
     tools: ["HTML5 Canvas", "JavaScript", "Audio APIs", "sprite/texture assets", "Git"],
     repoUrl: "https://github.com/zivbeh/babic-birth-day",
     size: "small",
@@ -289,7 +289,7 @@ export const projects = [
     name: "MonopolSolver",
     category: "Games",
     punchline: "A Monopoly-style web game with a built-in strategy solver.",
-    description: "I built a Monopoly-style web game with configurable rules and a strategy helper that computes the most profitable board squares. It’s a fun blend of probability/EV logic and an approachable UI.",
+    description: "A Monopoly-style web game with configurable rules and a strategy helper that computes the most profitable board squares. The project is a fun blend of probability/EV logic and an approachable UI.",
     tools: ["JavaScript/TypeScript", "HTML/CSS", "probability/simulation utilities", "Git"],
     repoUrl: "https://github.com/zivbeh/MonopolSolver",
     size: "small",
@@ -305,7 +305,7 @@ export const projects = [
     name: "Flappy Bird Clone",
     category: "Games",
     punchline: "A browser-based Flappy Bird clone to master game loop fundamentals.",
-    description: "I reproduced the feel of Flappy Bird—frame timing, collision, difficulty ramp—purely in the browser to sharpen fundamentals in loops, assets, and hitboxes.",
+    description: "This project reproduces the feel of Flappy Bird—frame timing, collision, difficulty ramp—purely in the browser. It was an exercise in sharpening fundamentals in game loops, assets, and hitboxes.",
     tools: ["HTML5 Canvas", "JavaScript", "sprite sheets", "Git"],
     size: "small",
     image: "/flafybird/bg.png",
@@ -320,7 +320,7 @@ export const projects = [
     name: "MoneyPortal",
     category: "Games",
     punchline: "A physics-based playground for experimenting with portals and gravity.",
-    description: "I prototyped a portal-and-gravity playground where you navigate linked spaces under simple physics. It’s a toybox for experimenting with movement and surprise.",
+    description: "A portal-and-gravity playground prototype where players navigate linked spaces under simple physics. It serves as a toybox for experimenting with movement and surprise.",
     tools: ["HTML5 Canvas", "JavaScript", "custom physics", "level configs", "Git"],
     size: "small",
     images: [
@@ -338,7 +338,7 @@ export const projects = [
     name: "DJ Game",
     category: "Games",
     punchline: "A low-latency browser toy for layering beats and triggering samples.",
-    description: "I built a browser music toy that layers beats and triggers samples with low latency. It’s all about immediate feedback and playful controls.",
+    description: "A browser-based music toy that layers beats and triggers samples with low latency. The focus is on immediate feedback and playful controls.",
     tools: ["Web Audio API", "JavaScript", "HTML/CSS", "simple state management", "Git"],
     size: "small",
     image: "/djapp/dj.png",
@@ -353,7 +353,7 @@ export const projects = [
     name: "Java Game Room",
     category: "Games",
     punchline: "A Java game featuring a procedural room generator.",
-    description: "I implemented a Java game with a procedural room generator—randomized layouts, data structures doing real work, and a straightforward rendering loop.",
+    description: "A Java game featuring a procedural room generator. It includes randomized layouts, data structures doing real work, and a straightforward rendering loop.",
     tools: ["Java", "OOP design", "RNG/procedural gen", "lightweight renderer", "Git"],
     liveUrl: "https://sp25.datastructur.es/projects/proj3/",
     size: "small",
@@ -373,7 +373,7 @@ theme: {
     category: "Other",
     punchline: "A collection of 3D models designed for mechanical assembly and printing.",
     description:
-      "I designed a variety of models in Onshape, focusing on mechanical design, assembly, and 3D printing. Projects include interlocking wooden modules for custom storage, a miniature Tie Fighter, a Minion figurine, a mini basketball desk game, and a compact marble maze. For each, I focused on tolerances, clean constraints, and design for manufacturability.",
+      "A variety of models designed in Onshape, focusing on mechanical design, assembly, and 3D printing. The collection includes interlocking wooden modules for custom storage, a miniature Tie Fighter, a Minion figurine, a mini basketball desk game, and a compact marble maze. For each model, the focus was on tolerances, clean constraints, and design for manufacturability.",
     tools: ["Onshape", "3D Printing (STL Export)"],
     size: "medium",
     images: [
