@@ -9,6 +9,8 @@ import { projects } from "@/lib/projects";
 import { Project } from "@/lib/types";
 import { startTransition, useEffect, useMemo, useState } from "react";
 import { Vector3 } from "three";
+import { useMediaQuery } from "@/hooks/use-media-query";
+import { Mobile3DWarning } from "@/components/ui/Mobile3DWarning";
 
 export default function Home() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -20,6 +22,8 @@ export default function Home() {
   const [isReady, setIsReady] = useState(false);
   const [enableShip2D, setEnableShip2D] = useState(true);
   const [modeChosen, setModeChosen] = useState(true);
+  const [show3DWarning, setShow3DWarning] = useState(false);
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
   // Determine mode on mount (avoid SSR/client mismatch)
   useEffect(() => {
@@ -90,6 +94,10 @@ export default function Home() {
     const handler = (e: Event) => {
       const anyEvent = e as unknown as { detail?: string };
       const mode = anyEvent.detail === "boxes" ? "boxes" : "3d";
+      if (mode === "3d" && isMobile) {
+        setShow3DWarning(true);
+        return;
+      }
       setUseBoxes(mode === "boxes");
       setModeChosen(true);
       if (mode === "boxes") {
@@ -100,7 +108,7 @@ export default function Home() {
     };
     window.addEventListener("preferredModeChange", handler as EventListener);
     return () => window.removeEventListener("preferredModeChange", handler as EventListener);
-  }, []);
+  }, [isMobile]);
 
   const handlePlanetClick = (position: Vector3, projectId: string) => {
     const project = projects.find((p) => p.id === projectId);
@@ -120,6 +128,10 @@ export default function Home() {
   };
 
   const handleModeSwitch = (mode: "3d" | "boxes") => {
+    if (mode === "3d" && isMobile) {
+      setShow3DWarning(true);
+      return;
+    }
     try {
       localStorage.setItem("preferredMode", mode);
     } catch {}
@@ -135,6 +147,8 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-black">
       {/* Mode selection gate BEFORE any heavy preload */}
+
+      {show3DWarning && <Mobile3DWarning onClose={() => setShow3DWarning(false)} />}
 
       {/* Only show the 3D preloader when 3D mode is chosen */}
       {isReady && modeChosen && !useBoxes && (
