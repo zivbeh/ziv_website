@@ -5,8 +5,6 @@ import { BoxesView } from "@/components/ui/BoxesView";
 import { Stars2D } from "@/components/ui/Stars2D";
 import { ProjectView } from "@/components/ui/ProjectView";
 import { Preloader } from "@/components/ui/Preloader";
-import PortfolioSelection from "@/components/ui/PortfolioSelection";
-// import AboutMe from "@/components/ui/AboutMe";
 import { projects } from "@/lib/projects";
 import { Project } from "@/lib/types";
 import { startTransition, useEffect, useMemo, useState } from "react";
@@ -18,39 +16,30 @@ export default function Home() {
   const [isZoomed, setIsZoomed] = useState(false);
   const [showVehicles, setShowVehicles] = useState(false);
   const [showEffects, setShowEffects] = useState(false);
-  const [useBoxes, setUseBoxes] = useState(false);
+  const [useBoxes, setUseBoxes] = useState(true);
   const [isReady, setIsReady] = useState(false);
   const [enableShip2D, setEnableShip2D] = useState(true);
-  const [modeChosen, setModeChosen] = useState(false);
+  const [modeChosen, setModeChosen] = useState(true);
 
   // Determine mode on mount (avoid SSR/client mismatch)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const urlMode = params.get("mode");
     const urlBoxes = params.get("boxes");
-    let prefersBoxes = false;
-    let decided = false;
+    let prefersBoxes = true;
     try {
       const saved = localStorage.getItem("preferredMode");
-      if (saved === "boxes") {
-        prefersBoxes = true;
-        decided = true;
-      }
       if (saved === "3d") {
         prefersBoxes = false;
-        decided = true;
       }
     } catch {}
     if (urlBoxes === "1" || urlMode === "boxes") {
       prefersBoxes = true;
-      decided = true;
     }
     if (urlMode === "3d") {
       prefersBoxes = false;
-      decided = true;
     }
     setUseBoxes(prefersBoxes);
-    setModeChosen(decided);
     setIsReady(true);
   }, []);
 
@@ -146,9 +135,6 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-black">
       {/* Mode selection gate BEFORE any heavy preload */}
-      {isReady && !modeChosen && (
-        <PortfolioSelection onSelect={handleModeSwitch} />
-      )}
 
       {/* Only show the 3D preloader when 3D mode is chosen */}
       {isReady && modeChosen && !useBoxes && (

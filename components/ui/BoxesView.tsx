@@ -35,21 +35,29 @@ export function BoxesView({ projects, onSelect }: BoxesViewProps) {
     const isFeatured = title === "Featured";
     const isSectionHovered = items.some((p) => p.id === hoveredId);
     const gridLayout = isFeatured
-      ? "inline-grid grid-cols-1 md:grid-cols-2 gap-8"
+      ? "grid grid-cols-1 md:grid-cols-2 gap-8"
       : "inline-grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3";
 
     return (
       <section className={`w-[70vw] mx-auto mb-10 ${isSectionHovered ? "relative z-10" : ""}`}>
         <h2 className={`text-3xl md:text-4xl font-bold text-white mb-5 tracking-wide text-center`}>{title}</h2>
-        <div className={"text-center"}>
-          <div className={gridLayout}>
+        <div className={isFeatured ? "flex justify-center" : "text-center"}>
+          <div className={`${gridLayout} ${isFeatured ? "md:-ml-12" : ""}`}>
             {items.map((p, i) => {
               const video = (p as any).videos?.[0] ?? null;
               const thumb = (p as any).images?.[0] ?? (p as any).image ?? null;
               const originBase = "origin-center";
               const mdOrigin = i % 2 === 0 ? "md:origin-left" : "md:origin-right";
               const xlMod = i % 3;
-              const xlOrigin = xlMod === 0 ? "xl:origin-left" : xlMod === 1 ? "xl:origin-center" : "xl:origin-right";
+              const xlOrigin = isFeatured
+                ? i % 2 === 0
+                  ? "xl:origin-left"
+                  : "xl:origin-right"
+                : xlMod === 0
+                ? "xl:origin-left"
+                : xlMod === 1
+                ? "xl:origin-center"
+                : "xl:origin-right";
               const originClasses = `${originBase} ${mdOrigin} ${xlOrigin}`;
               const isHovered = !isMobile && hoveredId === p.id;
               return (

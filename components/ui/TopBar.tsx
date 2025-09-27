@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 export function TopBar() {
-  const [activeMode, setActiveMode] = useState<"3d" | "boxes">("3d");
+  const [activeMode, setActiveMode] = useState<"3d" | "boxes">("boxes");
 
   useEffect(() => {
     try {
@@ -40,18 +40,10 @@ export function TopBar() {
       <div className="absolute top-4 right-4 pointer-events-auto">
         <div className="flex items-center gap-2 bg-black/60 backdrop-blur-sm rounded-lg p-2.5 shadow-2xl">
           <button
-            onClick={() => handleModeSwitch("3d")}
-            className={`${activeMode === "3d" ? "bg-white text-black" : "bg-transparent text-white md:hover:bg-white/10"} px-3 py-1.5 rounded-md text-xs border border-white/20 transition-colors`}
-            aria-pressed={activeMode === "3d"}
+            onClick={() => handleModeSwitch(activeMode === "3d" ? "boxes" : "3d")}
+            className="bg-transparent text-white md:hover:bg-white/10 px-3 py-1.5 rounded-md text-xs border border-white/20 transition-colors"
           >
-            3D
-          </button>
-          <button
-            onClick={() => handleModeSwitch("boxes")}
-            className={`${activeMode === "boxes" ? "bg-white text-black" : "bg-transparent text-white md:hover:bg-white/10"} px-3 py-1.5 rounded-md text-xs border border-white/20 transition-colors`}
-            aria-pressed={activeMode === "boxes"}
-          >
-            Boxes
+            {activeMode === "3d" ? "Switch to Boxed Portfolio" : "Switch to 3D Portfolio"}
           </button>
         </div>
       </div>
