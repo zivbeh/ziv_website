@@ -15,8 +15,23 @@ const featuredProjectIds = ["stealth-founder", "library-seat-radar"];
 
 export function BoxesView({ projects, onSelect }: BoxesViewProps) {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [hoverTimeout, setHoverTimeout] = useState<NodeJS.Timeout | null>(null);
   const isMobile = useMediaQuery("(max-width: 768px)");
 
+  const handleMouseEnter = (id: string) => {
+    if (hoverTimeout) {
+      clearTimeout(hoverTimeout);
+      setHoverTimeout(null);
+    }
+    setHoveredId(id);
+  };
+
+  const handleMouseLeave = () => {
+    const timeout = setTimeout(() => {
+      setHoveredId(null);
+    }, 100);
+    setHoverTimeout(timeout);
+  };
   const grouped = useMemo(() => {
     const buckets: Record<"Featured" | "Projects" | "Games", Project[]> = {
       Featured: [],
@@ -64,8 +79,8 @@ export function BoxesView({ projects, onSelect }: BoxesViewProps) {
                 <div
                   key={p.id}
                   className={`relative h-80 ${isHovered ? "z-20" : "z-0"}`}
-                  onMouseEnter={() => setHoveredId(p.id)}
-                  onMouseLeave={() => setHoveredId(null)}
+                  onMouseEnter={() => handleMouseEnter(p.id)}
+                  onMouseLeave={handleMouseLeave}
                 >
                   <button
                     onClick={() => onSelect(p)}
