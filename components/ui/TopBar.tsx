@@ -28,9 +28,16 @@ export function TopBar() {
   };
 
   const scrollTo = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    if (activeMode === "3d") {
+      try {
+        const evt = new CustomEvent("scrollToSection3D", { detail: id });
+        window.dispatchEvent(evt);
+      } catch {}
+    } else {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     }
     setIsMenuOpen(false);
   };

@@ -23,6 +23,7 @@ export default function Home() {
   const [enableShip2D, setEnableShip2D] = useState(true);
   const [modeChosen, setModeChosen] = useState(true);
   const [show3DWarning, setShow3DWarning] = useState(false);
+  const [galaxyTargetSection, setGalaxyTargetSection] = useState<string | null>(null);
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   // Determine mode on mount (avoid SSR/client mismatch)
@@ -110,6 +111,18 @@ export default function Home() {
     return () => window.removeEventListener("preferredModeChange", handler as EventListener);
   }, [isMobile]);
 
+  // Listen for global scroll events from TopBar
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const anyEvent = e as unknown as { detail?: string };
+      if (anyEvent.detail) {
+        setGalaxyTargetSection(anyEvent.detail);
+      }
+    };
+    window.addEventListener("scrollToSection3D", handler as EventListener);
+    return () => window.removeEventListener("scrollToSection3D", handler as EventListener);
+  }, []);
+
   const handlePlanetClick = (position: Vector3, projectId: string) => {
     const project = projects.find((p) => p.id === projectId);
     if (project) {
@@ -195,6 +208,8 @@ export default function Home() {
               showVehicles={showVehicles}
               showEffects={showEffects}
               useBoxes={false}
+              targetSection={galaxyTargetSection}
+              onSectionNavigated={() => setGalaxyTargetSection(null)}
             />
           ) : null
         )

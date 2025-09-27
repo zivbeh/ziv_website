@@ -19,15 +19,34 @@ interface CameraControlsProps {
   introOffsetY?: number;
   /** When true, release the hold so camera eases to initialY */
   introTrigger?: boolean;
+  targetYProp?: number | null;
+  onTargetReached?: () => void;
 }
 
-export const CameraControls = ({ targetPosition, yRange, onCameraYChange, initialY, wheelEnabled = true, introHold = false, introOffsetY = 0, introTrigger = true }: CameraControlsProps) => {
+export const CameraControls = ({
+  targetPosition,
+  yRange,
+  onCameraYChange,
+  initialY,
+  wheelEnabled = true,
+  introHold = false,
+  introOffsetY = 0,
+  introTrigger = true,
+  targetYProp,
+  onTargetReached,
+}: CameraControlsProps) => {
   const { camera } = useThree();
   const x = useMotionValue(camera.position.x);
   const z = useMotionValue(camera.position.z);
   const targetY = useRef(initialY ?? 0);
+  const isNavigating = useRef(false);
   const yRangeRef = useRef<[number, number]>([-20, 20]);
-  const dragState = useRef<{ active: boolean; lastY: number; velocity: number; lastT: number }>({ active: false, lastY: 0, velocity: 0, lastT: 0 });
+  const dragState = useRef<{ active: boolean; lastY: number; velocity: number; lastT: number }>({
+    active: false,
+    lastY: 0,
+    velocity: 0,
+    lastT: 0,
+  });
   const isCoarsePointerRef = useRef(false);
 
   // Detect phones/tablets (coarse pointers) to adjust scrolling behavior
@@ -82,6 +101,7 @@ export const CameraControls = ({ targetPosition, yRange, onCameraYChange, initia
     const end = () => {
       if (!dragState.current.active) return;
       dragState.current.active = false;
+      isNavigating.current = false; // User interaction cancels navigation
       // On phones, disable inertial fling for non-accelerated feel
       if (isCoarsePointerRef.current) return;
       const initialVel = dragState.current.velocity;
@@ -114,12 +134,24 @@ export const CameraControls = ({ targetPosition, yRange, onCameraYChange, initia
     };
   }, [wheelEnabled]);
 
+  useEffect(() => {
+    if (targetYProp !== null && targetYProp !== undefined) {
+      targetY.current = targetYProp;
+      isNavigating.current = true;
+    }
+  }, [targetYProp]);
+
   useFrame((state, delta) => {
-    camera.position.y = THREE.MathUtils.lerp(
-      camera.position.y,
-      targetY.current,
-      0.1
-    );
+    const isClose = Math.abs(camera.position.y - targetY.current) < 0.01;
+
+    if (isNavigating.current && isClose) {
+      isNavigating.current = false;
+      if (onTargetReached) {
+        onTargetReached();
+      }
+    }
+
+    camera.position.y = THREE.MathUtils.lerp(camera.position.y, targetY.current, 0.1);
 
     if (onCameraYChange) {
       onCameraYChange(camera.position.y);

@@ -192,7 +192,7 @@ export const projects = [
   },
   {
     id: "cs61c-cpu",
-    name: "RISK-V CPU with parallelism",
+    name: "RISC-V CPU with parallelism",
     category: "Other",
     punchline: "A pipelined RISC-V CPU designed and tested in Logisim.",
     description:

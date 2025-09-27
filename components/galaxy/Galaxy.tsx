@@ -1,7 +1,7 @@
 "use client";
 
 import { Canvas, useThree } from "@react-three/fiber";
-import { Suspense, useMemo, useRef, useState } from "react";
+import { Suspense, useMemo, useRef, useState, useEffect } from "react";
 import { Planet } from "./Planet";
 import { Stars, Html, useProgress, AdaptiveDpr } from "@react-three/drei";
 import { CameraControls } from "./CameraControls";
@@ -48,6 +48,8 @@ interface GalaxyProps {
   showEffects?: boolean;
   /** If true, render HTML boxes (like About Me) instead of 3D planets */
   useBoxes?: boolean;
+  targetSection?: string | null;
+  onSectionNavigated?: () => void;
 }
 
 export const Galaxy = ({
@@ -58,6 +60,8 @@ export const Galaxy = ({
   showVehicles = false,
   showEffects = false,
   useBoxes = false,
+  targetSection,
+  onSectionNavigated,
 }: GalaxyProps) => {
   const isCoarsePointer = useMemo(() => {
     if (typeof window === "undefined" || !("matchMedia" in window)) return false;
@@ -77,6 +81,7 @@ export const Galaxy = ({
   );
   const { active } = useProgress();
   const [cameraY, setCameraY] = useState(0);
+  const [cameraTargetY, setCameraTargetY] = useState<number | null>(null);
   const cameraYRef = useRef(0);
   const lastCameraYUpdateRef = useRef(0);
   const pendingCameraYTimeout = useRef<number | null>(null);
@@ -226,9 +231,29 @@ export const Galaxy = ({
   const aboutY = 10; // position About Me higher for a hero-like opening
   const introOffsetY = 3; // start a bit higher for a gentle settle
 
+  useEffect(() => {
+    if (targetSection) {
+      let y = 0;
+      if (targetSection === "about") {
+        y = aboutY;
+      } else if (targetSection === "contact") {
+        y = contactY;
+      } else {
+        const title = titles.find(t => t.category.toLowerCase() === targetSection);
+        if (title) {
+          y = title.position[1];
+        }
+      }
+      setCameraTargetY(y);
+      if (onSectionNavigated) {
+        onSectionNavigated();
+      }
+    }
+  }, [targetSection, titles, aboutY, contactY, onSectionNavigated]);
+
   return (
     <Canvas
-      camera={{ position: [0, 0, 10], fov: 75 }}
+      camera={{ position: [0, 0, 15], fov: 75 }}
       dpr={isCoarsePointer ? 1 : showEffects ? [1, 2] : 1}
       gl={{ powerPreference: "high-performance" }}
       style={{
@@ -334,6 +359,8 @@ export const Galaxy = ({
           introOffsetY={introOffsetY}
           introTrigger={!active}
           wheelEnabled={!active}
+          targetYProp={cameraTargetY}
+          onTargetReached={() => setCameraTargetY(null)}
           onCameraYChange={(y) => {
             cameraYRef.current = y;
             const now = performance.now();
