@@ -29,7 +29,7 @@ const SceneLights = () => {
   return null;
 };
 
-type Category = "Featured" | "Projects" | "Games";
+type Category = "Featured" | "Projects" | "Games" | "Academics";
 
 interface ComputedTitle {
   category: Category;
@@ -88,6 +88,7 @@ export const Galaxy = ({
   const { planetLayout, titles } = useMemo(() => {
     const placed: (Project & { position: [number, number, number] })[] = [];
     const titles: ComputedTitle[] = [];
+    const gapBetween = 6;
 
     // Utility: simple seeded RNG for consistent jitter
     const seededRandom = (seedStr: string) => {
@@ -105,12 +106,14 @@ export const Galaxy = ({
     };
 
     // Group projects by display categories
-    const buckets: Record<Category, Project[]> = { Featured: [], Projects: [], Games: [] };
+    const buckets: Record<Category, Project[]> = { Featured: [], Projects: [], Games: [], Academics: [] };
     for (const p of projects) {
       if (featuredProjectIds.includes(p.id)) {
         buckets.Featured.push(p);
       } else if (p.category === "Games") {
         buckets.Games.push(p);
+      } else if (p.category === "Academics") {
+        buckets.Academics.push(p);
       } else {
         // Treat any non-featured, non-games as Projects
         buckets.Projects.push(p);
@@ -120,7 +123,6 @@ export const Galaxy = ({
     // Mobile (coarse pointer): single-column vertical layout
     if (isCoarsePointer) {
       const rowSpacing = 7;
-      const gapBetween = 6;
 
       // Featured stacked at the top
       const featuredTopY = 0;
@@ -138,8 +140,17 @@ export const Galaxy = ({
       });
       titles.push({ category: "Projects", title: "Projects", position: [0, projectsBaseY + 3, 0] });
 
+      const academicsBaseY = projectsBaseY - buckets.Projects.length * rowSpacing - gapBetween;
+      buckets.Academics.forEach((p, i) => {
+        const y = academicsBaseY - i * rowSpacing;
+        placed.push({ ...p, position: [0, y, 0] });
+      });
+      if (buckets.Academics.length > 0) {
+        titles.push({ category: "Academics", title: "Academics", position: [0, academicsBaseY + 3, 0] });
+      }
+
       // Games stacked below projects
-      const gamesBaseY = projectsBaseY - buckets.Projects.length * rowSpacing - gapBetween;
+      const gamesBaseY = academicsBaseY - buckets.Academics.length * rowSpacing - gapBetween;
       buckets.Games.forEach((p, i) => {
         const y = gamesBaseY - i * rowSpacing;
         placed.push({ ...p, position: [0, y, 0] });
@@ -204,9 +215,19 @@ export const Galaxy = ({
     );
     titles.push({ category: "Projects", title: "Projects", position: [0, projectsBaseY + 3, 0] });
 
+    // Academics section
+    const academicsBaseY = projectsBaseY - projectRows * prRowSpace - gapBetween;
+    const { rows: academicRows, rowSpacing: acRowSpace } = placeScatteredGrid(
+      buckets.Academics,
+      academicsBaseY,
+      "Academics",
+    );
+    if (buckets.Academics.length > 0) {
+      titles.push({ category: "Academics", title: "Academics", position: [0, academicsBaseY + 3, 0] });
+    }
+
     // Games section (scattered grid below projects)
-    const gapBetween = 6;
-    const gamesBaseY = projectsBaseY - projectRows * prRowSpace - gapBetween;
+    const gamesBaseY = academicsBaseY - academicRows * acRowSpace - gapBetween;
     placeScatteredGrid(buckets.Games, gamesBaseY, "Games");
     if (buckets.Games.length > 0) {
       titles.push({ category: "Games", title: "Games", position: [0, gamesBaseY + 3, 0] });

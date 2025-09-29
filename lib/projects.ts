@@ -57,6 +57,22 @@ export const projects = [
       atmosphereColor: "#6699ff",
     },
   },
+  {
+    id: "academics",
+    name: "Academics",
+    category: "Academics",
+    punchline: "Coursework and projects from my time at UC Berkeley.",
+    description:
+      "A summary of my academic journey at UC Berkeley, highlighting key courses in Electrical Engineering and Computer Sciences. This includes projects, core concepts, and tools I've mastered.",
+    tools: ["RISC-V", "Logisim", "SPICE", "MATLAB", "Python", "C++", "Java"],
+    size: "large",
+    texture: "/berk.jpg",
+    theme: {
+      surfaceColor1: "#003262",
+      surfaceColor2: "#FDB515",
+      atmosphereColor: "#3B7EA1",
+    },
+  },
   // Other Projects
   {
     id: "ordercubic",

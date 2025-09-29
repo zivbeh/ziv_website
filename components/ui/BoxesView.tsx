@@ -6,6 +6,7 @@ import { Project } from "@/lib/types";
 import AboutMe from "@/components/ui/AboutMe";
 import ContactMe from "@/components/ui/ContactMe";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { Academics } from "./Academics";
 
 type BoxesViewProps = {
   projects: Project[];
@@ -197,7 +198,7 @@ export function BoxesView({ projects, onSelect }: BoxesViewProps) {
 
   return (
     <div className="relative z-10 pt-20 pb-32">
-      <section className="w-[90vw] md:w-[70vw] mx-auto transition-opacity duration-500 mt-10 mb-10">
+      <section id="about" className="w-[90vw] md:w-[70vw] mx-auto transition-opacity duration-500 mt-10 mb-10">
         <AboutMe />
       </section>
       {grouped.Featured.length > 0 && (
@@ -233,7 +234,10 @@ export function BoxesView({ projects, onSelect }: BoxesViewProps) {
           handleMouseLeave={handleMouseLeave}
         />
       )}
-      <section className="w-[90vw] md:w-[70vw] mx-auto mt-12">
+      <section id="academics" className="w-[90vw] md:w-[70vw] mx-auto mt-12">
+        <Academics />
+      </section>
+      <section id="contact" className="w-[90vw] md:w-[70vw] mx-auto mt-12">
         <ContactMe />
       </section>
     </div>

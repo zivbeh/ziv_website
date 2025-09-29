@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { academics, ClassInfo } from "@/lib/academics";
 
 export function TopBar() {
   const [activeMode, setActiveMode] = useState<"3d" | "boxes">("boxes");
@@ -65,7 +66,10 @@ export function TopBar() {
               <a href="#featured" onClick={(e) => { e.preventDefault(); scrollTo('featured'); }} className="text-white/80 hover:text-white text-xs transition-colors">Featured</a>
               <a href="#projects" onClick={(e) => { e.preventDefault(); scrollTo('projects'); }} className="text-white/80 hover:text-white text-xs transition-colors">Projects</a>
               <a href="#games" onClick={(e) => { e.preventDefault(); scrollTo('games'); }} className="text-white/80 hover:text-white text-xs transition-colors">Games</a>
+              <a href="#academics" onClick={(e) => { e.preventDefault(); scrollTo('academics'); }} className="text-white/80 hover:text-white text-xs transition-colors">Academics</a>
               <a href="#contact" onClick={(e) => { e.preventDefault(); scrollTo('contact'); }} className="text-white/80 hover:text-white text-xs transition-colors">Contact</a>
+
+              <div className="w-px h-5 bg-white/20 mx-2" />
 
               <button
                 onClick={() => handleModeSwitch(activeMode === "3d" ? "boxes" : "3d")}
@@ -119,6 +123,7 @@ export function TopBar() {
           >
             {activeMode === "3d" ? "Switch to Boxed Portfolio" : "Switch to 3D Portfolio"}
           </button>
+          <div className="w-3/4 h-px bg-white/20 my-2" />
           <a
             href="#about"
             onClick={(e) => { e.preventDefault(); scrollTo('about'); }}
@@ -146,6 +151,13 @@ export function TopBar() {
             className="text-white/80 hover:text-white text-lg"
           >
             Games
+          </a>
+          <a
+            href="#academics"
+            onClick={(e) => { e.preventDefault(); scrollTo('academics'); }}
+            className="text-white/80 hover:text-white text-lg"
+          >
+            Academics
           </a>
           <a
             href="#contact"
