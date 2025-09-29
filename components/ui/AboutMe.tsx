@@ -87,31 +87,31 @@ export default function AboutMe({ onLearnMoreClick }: AboutMeProps) {
     >
       <div className="container mx-auto px-6 pt-8 pb-4">
         <div className="bg-black/70 backdrop-blur-md border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
-          <div className="flex flex-col md:flex-row items-center gap-8 p-6 md:p-10">
+          <div className="flex flex-col lg:flex-row items-center gap-8 p-6 lg:p-10">
             <motion.div className="shrink-0" variants={imageVariants}>
-              <div className="relative w-40 h-40 md:w-56 md:h-56 rounded-2xl overflow-hidden ring-2 ring-white/20">
+              <div className="relative w-40 h-40 lg:w-56 lg:h-56 rounded-2xl overflow-hidden ring-2 ring-white/20">
                 <Image
                   src="/profile.JPG"
                   alt="Ziv Beh portrait"
                   fill
-                  sizes="(max-width: 768px) 160px, 224px"
+                  sizes="(max-width: 1024px) 160px, 224px"
                   className="object-cover"
                   priority
                 />
               </div>
             </motion.div>
             <div className="text-white max-w-3xl">
-              <motion.h1 variants={textVariants} className="text-3xl md:text-5xl font-extrabold tracking-tight mb-3">About Me</motion.h1>
+              <motion.h1 variants={textVariants} className="text-3xl lg:text-5xl font-extrabold tracking-tight mb-3">About Me</motion.h1>
               <motion.p
                 variants={paragraphVariants}
-                className="text-white/90 text-base md:text-lg leading-relaxed mb-4"
+                className="text-white/90 text-base lg:text-lg leading-relaxed mb-4"
               >
                 Tech innovator and entrepreneurial leader driven by a passion for leveraging technology
                 to drive positive change and solve complex problems.
               </motion.p>
               <motion.p
                 variants={paragraphVariants}
-                className="text-white/80 text-sm md:text-base"
+                className="text-white/80 text-sm lg:text-base"
               >
                 UC Berkeley 2027 — Electrical Engineering and Computer Science honors student.
               </motion.p>

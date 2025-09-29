@@ -142,7 +142,9 @@ export const ProjectView = ({ project, onClose }: ProjectViewProps) => {
               &times;
             </button>
             {project.id === "academics" ? (
-              <Academics />
+              <div className="container mx-auto px-6 md:px-8 pt-28 pb-16 max-w-7xl">
+                <Academics isModal={true} />
+              </div>
             ) : (
               <div className="container mx-auto px-6 md:px-8 pt-28 pb-16 max-w-7xl">
                 <motion.div

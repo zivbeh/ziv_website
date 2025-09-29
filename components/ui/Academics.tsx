@@ -151,12 +151,12 @@ const ClassModal = ({ classInfo, onClose }: { classInfo: ClassInfo; onClose: () 
   );
 };
 
-export function Academics() {
+export function Academics({ isModal = false }: { isModal?: boolean }) {
   const [selectedClass, setSelectedClass] = useState<ClassInfo | null>(null);
 
   return (
     <>
-      <div id="academics" className="py-16 sm:py-24">
+      <div id="academics" className={isModal ? "" : "py-16 sm:py-24"}>
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">Academics</h2>

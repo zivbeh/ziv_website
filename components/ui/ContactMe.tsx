@@ -63,7 +63,7 @@ export default function ContactMe() {
                 </div>
               </motion.div>
               <motion.div
-                className="flex flex-wrap items-center gap-4"
+                className="grid grid-cols-1 sm:grid-cols-2 gap-4"
                 variants={containerVariants}
               >
                 <motion.a
