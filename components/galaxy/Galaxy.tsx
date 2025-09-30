@@ -41,6 +41,7 @@ const featuredProjectIds = ["stealth-founder", "library-seat-radar"];
 
 interface GalaxyProps {
   onPlanetClick: (position: ThreeVector3, id: string) => void;
+  onAcademicsClick: () => void;
   projects: Project[];
   cameraTarget: ThreeVector3 | null;
   onCameraYChange?: (y: number) => void;
@@ -54,6 +55,7 @@ interface GalaxyProps {
 
 export const Galaxy = ({
   onPlanetClick,
+  onAcademicsClick,
   projects,
   cameraTarget,
   onCameraYChange,
@@ -85,7 +87,7 @@ export const Galaxy = ({
   const cameraYRef = useRef(0);
   const lastCameraYUpdateRef = useRef(0);
   const pendingCameraYTimeout = useRef<number | null>(null);
-  const { planetLayout, titles } = useMemo(() => {
+  const { planetLayout, titles, minY } = useMemo(() => {
     const placed: (Project & { position: [number, number, number] })[] = [];
     const titles: ComputedTitle[] = [];
     const gapBetween = 6;
@@ -153,10 +155,6 @@ export const Galaxy = ({
       }
 
       const academicsBaseY = gamesBaseY - buckets.Games.length * rowSpacing - gapBetween;
-      buckets.Academics.forEach((p, i) => {
-        const y = academicsBaseY - i * rowSpacing;
-        placed.push({ ...p, position: [0, y, 0] });
-      });
       if (buckets.Academics.length > 0) {
         titles.push({ category: "Academics", title: "Academics", position: [0, academicsBaseY + 3, 0] });
       }
@@ -169,7 +167,9 @@ export const Galaxy = ({
         }
       }
 
-      return { planetLayout: placed, titles };
+      const lowestPlanetY = placed.length > 0 ? placed.reduce((acc, p) => Math.min(acc, p.position[1]), 0) : 0;
+      const minY = buckets.Academics.length > 0 ? academicsBaseY : lowestPlanetY;
+      return { planetLayout: placed, titles, minY };
     }
 
     // Desktop/tablet: scattered 3-column grid
@@ -230,7 +230,7 @@ export const Galaxy = ({
     const academicsBaseY = gamesBaseY - gameRows * gameRowSpace - gapBetween;
     if (buckets.Academics.length > 0) {
       const academicProject = buckets.Academics[0];
-      placed.push({ ...academicProject, position: [0, academicsBaseY, 0] });
+      // Don't place a planet for Academics, just create a title/anchor
       titles.push({ category: "Academics", title: "Academics", position: [0, academicsBaseY + 3, 0] });
     }
 
@@ -242,14 +242,12 @@ export const Galaxy = ({
       }
     }
 
-    return { planetLayout: placed, titles };
+    const lowestPlanetY = placed.length > 0 ? placed.reduce((acc, p) => Math.min(acc, p.position[1]), 0) : 0;
+    const finalMinY = buckets.Academics.length > 0 ? academicsBaseY : lowestPlanetY;
+    return { planetLayout: placed, titles, minY: finalMinY };
   }, [projects, isCoarsePointer]);
 
-  const minY = useMemo(() => {
-    if (planetLayout.length === 0) return -20;
-    return planetLayout.reduce((acc, p) => Math.min(acc, p.position[1]), 0);
-  }, [planetLayout]);
-  const contactY = Math.floor(minY - 10);
+  const contactY = Math.floor(minY - 15);
   const aboutY = 10; // position About Me higher for a hero-like opening
   const introOffsetY = 3; // start a bit higher for a gentle settle
 
@@ -348,12 +346,23 @@ export const Galaxy = ({
         </Selection>
         {titles.map(({ category, title, position }) => (
           <Html key={category} position={position} center style={{ pointerEvents: "none" }}>
-            <h2
-              className="text-6xl font-bold text-white tracking-wider"
-              style={{ textShadow: "0 0 15px rgba(255, 255, 255, 0.5)" }}
-            >
-              {title}
-            </h2>
+            <div className="flex flex-col items-center space-y-4">
+              <h2
+                className="text-6xl font-bold text-white tracking-wider"
+                style={{ textShadow: "0 0 15px rgba(255, 255, 255, 0.5)" }}
+              >
+                {title}
+              </h2>
+              {category === "Academics" && (
+                <button
+                  onClick={onAcademicsClick}
+                  className="px-6 py-3 rounded-lg text-lg font-semibold text-white bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-sm transition-all duration-300 transform hover:scale-105"
+                  style={{ pointerEvents: "auto" }}
+                >
+                  View Coursework
+                </button>
+              )}
+            </div>
           </Html>
         ))}
 

@@ -189,6 +189,7 @@ export function BoxesView({ projects, onSelect }: BoxesViewProps) {
       Games: [],
     };
     for (const p of projects) {
+      if (p.id === "academics") continue;
       if (featuredProjectIds.includes(p.id)) buckets.Featured.push(p);
       else if (p.category === "Games") buckets.Games.push(p);
       else buckets.Projects.push(p);
