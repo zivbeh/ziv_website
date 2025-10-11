@@ -41,7 +41,6 @@ const featuredProjectIds = ["stealth-founder", "library-seat-radar"];
 
 interface GalaxyProps {
   onPlanetClick: (position: ThreeVector3, id: string) => void;
-  onAcademicsClick: () => void;
   projects: Project[];
   cameraTarget: ThreeVector3 | null;
   onCameraYChange?: (y: number) => void;
@@ -55,7 +54,6 @@ interface GalaxyProps {
 
 export const Galaxy = ({
   onPlanetClick,
-  onAcademicsClick,
   projects,
   cameraTarget,
   onCameraYChange,
@@ -354,13 +352,13 @@ export const Galaxy = ({
                 {title}
               </h2>
               {category === "Academics" && (
-                <button
-                  onClick={onAcademicsClick}
-                  className="px-6 py-3 rounded-lg text-lg font-semibold text-white bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-sm transition-all duration-300 transform hover:scale-105"
+                <a
+                  href="/academics"
+                  className="inline-block px-6 py-3 rounded-lg text-lg font-semibold text-white bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-sm transition-all duration-300 transform hover:scale-105"
                   style={{ pointerEvents: "auto" }}
                 >
                   View Coursework
-                </button>
+                </a>
               )}
             </div>
           </Html>

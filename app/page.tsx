@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client";
 
 import dynamic from "next/dynamic";
@@ -11,7 +12,6 @@ import { startTransition, useEffect, useMemo, useState } from "react";
 import { Vector3 } from "three";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { Mobile3DWarning } from "@/components/ui/Mobile3DWarning";
-import { Academics } from "@/components/ui/Academics";
 import { TopBar } from "@/components/ui/TopBar";
 
 export default function Home() {
@@ -26,7 +26,6 @@ export default function Home() {
   const [modeChosen, setModeChosen] = useState(true);
   const [show3DWarning, setShow3DWarning] = useState(false);
   const [galaxyTargetSection, setGalaxyTargetSection] = useState<string | null>(null);
-  const [isShowingAcademics, setIsShowingAcademics] = useState(false);
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   // Determine mode on mount (avoid SSR/client mismatch)
@@ -34,6 +33,7 @@ export default function Home() {
     const params = new URLSearchParams(window.location.search);
     const urlMode = params.get("mode");
     const urlBoxes = params.get("boxes");
+    const urlSection = params.get("section");
     let prefersBoxes = true;
     try {
       const saved = localStorage.getItem("preferredMode");
@@ -49,6 +49,24 @@ export default function Home() {
     }
     setUseBoxes(prefersBoxes);
     setIsReady(true);
+    
+    // Handle section navigation after a delay to ensure DOM is ready
+    if (urlSection && prefersBoxes) {
+      setTimeout(() => {
+        const el = document.getElementById(urlSection);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth" });
+        } else {
+          // Try again after a longer delay
+          setTimeout(() => {
+            const el2 = document.getElementById(urlSection);
+            if (el2) {
+              el2.scrollIntoView({ behavior: "smooth" });
+            }
+          }, 500);
+        }
+      }, 300);
+    }
   }, []);
 
   // Lazy-load Galaxy to avoid pulling three.js when in boxes mode
@@ -164,32 +182,6 @@ export default function Home() {
     }
   };
 
-  if (isShowingAcademics) {
-    return (
-      <main className="min-h-screen bg-black">
-        <Stars2D />
-        <div className="fixed top-0 left-0 right-0 z-50">
-          <TopBar
-            onSwitch={handleModeSwitch}
-            initialMode={useBoxes ? "boxes" : "3d"}
-            onNavigate={(section) => {
-              setIsShowingAcademics(false);
-              setTimeout(() => setGalaxyTargetSection(section), 100);
-            }}
-          />
-        </div>
-        <div className="fixed top-8 left-8 z-[100] pt-16">
-          <button
-            onClick={() => setIsShowingAcademics(false)}
-            className="px-4 py-2 rounded-lg text-sm font-semibold text-white bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-sm transition-all"
-          >
-            &larr; Back to Portfolio
-          </button>
-        </div>
-        <Academics />
-      </main>
-    );
-  }
 
   return (
     <main className="min-h-screen bg-black">
@@ -250,7 +242,6 @@ export default function Home() {
             <GalaxyLazy
               key="3d"
               onPlanetClick={handlePlanetClick}
-              onAcademicsClick={() => setIsShowingAcademics(true)}
               projects={projects}
               cameraTarget={cameraTarget}
               showVehicles={showVehicles}

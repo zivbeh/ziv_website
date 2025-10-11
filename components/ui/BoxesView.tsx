@@ -6,7 +6,6 @@ import { Project } from "@/lib/types";
 import AboutMe from "@/components/ui/AboutMe";
 import ContactMe from "@/components/ui/ContactMe";
 import { useMediaQuery } from "@/hooks/use-media-query";
-import { Academics } from "./Academics";
 
 type BoxesViewProps = {
   projects: Project[];
@@ -114,7 +113,7 @@ const Section = ({
                         playsInline
                         autoPlay
                         loop
-                        preload="metadata"
+                        preload={video.includes('BalloonsPopGamelplay') ? "none" : "metadata"}
                       />
                     ) : thumb ? (
                       <img src={thumb} alt={p.name} loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
@@ -235,9 +234,6 @@ export function BoxesView({ projects, onSelect }: BoxesViewProps) {
           handleMouseLeave={handleMouseLeave}
         />
       )}
-      <section id="academics" className="w-[90vw] md:w-[70vw] mx-auto mt-12">
-        <Academics />
-      </section>
       <section id="contact" className="w-[90vw] md:w-[70vw] mx-auto mt-12">
         <ContactMe />
       </section>

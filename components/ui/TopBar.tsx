@@ -2,42 +2,74 @@
 
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "@/hooks/use-media-query";
-import { academics, ClassInfo } from "@/lib/academics";
 
-export function TopBar() {
+interface TopBarProps {
+  onSwitch?: (mode: "3d" | "boxes") => void;
+  initialMode?: "3d" | "boxes";
+  onNavigate?: (section: string) => void;
+}
+
+export function TopBar({ onSwitch, initialMode, onNavigate }: TopBarProps = {}) {
   const [activeMode, setActiveMode] = useState<"3d" | "boxes">("boxes");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem("preferredMode");
-      if (saved === "boxes" || saved === "3d") setActiveMode(saved);
-    } catch {}
-  }, []);
+    if (initialMode) {
+      setActiveMode(initialMode);
+    } else {
+      try {
+        const saved = localStorage.getItem("preferredMode");
+        if (saved === "boxes" || saved === "3d") setActiveMode(saved);
+      } catch {}
+    }
+  }, [initialMode]);
 
   const handleModeSwitch = (mode: "3d" | "boxes") => {
     try {
       localStorage.setItem("preferredMode", mode);
     } catch {}
     setActiveMode(mode);
-    try {
-      const evt = new CustomEvent("preferredModeChange", { detail: mode });
-      window.dispatchEvent(evt);
-    } catch {}
+    if (onSwitch) {
+      onSwitch(mode);
+    } else {
+      try {
+        const evt = new CustomEvent("preferredModeChange", { detail: mode });
+        window.dispatchEvent(evt);
+      } catch {}
+    }
     setIsMenuOpen(false); // Close menu on mode switch
   };
 
   const scrollTo = (id: string) => {
-    if (activeMode === "3d") {
-      try {
-        const evt = new CustomEvent("scrollToSection3D", { detail: id });
-        window.dispatchEvent(evt);
-      } catch {}
+    if (onNavigate) {
+      onNavigate(id);
     } else {
-      const element = document.getElementById(id);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+      // Check if we're on the academics page
+      const isAcademicsPage = window.location.pathname === '/academics';
+      
+      if (isAcademicsPage) {
+        // If on academics page, navigate to main page with the section
+        const params = new URLSearchParams();
+        params.set("boxes", "1");
+        if (id !== "home" && id !== "academics") {
+          params.set("section", id);
+        }
+        const url = `/?${params.toString()}`;
+        window.location.href = url;
+      } else {
+        // Normal navigation on main page
+        if (activeMode === "3d") {
+          try {
+            const evt = new CustomEvent("scrollToSection3D", { detail: id });
+            window.dispatchEvent(evt);
+          } catch {}
+        } else {
+          const element = document.getElementById(id);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
       }
     }
     setIsMenuOpen(false);
@@ -66,7 +98,7 @@ export function TopBar() {
               <a href="#featured" onClick={(e) => { e.preventDefault(); scrollTo('featured'); }} className="text-white/80 hover:text-white text-xs transition-colors">Featured</a>
               <a href="#projects" onClick={(e) => { e.preventDefault(); scrollTo('projects'); }} className="text-white/80 hover:text-white text-xs transition-colors">Projects</a>
               <a href="#games" onClick={(e) => { e.preventDefault(); scrollTo('games'); }} className="text-white/80 hover:text-white text-xs transition-colors">Games</a>
-              <a href="#academics" onClick={(e) => { e.preventDefault(); scrollTo('academics'); }} className="text-white/80 hover:text-white text-xs transition-colors">Academics</a>
+              <a href="/academics" className="text-white/80 hover:text-white text-xs transition-colors">Academics</a>
               <a href="#contact" onClick={(e) => { e.preventDefault(); scrollTo('contact'); }} className="text-white/80 hover:text-white text-xs transition-colors">Contact</a>
 
               <div className="w-px h-5 bg-white/20 mx-2" />
@@ -153,8 +185,7 @@ export function TopBar() {
             Games
           </a>
           <a
-            href="#academics"
-            onClick={(e) => { e.preventDefault(); scrollTo('academics'); }}
+            href="/academics"
             className="text-white/80 hover:text-white text-lg"
           >
             Academics

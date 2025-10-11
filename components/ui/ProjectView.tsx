@@ -1,8 +1,7 @@
 "use client";
 
-import { XMarkIcon } from "@heroicons/react/24/outline";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useMemo, useState, useCallback } from "react";
+import { useEffect, useMemo, useState, useCallback, useRef } from "react";
 import { Project } from "@/lib/types";
 import { Academics } from "./Academics";
 
@@ -11,25 +10,45 @@ type ProjectViewProps = {
   onClose: () => void;
 };
 
+
 export function ProjectView({ project, onClose }: ProjectViewProps) {
   if (!project) return null;
 
   const images = project.images ?? (project.image ? [project.image] : []);
   const videos = project.videos ?? [];
+  
+
+  // Combine all media into a single array for unified rendering
+  const allMedia = [...videos.map(v => ({ type: 'video', src: v })), ...images.map(i => ({ type: 'image', src: i }))];
+
+  // Initialize all videos as muted
+  useEffect(() => {
+    setMutedVideos(new Set(videos));
+  }, [videos]);
 
   useEffect(() => {
+    // Hide body overflow when project is open
     if (project) {
       document.body.style.overflow = "hidden";
     } else {
+      // Immediately restore overflow when project is null
       document.body.style.overflow = "auto";
     }
 
+    // Cleanup function to restore overflow when component unmounts or project changes
     return () => {
       document.body.style.overflow = "auto";
     };
   }, [project]);
 
-  const hasImages = images.length > 0;
+  // Additional cleanup on unmount to ensure scrolling is restored
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
+
+  const hasMedia = allMedia.length > 0;
 
   const getDisplayName = useCallback((src: string) => {
     const base = (src.split("/").pop() ?? src).replace(/\.[^/.]+$/, "");
@@ -69,52 +88,93 @@ export function ProjectView({ project, onClose }: ProjectViewProps) {
     ].some((k) => lower.includes(k));
 
     if (isHero) {
-      return "col-span-2 row-span-2 md:col-span-3 md:row-span-3";
+      return "col-span-2 row-span-2 md:col-span-3 md:row-span-2";
     }
 
-    // 3) Quilted pattern fallback by index
-    const pattern = [
-      "col-span-2 row-span-2 md:col-span-3 md:row-span-2",
-      "col-span-2 row-span-1 md:col-span-2 md:row-span-2",
-      "col-span-1 row-span-1 md:col-span-1 md:row-span-1",
-      "col-span-1 row-span-1 md:col-span-2 md:row-span-1",
-      "col-span-2 row-span-2 md:col-span-3 md:row-span-2",
-      "col-span-1 row-span-1 md:col-span-1 md:row-span-2",
-    ];
-    return pattern[idx % pattern.length];
-  }, [project]);
+    // 3) Smart aspect ratio-based layout
+    const baseName = (src.split("/").pop() ?? src).toLowerCase();
+    
+    // Detect video files (likely 16:9)
+    if (baseName.includes('.mp4') || baseName.includes('video') || baseName.includes('gameplay')) {
+      return "col-span-2 row-span-2 md:col-span-3 md:row-span-3"; // Stack videos vertically for larger size
+    }
+    
+    // Detect square-ish images
+    if (baseName.includes('logo') || baseName.includes('icon') || baseName.includes('avatar')) {
+      return "col-span-1 row-span-1 md:col-span-2 md:row-span-1"; // Compact square
+    }
+    
+    // Detect portrait images
+    if (baseName.includes('screenshot') || baseName.includes('mobile') || baseName.includes('phone')) {
+      return "col-span-1 row-span-2 md:col-span-1 md:row-span-2"; // Compact tall
+    }
+
+    // 4) Adaptive pattern based on total media count
+    const totalMedia = allMedia.length;
+    if (totalMedia <= 2) {
+      return "col-span-2 row-span-2 md:col-span-2 md:row-span-2"; // Compact for few items
+    } else if (totalMedia <= 4) {
+      return "col-span-1 row-span-1 md:col-span-1 md:row-span-1"; // Compact medium size
+    } else {
+      return "col-span-1 row-span-1 md:col-span-1 md:row-span-1"; // Standard size for many items
+    }
+  }, [project, allMedia]);
 
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [lightboxMediaIndex, setLightboxMediaIndex] = useState<number | null>(null);
+  const [mutedVideos, setMutedVideos] = useState<Set<string>>(new Set());
+  const [videoTimeStates, setVideoTimeStates] = useState<Map<string, number>>(new Map());
 
-  const openLightbox = useCallback((index: number) => {
-    setLightboxIndex(index);
+  const handleVideoClick = useCallback((videoSrc: string, videoElement: HTMLVideoElement, mediaIndex: number) => {
+    // Save current video time
+    setVideoTimeStates(prev => new Map(prev).set(videoSrc, videoElement.currentTime));
+    
+    // Open lightbox
+    setLightboxMediaIndex(mediaIndex);
+  }, []);
+
+  const openLightbox = useCallback((mediaIndex: number) => {
+    setLightboxMediaIndex(mediaIndex);
   }, []);
 
   const closeLightbox = useCallback(() => {
-    setLightboxIndex(null);
+    setLightboxMediaIndex(null);
   }, []);
 
+  const handleClose = useCallback(() => {
+    // Immediately restore scrolling when close is clicked
+    document.body.style.overflow = "auto";
+    onClose();
+  }, [onClose]);
+
   const showPrev = useCallback(() => {
-    if (lightboxIndex === null || images.length === 0) return;
-    setLightboxIndex((prev) => (prev! - 1 + images.length) % images.length);
-  }, [lightboxIndex, images.length]);
+    if (lightboxMediaIndex === null || allMedia.length === 0) return;
+    setLightboxMediaIndex((prev) => (prev! - 1 + allMedia.length) % allMedia.length);
+  }, [lightboxMediaIndex, allMedia.length]);
 
   const showNext = useCallback(() => {
-    if (lightboxIndex === null || images.length === 0) return;
-    setLightboxIndex((prev) => (prev! + 1) % images.length);
-  }, [lightboxIndex, images.length]);
+    if (lightboxMediaIndex === null || allMedia.length === 0) return;
+    setLightboxMediaIndex((prev) => (prev! + 1) % allMedia.length);
+  }, [lightboxMediaIndex, allMedia.length]);
 
-  // Keyboard controls for lightbox
+  // Keyboard controls for lightbox and project view
   useEffect(() => {
-    if (lightboxIndex === null) return;
     const handler = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeLightbox();
-      if (e.key === "ArrowLeft") showPrev();
-      if (e.key === "ArrowRight") showNext();
+      if (e.key === "Escape") {
+        if (lightboxMediaIndex !== null) {
+          closeLightbox();
+        } else {
+          handleClose();
+        }
+      }
+      if (lightboxMediaIndex !== null) {
+        if (e.key === "ArrowLeft") showPrev();
+        if (e.key === "ArrowRight") showNext();
+      }
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [lightboxIndex, closeLightbox, showPrev, showNext]);
+  }, [lightboxMediaIndex, closeLightbox, showPrev, showNext, handleClose]);
 
   return (
     <AnimatePresence>
@@ -128,7 +188,7 @@ export function ProjectView({ project, onClose }: ProjectViewProps) {
         >
           <div className="h-full w-full overflow-y-auto">
             <button
-              onClick={onClose}
+              onClick={handleClose}
               aria-label="Close"
               className="absolute top-16 right-6 md:top-14 md:right-8 text-4xl text-white hover:text-gray-300 transition-colors z-30"
             >
@@ -140,9 +200,9 @@ export function ProjectView({ project, onClose }: ProjectViewProps) {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
               >
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 min-h-0">
                   {/* Left: Textual content */}
-                  <div className={`${hasImages ? "lg:col-span-5" : "lg:col-span-12"}`}>
+                  <div className={`${hasMedia ? "lg:col-span-5" : "lg:col-span-12"}`}>
                     <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 tracking-tight">
                       {project.name}
                     </h2>
@@ -186,100 +246,106 @@ export function ProjectView({ project, onClose }: ProjectViewProps) {
                     </div>
                   </div>
 
-                  {/* Right: Media gallery (videos first if present) */}
-                  {(hasImages || videos.length > 0) && (
-                    <div className="lg:col-span-7">
-                      {/* Single video */}
-                      {videos.length === 1 && images.length === 0 && (
-                        <div className="w-full overflow-hidden rounded-xl bg-black/30 border border-white/10">
-                          <video
-                            controls
-                            className="w-full h-auto max-h-[70vh]"
-                            preload="metadata"
-                            src={videos[0]}
-                          />
-                          <div className="px-3 py-2 text-sm md:text-base text-gray-300 bg-black/40 border-t border-white/10 truncate">
-                            {getDisplayName(videos[0])}
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Multiple videos grid */}
-                      {videos.length > 1 && (
-                        <div className="grid grid-cols-2 md:grid-cols-6 auto-rows-[7rem] sm:auto-rows-[8rem] md:auto-rows-[7.5rem] lg:auto-rows-[8rem] gap-4 mb-4">
-                          {videos.map((src, idx) => (
-                            <div
-                              key={src + idx}
-                              className={`relative overflow-hidden rounded-lg bg-black/40 border border-white/10 ${getSpanClasses(
-                                idx,
-                                src
-                              )}`}
-                            >
-                              <video
-                                controls
-                                className="absolute inset-0 w-full h-full object-cover"
-                                preload="metadata"
-                                src={src}
-                              />
-                              <div className="absolute bottom-0 left-0 right-0 px-2 py-1 text-xs md:text-sm text-gray-200 bg-black/40 border-t border-white/10 truncate">
-                                {getDisplayName(src)}
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-
-                      {/* Images below videos */}
-                      {images.length === 1 && (
-                        <button
-                          className="w-full overflow-hidden rounded-xl bg-black/30 border border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-400"
-                          onClick={() => openLightbox(0)}
-                          aria-label={`Open image 1`}
-                        >
-                          <div className="flex h-full flex-col">
-                            <div className="relative">
-                              <img
-                                src={images[0]}
-                                alt={project.name}
-                                className="w-full h-auto max-h-[70vh] object-contain"
-                              />
-                            </div>
-                            <div className="px-3 py-2 text-sm md:text-base text-gray-300 bg-black/40 border-t border-white/10 truncate">
-                              {getDisplayName(images[0])}
-                            </div>
-                          </div>
-                        </button>
-                      )}
-
-                      {images.length > 1 && (
-                        <div className="grid grid-cols-2 md:grid-cols-6 auto-rows-[7rem] sm:auto-rows-[8rem] md:auto-rows-[7.5rem] lg:auto-rows-[8rem] gap-4">
-                          {images.map((src, idx) => (
+                  {/* Right: Media gallery */}
+                  {hasMedia && (
+                    <div className="lg:col-span-7 min-h-0 flex flex-col max-h-[70vh] overflow-hidden">
+                      {/* Combined media grid */}
+                      {(() => {
+                        // Single media item
+                        if (allMedia.length === 1) {
+                          const media = allMedia[0];
+                          return (
                             <button
-                              key={src + idx}
-                              className={`group relative overflow-hidden rounded-lg bg-black/40 border border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-400 ${getSpanClasses(
-                                idx,
-                                src
-                              )}`}
-                              onClick={() => openLightbox(idx)}
-                              aria-label={`Open image ${idx + 1}`}
+                              className="w-full overflow-hidden rounded-xl bg-black/30 border border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                                  onClick={() => openLightbox(0)}
+                              aria-label={`Open ${media.type} 1`}
                             >
-                              <div className="flex h-full flex-col min-h-0">
-                                <div className="relative flex-1">
-                                  <img
-                                    src={src}
-                                    alt={`Screenshot ${idx + 1}`}
-                                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                                    loading="lazy"
-                                  />
+                              <div className="flex h-full flex-col">
+                                <div className="relative flex-1 min-h-0">
+                                  {media.type === 'video' ? (
+                                    <video
+                                      src={media.src}
+                                      className="w-full h-full object-contain"
+                                      playsInline
+                                      autoPlay
+                                      muted
+                                      loop
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleVideoClick(media.src, e.currentTarget, 0);
+                                      }}
+                                    />
+                                  ) : (
+                                    <img
+                                      src={media.src}
+                                      alt={project.name}
+                                      className="w-full h-full object-cover"
+                                    />
+                                  )}
                                 </div>
-                                <div className="px-2 py-1 text-xs md:text-sm text-gray-300 bg-black/40 border-t border-white/10 truncate">
-                                  {getDisplayName(src)}
+                                <div className="px-3 py-2 text-sm md:text-base text-gray-300 bg-black/40 border-t border-white/10 truncate">
+                                  {getDisplayName(media.src)}
                                 </div>
                               </div>
                             </button>
-                          ))}
-                        </div>
-                      )}
+                          );
+                        }
+
+                        // Multiple media items - create combined grid
+                        return (
+                          <div className="grid grid-cols-2 md:grid-cols-6 gap-1" style={{
+                            gridAutoRows: 'minmax(5rem, auto)',
+                            gridTemplateRows: 'repeat(auto-fit, minmax(5rem, auto))'
+                          }}>
+                            {/* Render all media uniformly */}
+                            {allMedia.map((media, idx) => {
+                              const isImage = media.type === 'image';
+                              const imageIndex = allMedia.slice(0, idx).filter(m => m.type === 'image').length;
+                              
+                              return (
+                                <button
+                                  key={`${media.type}-${media.src}-${idx}`}
+                                  className={`group relative overflow-hidden rounded-lg bg-black/40 border border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-400 ${getSpanClasses(
+                                    idx,
+                                    media.src
+                                  )}`}
+                                  onClick={() => openLightbox(idx)}
+                                  aria-label={`Open ${media.type} ${idx + 1}`}
+                                >
+                                  <div className="flex h-full flex-col min-h-0">
+                                    <div className="relative flex-1">
+                                      {isImage ? (
+                                        <img
+                                          src={media.src}
+                                          alt={`Screenshot ${idx + 1}`}
+                                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                          loading="lazy"
+                                        />
+                                      ) : (
+                                        <video
+                                          src={media.src}
+                                          className="absolute inset-0 w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
+                                          playsInline
+                                          autoPlay
+                                          muted
+                                          loop
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleVideoClick(media.src, e.currentTarget, idx);
+                                          }}
+                                        />
+                                      )}
+                                    </div>
+                                    <div className="px-2 py-1 text-xs md:text-sm text-gray-300 bg-black/40 border-t border-white/10 truncate">
+                                      {getDisplayName(media.src)}
+                                    </div>
+                                  </div>
+                                </button>
+                              );
+                            })}
+                          </div>
+                        );
+                      })()}
                     </div>
                   )}
                 </div>
@@ -288,7 +354,7 @@ export function ProjectView({ project, onClose }: ProjectViewProps) {
           </div>
           {/* Lightbox */}
           <AnimatePresence>
-            {lightboxIndex !== null && images.length > 0 && (
+            {lightboxMediaIndex !== null && allMedia.length > 0 && (
               <motion.div
                 key="lightbox"
                 initial={{ opacity: 0 }}
@@ -299,26 +365,43 @@ export function ProjectView({ project, onClose }: ProjectViewProps) {
                 onClick={closeLightbox}
               >
                 <div className="absolute inset-0" />
-                <div className="relative z-10 max-w-[90vw] max-h-[85vh]">
-                  <img
-                    src={images[lightboxIndex]}
-                    alt={`Screenshot ${lightboxIndex + 1}`}
-                    className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl border border-white/10"
-                  />
-                  {/* Controls */}
-                  {images.length > 1 && (
-                    <div className="absolute inset-0 flex items-center justify-between px-2 md:px-4">
+                <div className="relative z-10 max-w-[70vw] max-h-[70vh] w-fit h-fit group">
+                  {allMedia[lightboxMediaIndex].type === 'video' ? (
+                    <video
+                      ref={(video) => {
+                        if (video && videoTimeStates.has(allMedia[lightboxMediaIndex].src)) {
+                          video.currentTime = videoTimeStates.get(allMedia[lightboxMediaIndex].src)!;
+                        }
+                      }}
+                      src={allMedia[lightboxMediaIndex].src}
+                      className="max-w-full max-h-[70vh] object-contain rounded-lg shadow-2xl border border-white/10"
+                      controls
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                    />
+                  ) : (
+                    <img
+                      src={allMedia[lightboxMediaIndex].src}
+                      alt={`Media ${lightboxMediaIndex + 1}`}
+                      className="max-w-full max-h-[70vh] object-contain rounded-lg shadow-2xl border border-white/10"
+                    />
+                  )}
+                  {/* Controls - only show on hover */}
+                  {allMedia.length > 1 && (
+                    <div className="absolute inset-0 flex items-center justify-between px-4 md:px-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <button
                         onClick={(e) => { e.stopPropagation(); showPrev(); }}
-                        className="p-2 md:p-3 rounded-full bg-white/10 hover:bg-white/20 text-white backdrop-blur border border-white/10"
-                        aria-label="Previous image"
+                        className="p-3 md:p-4 rounded-full bg-black/70 hover:bg-black/80 text-white backdrop-blur border-2 border-black/50 hover:border-black/70 text-2xl md:text-3xl font-bold shadow-lg hover:shadow-xl transition-all duration-200"
+                        aria-label="Previous media"
                       >
                         ‹
                       </button>
                       <button
                         onClick={(e) => { e.stopPropagation(); showNext(); }}
-                        className="p-2 md:p-3 rounded-full bg-white/10 hover:bg-white/20 text-white backdrop-blur border border-white/10"
-                        aria-label="Next image"
+                        className="p-3 md:p-4 rounded-full bg-black/70 hover:bg-black/80 text-white backdrop-blur border-2 border-black/50 hover:border-black/70 text-2xl md:text-3xl font-bold shadow-lg hover:shadow-xl transition-all duration-200"
+                        aria-label="Next media"
                       >
                         ›
                       </button>
