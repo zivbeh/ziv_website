@@ -172,12 +172,12 @@ export const projects = [
   },
   {
     id: "music-generator",
-    name: "Music Generator (Infinite Markov)",
+    name: "Music Generator",
     category: "Other",
     punchline: "A classical music generator using an advanced Markov process.",
     description:
       "A classical-style music generator that uses a custom, improved Markov process, supporting effectively unbounded state and sequence length. It works directly with MIDI files, focusing on creating transitions that feel musical rather than random.",
-    tools: ["Java", "MIDI", "custom Markov modeling", "Git"],
+    tools: ["Java", "Markov Models", "MIDI", "custom Markov modeling", "Git"],
     size: "small",
     image: "/musicgen/bg.png",
     texture: "/textures/planets/musicgen.png",
