@@ -85,11 +85,11 @@ export default function AboutMe({ onLearnMoreClick }: AboutMeProps) {
       viewport={{ once: true, amount: isMobile ? 0.1 : 0.3 }}
       variants={containerVariants}
     >
-      <div className="container mx-auto px-6 pt-8 pb-4">
-        <div className="bg-black/70 backdrop-blur-md border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
-          <div className="flex flex-col lg:flex-row items-center gap-8 p-6 lg:p-10">
-            <motion.div className="shrink-0" variants={imageVariants}>
-              <div className="relative w-40 h-40 lg:w-56 lg:h-56 rounded-2xl overflow-hidden ring-2 ring-white/20">
+      <div className="w-full px-4 pt-8 pb-4 flex justify-center">
+        <div className="w-full max-w-5xl bg-black/70 backdrop-blur-md border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
+          <div className="flex flex-col lg:flex-row items-center lg:items-stretch gap-8 p-8 lg:p-12">
+            <motion.div className="shrink-0 flex justify-center lg:block" variants={imageVariants}>
+              <div className="relative w-52 h-52 lg:w-80 lg:h-full rounded-2xl overflow-hidden ring-2 ring-white/20">
                 <Image
                   src="/profile.JPG"
                   alt="Ziv Beh portrait"
@@ -100,8 +100,13 @@ export default function AboutMe({ onLearnMoreClick }: AboutMeProps) {
                 />
               </div>
             </motion.div>
-            <div className="text-white max-w-3xl">
-              <motion.h1 variants={textVariants} className="text-3xl lg:text-5xl font-extrabold tracking-tight mb-3">About Me</motion.h1>
+            <div className="text-white max-w-3xl text-center lg:text-left">
+              <motion.h1
+                variants={textVariants}
+                className="text-3xl lg:text-5xl font-extrabold tracking-tight mb-3"
+              >
+                Ziv Behar
+              </motion.h1>
               <motion.p
                 variants={paragraphVariants}
                 className="text-white/90 text-base lg:text-lg leading-relaxed mb-4"
@@ -116,7 +121,7 @@ export default function AboutMe({ onLearnMoreClick }: AboutMeProps) {
                 UC Berkeley 2027 — Electrical Engineering and Computer Science honors student.
               </motion.p>
               <motion.div
-                className="mt-5 flex flex-wrap items-center gap-3"
+                className="mt-5 flex flex-wrap items-center justify-center lg:justify-start gap-3"
                 variants={iconContainerVariants}
               >
                 <motion.a
@@ -173,7 +178,10 @@ export default function AboutMe({ onLearnMoreClick }: AboutMeProps) {
                 </motion.a>
               </motion.div>
               {onLearnMoreClick && (
-                <motion.div className="mt-6" variants={paragraphVariants}>
+                <motion.div
+                  className="mt-6 flex justify-center lg:justify-start"
+                  variants={paragraphVariants}
+                >
                   <button
                     onClick={onLearnMoreClick}
                     className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-cyan-600 hover:bg-cyan-500 text-white font-semibold shadow-lg shadow-cyan-600/20 transition-colors"

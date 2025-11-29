@@ -42,7 +42,7 @@ export const projects = [
     punchline: "Live campus library occupancy tracking, acquired by the student union.",
     description:
       "Launched a real-time “seat radar” for UC Berkeley so students could stop wandering for desks. I wired Wi-Fi traffic sensors to a REST API and a live site that showed per-floor occupancy across campus libraries. We hit ~3.5k monthly active users in month one with ~30% WoW growth! We also spun up an Instagram channel that reached the whole campus (1,600+ followers; 200k+ views). The project was acquired by the ASUC (UC Berkeley Student Union), and we were accepted to SkyDeck Pad-13. Fun validation that speed + clarity solves real pain.",
-    tools: ["Wi-Fi AP sensors", "API Design", "Python/Node.js", "React", "analytics dashboards", "Git"],
+    tools: ["Startups", "Wi-Fi AP sensors", "API Design", "Python/Node.js", "React", "production workflows", "marketing", "Git"],
     size: "large",
     image: "/library-seat-radar.svg",
     images: [
