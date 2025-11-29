@@ -1,6 +1,24 @@
 export const projects = [
   // Featured Projects
   {
+    id: "percepta",
+    name: "Personal AI IDE for Code Generation",
+    category: "Featured",
+    punchline: "A personal Cursor clone with my own LLMs: a VS Code extension that autonomously analyzes repos, thinks, edits code, and verifies execution.",
+    description:
+      "A VS Code extension chatbot that serves as a personal AI coding assistant. It intelligently finds relevant information from all files in a repository, reasons through problems, autonomously edits code, and verifies execution without human intervention. Built as a personal alternative to Cursor, it integrates multiple LLM providers (Gemini, GPT-4, Claude) and provides context-aware assistance by analyzing the entire codebase structure. The extension can analyze code files, process images, manage multiple chat sessions, and perform autonomous code generation and verification workflows.",
+    tools: ["VS Code Extension API", "TypeScript", "LLM Integration", "AI agents", "Git"],
+    repoUrl: "https://github.com/zivbeh/Percepta",
+    size: "large",
+    image: "/percepta/bg.svg",
+    texture: "/textures/planets/percepta.png",
+    theme: {
+      surfaceColor1: "#9333EA",
+      surfaceColor2: "#6B21A8",
+      atmosphereColor: "#A855F7",
+    },
+  },
+  {
     id: "stealth-founder",
     name: "Stealth Founder",
     category: "Featured",
@@ -23,7 +41,7 @@ export const projects = [
     category: "Featured",
     punchline: "Live campus library occupancy tracking, acquired by the student union.",
     description:
-      "I launched a real-time “seat radar” for UC Berkeley so students could stop wandering for desks. I wired Wi-Fi traffic sensors to a REST API and a live site that showed per-floor occupancy across campus libraries. We hit ~3.5k monthly active users in month one with ~30% WoW growth; I also spun up an Instagram channel that reached the whole campus (1,600+ followers; 200k+ views). The project was acquired by the ASUC (Student Union), and we were accepted to SkyDeck Pad-13—fun validation that speed + clarity solves real pain.",
+      "Launched a real-time “seat radar” for UC Berkeley so students could stop wandering for desks. I wired Wi-Fi traffic sensors to a REST API and a live site that showed per-floor occupancy across campus libraries. We hit ~3.5k monthly active users in month one with ~30% WoW growth! We also spun up an Instagram channel that reached the whole campus (1,600+ followers; 200k+ views). The project was acquired by the ASUC (UC Berkeley Student Union), and we were accepted to SkyDeck Pad-13. Fun validation that speed + clarity solves real pain.",
     tools: ["Wi-Fi AP sensors", "API Design", "Python/Node.js", "React", "analytics dashboards", "Git"],
     size: "large",
     image: "/library-seat-radar.svg",
@@ -36,19 +54,16 @@ export const projects = [
       "/status/wifiap.png",
     ],
     imageSpans: {
-      // Use tailwind grid span classes; base grid has 2 cols, md has 6 cols
-      // Tip: keep base at col-span-1/2; for md you can use md:col-span-1..6
-      // Big hero chart/screen
-      "websitelook.png": "col-span-2 row-span-2 md:col-span-3 md:row-span-3",
+      // Use tailwind grid span classes; base grid has 2 cols, md has 9 cols
       // Logos medium squares
       "StatusLogo.png": "col-span-2 row-span-2 md:col-span-2 md:row-span-2",
       "skydeck_berkeley_logo.jpeg": "col-span-2 row-span-2 md:col-span-2 md:row-span-2",
-      // Stats tall card
-      "outreachStats.png": "col-span-1 row-span-2 md:col-span-2 md:row-span-3",
-      // Analytics wide
-      "websiteEngagment.png": "col-span-2 row-span-1 md:col-span-3 md:row-span-2",
-      // Device photo tall
-      "wifiap.png": "col-span-1 row-span-2 md:col-span-2 md:row-span-3",
+      // Stats tall card - larger, spans more columns and rows
+      "outreachStats.png": "col-span-2 row-span-2 md:col-span-5 md:row-span-4",
+      "websiteEngagment.png": "col-span-2 row-span-2 md:col-span-4 md:row-span-2",
+      // Website look and AP side by side, same height, each taking 4 cols to fill all 8
+      "websitelook.png": "col-span-2 row-span-2 md:col-span-5 md:row-span-4",
+      "wifiap.png": "col-span-2 row-span-2 md:col-span-4 md:row-span-4",
     },
     texture: "/textures/planets/lib_radar.png",
     theme: {
@@ -87,8 +102,12 @@ export const projects = [
     images: [
       "/ordercubic/ordercubic.png",
       "/ordercubic/floorplan2.jpg",
-      "/ordercubic.svg",
     ],
+    imageSpans: {
+      // Stack images vertically, each taking full width and proportional height
+      "ordercubic.png": "col-span-2 row-span-2 md:col-span-9 md:row-span-4",
+      "floorplan2.jpg": "col-span-2 row-span-2 md:col-span-9 md:row-span-5",
+    },
     texture: "/textures/planets/ordercubic.png",
     theme: {
       surfaceColor1: "#ffccff",
@@ -110,11 +129,81 @@ export const projects = [
       "/aividgen/version2.mp4",
       "/aividgen/version1.mp4",
     ],
+    imageSpans: {
+      // Stack videos vertically with proportional sizes - version2 is taller, version1 is wider
+      "version2.mp4": "col-span-2 row-span-2 md:col-span-9 md:row-span-5",
+      "version1.mp4": "col-span-2 row-span-2 md:col-span-9 md:row-span-4",
+    },
     texture: "/textures/planets/vidgen.png",
     theme: {
       surfaceColor1: "#ccffcc",
       surfaceColor2: "#00cc00",
       atmosphereColor: "#99ff99",
+    },
+  },
+  {
+    id: "cs61c-cpu",
+    name: "RISC-V CPU with parallelism",
+    category: "Other",
+    punchline: "A pipelined RISC-V CPU designed and tested in Logisim.",
+    description:
+      "A pipelined RISC-V CPU designed and tested in Logisim. The project involved laying out the datapath, writing the control logic, handling hazards, and verifying behavior against ISA-level tests. The experience taught the importance of keeping the pipeline honest and the timing predictable.",
+    tools: ["Logisim", "RISC-V ISA/specs", "path optimization", "Git"],
+    size: "medium",
+    images: [
+      "/c61cpu/datapath.png",
+      "/c61cpu/datapathinlogisim.png",
+      "/c61cpu/arithmeticunit.png",
+    ],
+    imageSpans: {
+      // On desktop: two datapath images stacked on left (5 cols each), arithmeticunit on right spanning top to bottom (4 cols)
+      // On mobile: all stacked vertically as big boxes
+      "datapath.png": "col-span-1 row-span-3 md:col-span-5 md:row-span-5",
+      "datapathinlogisim.png": "col-span-1 row-span-3 md:col-span-5 md:row-span-5",
+      // Arithmetic unit positioned on right, spanning full height (matches 5+5 rows of the two datapath images)
+      "arithmeticunit.png": "col-span-1 row-span-3 md:col-span-4 md:row-span-10 md:col-start-6 md:row-start-1",
+    },
+    texture: "/textures/planets/61cpu.png",
+    theme: {
+      surfaceColor1: "#FDA4AF",
+      surfaceColor2: "#E11D48",
+      atmosphereColor: "#FB7185",
+    },
+  },
+  {
+    id: "music-generator",
+    name: "Music Generator (Infinite Markov)",
+    category: "Other",
+    punchline: "A classical music generator using an advanced Markov process.",
+    description:
+      "A classical-style music generator that uses a custom, improved Markov process, supporting effectively unbounded state and sequence length. It works directly with MIDI files, focusing on creating transitions that feel musical rather than random.",
+    tools: ["Java", "MIDI", "custom Markov modeling", "Git"],
+    size: "small",
+    image: "/musicgen/bg.png",
+    texture: "/textures/planets/musicgen.png",
+    theme: {
+      surfaceColor1: "#C4B5FD",
+      surfaceColor2: "#7C3AED",
+      atmosphereColor: "#A78BFA",
+    },
+  },
+  {
+    id: "electric-guitar-amplifier",
+    name: "Electric Guitar Amplifier",
+    category: "Other",
+    punchline: "A multi-stage guitar amplifier built from scratch with op-amps.",
+    description:
+      "A multi-stage guitar amplifier built and characterized with filters and op-amp gain stages on breadboards, then measured with lab equipment. The project involved tuning frequency response and gain/linearity while learning to chase noise and oscillations with an oscilloscope.",
+    tools: ["Breadboards", "op-amps/passives", "signal generator", "oscilloscope", "DMM", "SPICE"],
+    size: "small",
+    images: [
+      "/guitarAMP/guitar.jpeg",
+    ],
+    texture: "/textures/planets/guitaramplifier.png",
+    theme: {
+      surfaceColor1: "#F0ABFC",
+      surfaceColor2: "#C026D3",
+      atmosphereColor: "#E879F9",
     },
   },
   {
@@ -132,6 +221,28 @@ export const projects = [
       surfaceColor1: "#FDBA74",
       surfaceColor2: "#EA580C",
       atmosphereColor: "#FB923C",
+    },
+  },
+  {
+    id: "graph-reader-extension",
+    name: "Graph Reader (Chrome Extension)",
+    category: "Other",
+    punchline: "A Chrome extension that accurately finds intersection points and slopes on badly scaled graphs.",
+    description:
+      "A Chrome extension that makes reading graphs effortless. Select any graph on a webpage, set the axis and scale, then easily find intersection points and slopes with 100% accuracy. Perfect for students and professionals working with complicated or poorly scaled graphs, eliminating the guesswork and saving valuable time when extracting precise values from visual data.",
+    tools: ["Chrome Extension API", "JavaScript", "HTML", "Canvas API", "Git"],
+    repoUrl: "https://github.com/zivbeh/GraphReaderExtension",
+    size: "small",
+    image: "/graphreader/bg.png",
+    imageSpans: {
+      // Constrain single image to reasonable size
+      "bg.png": "col-span-2 row-span-2 md:col-span-6 md:row-span-6",
+    },
+    texture: "/textures/planets/graphreader.png",
+    theme: {
+      surfaceColor1: "#60A5FA",
+      surfaceColor2: "#2563EB",
+      atmosphereColor: "#93C5FD",
     },
   },
   {
@@ -154,9 +265,9 @@ export const projects = [
   },
   {
     id: "todolist",
-    name: "ToDoList (my first big project)",
+    name: "ToDoList",
     category: "Other",
-    punchline: "My first major project: a feature-rich to-do app with auth and notifications.",
+    punchline: "A feature-rich to-do app with auth and notifications.",
     description:
       "A classic but feature-rich to-do application. It includes SQL persistence, email-based 2-step authentication, notifications, timers/reminders, priorities, and deep search/filtering. This project was an opportunity to learn how to wire authentication, scheduled jobs, and data models that remain simple as features are added.",
     tools: ["NodeJS/Express", "MySQL", "cron/schedulers", "Full Stack", "Git"],
@@ -168,23 +279,6 @@ export const projects = [
       surfaceColor1: "#FDE047",
       surfaceColor2: "#EAB308",
       atmosphereColor: "#FACC15",
-    },
-  },
-  {
-    id: "music-generator",
-    name: "Music Generator (Infinite Markov)",
-    category: "Other",
-    punchline: "A classical music generator using an advanced Markov process.",
-    description:
-      "A classical-style music generator that uses a custom, improved Markov process, supporting effectively unbounded state and sequence length. It works directly with MIDI files, focusing on creating transitions that feel musical rather than random.",
-    tools: ["Java", "MIDI", "custom Markov modeling", "Git"],
-    size: "small",
-    image: "/musicgen/bg.png",
-    texture: "/textures/planets/musicgen.png",
-    theme: {
-      surfaceColor1: "#C4B5FD",
-      surfaceColor2: "#7C3AED",
-      atmosphereColor: "#A78BFA",
     },
   },
   {
@@ -202,46 +296,6 @@ export const projects = [
       surfaceColor1: "#86EFAC",
       surfaceColor2: "#16A34A",
       atmosphereColor: "#4ADE80",
-    },
-  },
-  {
-    id: "cs61c-cpu",
-    name: "RISC-V CPU with parallelism",
-    category: "Other",
-    punchline: "A pipelined RISC-V CPU designed and tested in Logisim.",
-    description:
-      "A pipelined RISC-V CPU designed and tested in Logisim. The project involved laying out the datapath, writing the control logic, handling hazards, and verifying behavior against ISA-level tests. The experience taught the importance of keeping the pipeline honest and the timing predictable.",
-    tools: ["Logisim", "RISC-V ISA/specs", "path optimization", "Git"],
-    size: "medium",
-    images: [
-      "/c61cpu/datapath.png",
-      "/c61cpu/datapathinlogisim.png",
-      "/c61cpu/arithmeticunit.png",
-    ],
-    texture: "/textures/planets/61cpu.png",
-    theme: {
-      surfaceColor1: "#FDA4AF",
-      surfaceColor2: "#E11D48",
-      atmosphereColor: "#FB7185",
-    },
-  },
-  {
-    id: "electric-guitar-amplifier",
-    name: "Electric Guitar Amplifier",
-    category: "Other",
-    punchline: "A multi-stage guitar amplifier built from scratch with op-amps.",
-    description:
-      "A multi-stage guitar amplifier built and characterized with filters and op-amp gain stages on breadboards, then measured with lab equipment. The project involved tuning frequency response and gain/linearity while learning to chase noise and oscillations with an oscilloscope.",
-    tools: ["Breadboards", "op-amps/passives", "signal generator", "oscilloscope", "DMM", "SPICE"],
-    size: "small",
-    images: [
-      "/guitarAMP/guitar.jpeg",
-    ],
-    texture: "/textures/planets/guitaramplifier.png",
-    theme: {
-      surfaceColor1: "#F0ABFC",
-      surfaceColor2: "#C026D3",
-      atmosphereColor: "#E879F9",
     },
   },
   // Games
@@ -262,7 +316,12 @@ export const projects = [
       "/balloonspopgame/BalloonsPopGamelplay.mp4",
     ],
     imageSpans: {
-      "BalloonsPopGamelplay.mp4": "col-span-2 row-span-2 md:col-span-3 md:row-span-3"
+      // Video on left, full height
+      "BalloonsPopGamelplay.mp4": "col-span-2 row-span-2 md:col-span-5 md:row-span-10",
+      // First image on right, top half
+      "choose world.png": "col-span-2 row-span-2 md:col-span-4 md:row-span-5 md:col-start-6 md:row-start-1",
+      // Second image on right, bottom half
+      "map.png": "col-span-2 row-span-2 md:col-span-4 md:row-span-5 md:col-start-6 md:row-start-6",
     },
     texture: "/textures/planets/balloonspop.png",
     theme: {
@@ -283,6 +342,11 @@ export const projects = [
       "/stickyfred/entirepage.png",
       "/stickyfred/gameover.png",
     ],
+    imageSpans: {
+      // Two images side-by-side, filling full width (4 + 5 = 9 columns)
+      "entirepage.png": "col-span-2 row-span-2 md:col-span-4 md:row-span-6",
+      "gameover.png": "col-span-2 row-span-2 md:col-span-5 md:row-span-6 md:col-start-5",
+    },
     theme: {
       surfaceColor1: "#FCD34D",
       surfaceColor2: "#D97706",
@@ -348,6 +412,11 @@ export const projects = [
       "/MoneyPortal/start.png",
       "/MoneyPortal/portals!.png",
     ],
+    imageSpans: {
+      // Two images side-by-side, filling full width (4 + 5 = 9 columns)
+      "start.png": "col-span-2 row-span-2 md:col-span-4 md:row-span-6",
+      "portals!.png": "col-span-2 row-span-2 md:col-span-5 md:row-span-6 md:col-start-5",
+    },
     theme: {
       surfaceColor1: "#F9A8D4",
       surfaceColor2: "#DB2777",
@@ -404,6 +473,14 @@ theme: {
       "/3dprojs/marblegame.png",
       "/3dprojs/boxes.png",
     ],
+    imageSpans: {
+      // Arrange 5 images in a grid: 2 on top row, 3 on bottom row, all taking substantial space
+      "tiefighter.png": "col-span-2 row-span-2 md:col-span-4 md:row-span-5",
+      "minion.png": "col-span-2 row-span-2 md:col-span-5 md:row-span-5 md:col-start-5",
+      "basketball.png": "col-span-2 row-span-2 md:col-span-3 md:row-span-5 md:row-start-6",
+      "marblegame.png": "col-span-2 row-span-2 md:col-span-3 md:row-span-5 md:col-start-4 md:row-start-6",
+      "boxes.png": "col-span-2 row-span-2 md:col-span-3 md:row-span-5 md:col-start-7 md:row-start-6",
+    },
     texture: "/textures/planets/ordercubic.png",
     theme: {
       surfaceColor1: "#CA8A04",

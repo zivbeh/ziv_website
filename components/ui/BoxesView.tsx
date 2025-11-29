@@ -1,11 +1,12 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Project } from "@/lib/types";
 import AboutMe from "@/components/ui/AboutMe";
 import ContactMe from "@/components/ui/ContactMe";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { CursorShip2D } from "@/components/ui/CursorShip2D";
 
 type BoxesViewProps = {
   projects: Project[];
@@ -173,6 +174,16 @@ export function BoxesView({ projects, onSelect }: BoxesViewProps) {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const isMobile = useMediaQuery("(max-width: 768px)");
 
+  // Hide default cursor when spaceship cursor is active
+  useEffect(() => {
+    if (!isMobile) {
+      document.body.style.cursor = "none";
+      return () => {
+        document.body.style.cursor = "";
+      };
+    }
+  }, [isMobile]);
+
   const handleMouseEnter = (id: string) => {
     setHoveredId(id);
   };
@@ -197,7 +208,8 @@ export function BoxesView({ projects, onSelect }: BoxesViewProps) {
   }, [projects]);
 
   return (
-    <div className="relative z-10 pt-20 pb-32">
+    <div className="relative z-10 pt-20 pb-32" style={{ cursor: "none" }}>
+      {!isMobile && <CursorShip2D />}
       <section id="about" className="w-[90vw] md:w-[70vw] mx-auto transition-opacity duration-500 mt-10 mb-10">
         <AboutMe />
       </section>

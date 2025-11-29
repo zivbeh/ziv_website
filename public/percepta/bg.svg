@@ -1,0 +1,157 @@
+<svg width="1920" height="1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4c1d95;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#7c3aed;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#a855f7;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="codeWindowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#a855f7;stop-opacity:0.4" />
+      <stop offset="100%" style="stop-color:#c084fc;stop-opacity:0.3" />
+    </linearGradient>
+    <linearGradient id="glowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#c084fc;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#a855f7;stop-opacity:0.6" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1920" height="1080" fill="url(#bgGradient)"/>
+  
+  <!-- Subtle grid pattern -->
+  <g opacity="0.15">
+    <defs>
+      <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#c084fc" stroke-width="1"/>
+      </pattern>
+    </defs>
+    <rect width="1920" height="1080" fill="url(#grid)"/>
+  </g>
+  
+  <!-- Main IDE Window Mockup -->
+  <g transform="translate(200, 150)">
+    <!-- Window frame -->
+    <rect x="0" y="0" width="800" height="600" rx="12" fill="url(#codeWindowGradient)" stroke="#c084fc" stroke-width="3" opacity="0.6"/>
+    
+    <!-- Title bar -->
+    <rect x="0" y="0" width="800" height="40" rx="12" fill="#9333ea" opacity="0.5"/>
+    <circle cx="20" cy="20" r="6" fill="#ef4444" opacity="0.8"/>
+    <circle cx="40" cy="20" r="6" fill="#f59e0b" opacity="0.8"/>
+    <circle cx="60" cy="20" r="6" fill="#10b981" opacity="0.8"/>
+    <text x="100" y="28" font-family="monospace" font-size="14" fill="#f3e8ff" opacity="1" font-weight="600">Percepta AI - main.ts</text>
+    
+    <!-- Sidebar -->
+    <rect x="0" y="40" width="200" height="560" fill="#7c3aed" opacity="0.4"/>
+    <rect x="10" y="60" width="180" height="20" rx="4" fill="#a855f7" opacity="0.5"/>
+    <rect x="10" y="90" width="150" height="20" rx="4" fill="#9333ea" opacity="0.4"/>
+    <rect x="10" y="120" width="170" height="20" rx="4" fill="#9333ea" opacity="0.4"/>
+    
+    <!-- Code editor area -->
+    <rect x="200" y="40" width="600" height="560" fill="#312e81" opacity="0.6"/>
+    
+    <!-- Line numbers -->
+    <g opacity="0.7">
+      <text x="210" y="75" font-family="monospace" font-size="14" fill="#c084fc" font-weight="500">1</text>
+      <text x="210" y="105" font-family="monospace" font-size="14" fill="#c084fc" font-weight="500">2</text>
+      <text x="210" y="135" font-family="monospace" font-size="14" fill="#c084fc" font-weight="500">3</text>
+      <text x="210" y="165" font-family="monospace" font-size="14" fill="#c084fc" font-weight="500">4</text>
+      <text x="210" y="195" font-family="monospace" font-size="14" fill="#c084fc" font-weight="500">5</text>
+      <text x="210" y="225" font-family="monospace" font-size="14" fill="#c084fc" font-weight="500">6</text>
+      <text x="210" y="255" font-family="monospace" font-size="14" fill="#c084fc" font-weight="500">7</text>
+      <text x="210" y="285" font-family="monospace" font-size="14" fill="#c084fc" font-weight="500">8</text>
+    </g>
+    
+    <!-- Code content - brighter colors -->
+    <g opacity="0.9" font-family="monospace" font-size="14" fill="#f3e8ff" font-weight="500">
+      <text x="240" y="75"><tspan fill="#c084fc" font-weight="600">import</tspan> <tspan fill="#fbbf24">{ AI }</tspan> <tspan fill="#c084fc" font-weight="600">from</tspan> <tspan fill="#34d399">'percepta'</tspan>;</text>
+      <text x="240" y="105"><tspan fill="#c084fc" font-weight="600">const</tspan> <tspan fill="#fbbf24">assistant</tspan> = <tspan fill="#c084fc" font-weight="600">new</tspan> <tspan fill="#fbbf24">AI</tspan>();</text>
+      <text x="240" y="135"></text>
+      <text x="240" y="165"><tspan fill="#c084fc" font-weight="600">async function</tspan> <tspan fill="#fbbf24">analyzeRepo</tspan>() {</text>
+      <text x="260" y="195">  <tspan fill="#c084fc" font-weight="600">const</tspan> <tspan fill="#fbbf24">context</tspan> = <tspan fill="#c084fc" font-weight="600">await</tspan> <tspan fill="#fbbf24">assistant</tspan>.<tspan fill="#60a5fa">findRelevantFiles</tspan>();</text>
+      <text x="260" y="225">  <tspan fill="#c084fc" font-weight="600">return</tspan> <tspan fill="#fbbf24">assistant</tspan>.<tspan fill="#60a5fa">think</tspan>(<tspan fill="#fbbf24">context</tspan>);</text>
+      <text x="240" y="255">}</text>
+    </g>
+    
+    <!-- AI suggestion indicator - brighter -->
+    <rect x="200" y="300" width="600" height="3" fill="#c084fc" opacity="0.8" filter="url(#glow)"/>
+    <text x="240" y="335" font-family="monospace" font-size="12" fill="#c084fc" opacity="1" font-weight="600">✨ AI Suggestion: Consider adding error handling</text>
+    
+    <!-- Terminal area - brighter -->
+    <rect x="0" y="600" width="800" height="100" fill="#1e1b4b" opacity="0.7"/>
+    <text x="20" y="630" font-family="monospace" font-size="12" fill="#10b981" font-weight="600">$ percepta verify</text>
+    <text x="20" y="655" font-family="monospace" font-size="12" fill="#f3e8ff" opacity="0.9" font-weight="500">✓ Code verified successfully</text>
+    <text x="20" y="680" font-family="monospace" font-size="12" fill="#f3e8ff" opacity="0.9" font-weight="500">✓ All tests passing</text>
+  </g>
+  
+  <!-- Floating AI nodes (more visible) -->
+  <g opacity="0.5">
+    <circle cx="1200" cy="200" r="50" fill="url(#glowGradient)" filter="url(#softGlow)"/>
+    <circle cx="1200" cy="200" r="25" fill="#c084fc" opacity="0.8"/>
+    <path d="M 1180 200 L 1200 180 L 1220 200 L 1200 220 Z" fill="#f3e8ff" opacity="0.7"/>
+  </g>
+  
+  <g opacity="0.4">
+    <circle cx="1500" cy="400" r="45" fill="url(#glowGradient)" filter="url(#softGlow)"/>
+    <circle cx="1500" cy="400" r="22" fill="#a855f7" opacity="0.8"/>
+    <circle cx="1490" cy="390" r="4" fill="#f3e8ff" opacity="0.8"/>
+    <circle cx="1510" cy="390" r="4" fill="#f3e8ff" opacity="0.8"/>
+    <circle cx="1500" cy="410" r="4" fill="#f3e8ff" opacity="0.8"/>
+  </g>
+  
+  <g opacity="0.35">
+    <circle cx="1400" cy="700" r="40" fill="url(#glowGradient)" filter="url(#softGlow)"/>
+    <circle cx="1400" cy="700" r="20" fill="#c084fc" opacity="0.8"/>
+    <path d="M 1390 700 Q 1400 690 1410 700 Q 1400 710 1390 700" fill="#f3e8ff" opacity="0.7"/>
+  </g>
+  
+  <!-- Code brackets (more visible) -->
+  <g opacity="0.25" transform="translate(1100, 500)">
+    <text x="0" y="0" font-family="monospace" font-size="140" fill="#c084fc" font-weight="bold">{</text>
+  </g>
+  
+  <g opacity="0.25" transform="translate(1600, 600)">
+    <text x="0" y="0" font-family="monospace" font-size="140" fill="#a855f7" font-weight="bold">}</text>
+  </g>
+  
+  <!-- Connection lines (more visible) -->
+  <g opacity="0.3">
+    <line x1="1000" y1="300" x2="1200" y2="200" stroke="#c084fc" stroke-width="3" stroke-dasharray="5,5"/>
+    <line x1="1200" y1="200" x2="1500" y2="400" stroke="#a855f7" stroke-width="3" stroke-dasharray="5,5"/>
+    <line x1="1500" y1="400" x2="1400" y2="700" stroke="#c084fc" stroke-width="3" stroke-dasharray="5,5"/>
+  </g>
+  
+  <!-- LLM provider badges - brighter -->
+  <g transform="translate(1200, 800)" opacity="0.6">
+    <rect x="0" y="0" width="120" height="30" rx="15" fill="#9333ea"/>
+    <text x="60" y="20" font-family="sans-serif" font-size="12" fill="#f3e8ff" text-anchor="middle" font-weight="600">Gemini AI</text>
+  </g>
+  
+  <g transform="translate(1350, 800)" opacity="0.6">
+    <rect x="0" y="0" width="120" height="30" rx="15" fill="#9333ea"/>
+    <text x="60" y="20" font-family="sans-serif" font-size="12" fill="#f3e8ff" text-anchor="middle" font-weight="600">GPT-4</text>
+  </g>
+  
+  <g transform="translate(1500, 800)" opacity="0.6">
+    <rect x="0" y="0" width="120" height="30" rx="15" fill="#9333ea"/>
+    <text x="60" y="20" font-family="sans-serif" font-size="12" fill="#f3e8ff" text-anchor="middle" font-weight="600">Claude 3</text>
+  </g>
+  
+  <!-- Additional bright accent lines -->
+  <g opacity="0.4">
+    <line x1="0" y1="100" x2="1920" y2="100" stroke="#c084fc" stroke-width="2" stroke-dasharray="10,10"/>
+    <line x1="0" y1="980" x2="1920" y2="980" stroke="#a855f7" stroke-width="2" stroke-dasharray="10,10"/>
+  </g>
+</svg>

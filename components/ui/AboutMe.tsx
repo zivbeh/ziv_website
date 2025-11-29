@@ -163,6 +163,14 @@ export default function AboutMe({ onLearnMoreClick }: AboutMeProps) {
                     <path fillRule="evenodd" d="M1.5 4.5A3 3 0 0 1 4.5 1.5h3A1.5 1.5 0 0 1 9 3v3a1.5 1.5 0 0 1-1.5 1.5H6.78a13.5 13.5 0 0 0 9.94 9.94V16.5A1.5 1.5 0 0 1 18.22 15h3a1.5 1.5 0 0 1 1.5 1.5v3a3 3 0 0 1-3 3h-.75C9.268 22.5 1.5 14.732 1.5 5.25V4.5z" clipRule="evenodd" />
                   </svg>
                 </motion.a>
+                <motion.a
+                  href="/academics"
+                  aria-label="Academics"
+                  className="inline-flex items-center justify-center px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-colors text-white text-sm whitespace-nowrap"
+                  variants={iconVariants}
+                >
+                  Academics
+                </motion.a>
               </motion.div>
               {onLearnMoreClick && (
                 <motion.div className="mt-6" variants={paragraphVariants}>
@@ -179,7 +187,7 @@ export default function AboutMe({ onLearnMoreClick }: AboutMeProps) {
                     >
                       <path d="M13.5 4.5a.75.75 0 000 1.5h5.69l-9.72 9.72a.75.75 0 101.06 1.06l9.72-9.72v5.69a.75.75 0 001.5 0v-8.25a.75.75 0 00-.75-.75h-8.25z" />
                     </svg>
-                  </button>
+                                    </button>
                 </motion.div>
               )}
             </div>

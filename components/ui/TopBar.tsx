@@ -4,42 +4,25 @@ import { useEffect, useState } from "react";
 import { useMediaQuery } from "@/hooks/use-media-query";
 
 interface TopBarProps {
-  onSwitch?: (mode: "3d" | "boxes") => void;
-  initialMode?: "3d" | "boxes";
   onNavigate?: (section: string) => void;
 }
 
-export function TopBar({ onSwitch, initialMode, onNavigate }: TopBarProps = {}) {
-  const [activeMode, setActiveMode] = useState<"3d" | "boxes">("boxes");
+export function TopBar({ onNavigate }: TopBarProps = {}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const isMobile = useMediaQuery("(max-width: 768px)");
 
+  // Remove browser extension injected attributes after hydration
   useEffect(() => {
-    if (initialMode) {
-      setActiveMode(initialMode);
-    } else {
-      try {
-        const saved = localStorage.getItem("preferredMode");
-        if (saved === "boxes" || saved === "3d") setActiveMode(saved);
-      } catch {}
-    }
-  }, [initialMode]);
-
-  const handleModeSwitch = (mode: "3d" | "boxes") => {
-    try {
-      localStorage.setItem("preferredMode", mode);
-    } catch {}
-    setActiveMode(mode);
-    if (onSwitch) {
-      onSwitch(mode);
-    } else {
-      try {
-        const evt = new CustomEvent("preferredModeChange", { detail: mode });
-        window.dispatchEvent(evt);
-      } catch {}
-    }
-    setIsMenuOpen(false); // Close menu on mode switch
-  };
+    const removeExtensionAttributes = () => {
+      const allElements = document.querySelectorAll('[bis_skin_checked]');
+      allElements.forEach((el) => {
+        el.removeAttribute('bis_skin_checked');
+      });
+    };
+    
+    // Run after a short delay to ensure hydration is complete
+    const timeoutId = setTimeout(removeExtensionAttributes, 0);
+    return () => clearTimeout(timeoutId);
+  }, []);
 
   const scrollTo = (id: string) => {
     if (onNavigate) {
@@ -51,7 +34,6 @@ export function TopBar({ onSwitch, initialMode, onNavigate }: TopBarProps = {}) 
       if (isAcademicsPage) {
         // If on academics page, navigate to main page with the section
         const params = new URLSearchParams();
-        params.set("boxes", "1");
         if (id !== "home" && id !== "academics") {
           params.set("section", id);
         }
@@ -59,16 +41,9 @@ export function TopBar({ onSwitch, initialMode, onNavigate }: TopBarProps = {}) 
         window.location.href = url;
       } else {
         // Normal navigation on main page
-        if (activeMode === "3d") {
-          try {
-            const evt = new CustomEvent("scrollToSection3D", { detail: id });
-            window.dispatchEvent(evt);
-          } catch {}
-        } else {
-          const element = document.getElementById(id);
-          if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-          }
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
         }
       }
     }
@@ -77,14 +52,14 @@ export function TopBar({ onSwitch, initialMode, onNavigate }: TopBarProps = {}) 
 
   return (
     <>
-      <div className="fixed inset-x-0 top-0 z-[300] pointer-events-none">
+      <div className="fixed inset-x-0 top-0 z-[300] pointer-events-none" suppressHydrationWarning>
         {/* Desktop top bar */}
-        <div className="hidden md:flex justify-between items-start p-4">
+        <div className="hidden md:flex justify-between items-start p-4" suppressHydrationWarning>
           {/* Top-left profile/info */}
-          <div className="pointer-events-auto">
-            <div className="flex items-center gap-3 bg-black/60 backdrop-blur-sm rounded-lg p-2.5 shadow-2xl">
+          <div className="pointer-events-auto" suppressHydrationWarning>
+            <div className="flex items-center gap-3 bg-black/60 backdrop-blur-sm rounded-lg p-2.5 shadow-2xl" suppressHydrationWarning>
               <img src="/profile.JPG" alt="Ziv profile" className="w-10 h-10 rounded-full object-cover" />
-              <div>
+              <div suppressHydrationWarning>
                 <h1 className="text-sm font-semibold text-white">Ziv Behar</h1>
                 <p className="text-white/80 text-xs max-w-xs">Electrical and Software Engineering, AI, Full Stack Web, and games. Scroll to explore my projects.</p>
               </div>
@@ -92,32 +67,23 @@ export function TopBar({ onSwitch, initialMode, onNavigate }: TopBarProps = {}) 
           </div>
 
           {/* Top-right mode switcher */}
-          <div className="pointer-events-auto">
-            <div className="flex items-center gap-4 bg-black/60 backdrop-blur-sm rounded-lg p-2.5 shadow-2xl">
+          <div className="pointer-events-auto" suppressHydrationWarning>
+            <div className="flex items-center gap-4 bg-black/60 backdrop-blur-sm rounded-lg p-2.5 shadow-2xl" suppressHydrationWarning>
               <a href="#about" onClick={(e) => { e.preventDefault(); scrollTo('about'); }} className="text-white/80 hover:text-white text-xs transition-colors">About</a>
               <a href="#featured" onClick={(e) => { e.preventDefault(); scrollTo('featured'); }} className="text-white/80 hover:text-white text-xs transition-colors">Featured</a>
               <a href="#projects" onClick={(e) => { e.preventDefault(); scrollTo('projects'); }} className="text-white/80 hover:text-white text-xs transition-colors">Projects</a>
               <a href="#games" onClick={(e) => { e.preventDefault(); scrollTo('games'); }} className="text-white/80 hover:text-white text-xs transition-colors">Games</a>
               <a href="/academics" className="text-white/80 hover:text-white text-xs transition-colors">Academics</a>
               <a href="#contact" onClick={(e) => { e.preventDefault(); scrollTo('contact'); }} className="text-white/80 hover:text-white text-xs transition-colors">Contact</a>
-
-              <div className="w-px h-5 bg-white/20 mx-2" />
-
-              <button
-                onClick={() => handleModeSwitch(activeMode === "3d" ? "boxes" : "3d")}
-                className="bg-transparent text-white md:hover:bg-white/10 px-3 py-1.5 rounded-md text-xs border border-white/20 transition-colors"
-              >
-                {activeMode === "3d" ? "Switch to Boxed Portfolio" : "Switch to 3D Portfolio"}
-              </button>
             </div>
           </div>
         </div>
 
         {/* Mobile top bar */}
-        <div className="md:hidden flex justify-between items-center p-4 pointer-events-auto">
-           <div className="flex items-center gap-3 bg-black/60 backdrop-blur-sm rounded-lg p-2.5 shadow-2xl">
+        <div className="md:hidden flex justify-between items-center p-4 pointer-events-auto" suppressHydrationWarning>
+           <div className="flex items-center gap-3 bg-black/60 backdrop-blur-sm rounded-lg p-2.5 shadow-2xl" suppressHydrationWarning>
               <img src="/profile.JPG" alt="Ziv profile" className="w-10 h-10 rounded-full object-cover" />
-              <div>
+              <div suppressHydrationWarning>
                 <h1 className="text-sm font-semibold text-white">Ziv Behar</h1>
               </div>
             </div>
@@ -137,8 +103,9 @@ export function TopBar({ onSwitch, initialMode, onNavigate }: TopBarProps = {}) 
         className={`fixed inset-0 z-[400] transition-transform transform ${
           isMenuOpen ? "translate-x-0" : "translate-x-full"
         } bg-black/80 backdrop-blur-lg md:hidden`}
+        suppressHydrationWarning
       >
-        <div className="flex justify-end p-4">
+        <div className="flex justify-end p-4" suppressHydrationWarning>
           <button
             onClick={() => setIsMenuOpen(false)}
             className="p-2 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-white/50"
@@ -148,14 +115,7 @@ export function TopBar({ onSwitch, initialMode, onNavigate }: TopBarProps = {}) 
             </svg>
           </button>
         </div>
-        <nav className="flex flex-col items-center gap-6 mt-8">
-          <button
-            onClick={() => handleModeSwitch(activeMode === "3d" ? "boxes" : "3d")}
-            className="bg-white/10 text-white px-4 py-2 rounded-lg text-lg w-3/4 text-center border border-white/20"
-          >
-            {activeMode === "3d" ? "Switch to Boxed Portfolio" : "Switch to 3D Portfolio"}
-          </button>
-          <div className="w-3/4 h-px bg-white/20 my-2" />
+        <nav className="flex flex-col items-center gap-6 mt-8" suppressHydrationWarning>
           <a
             href="#about"
             onClick={(e) => { e.preventDefault(); scrollTo('about'); }}
