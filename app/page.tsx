@@ -47,8 +47,21 @@ export default function Home() {
     <main className="min-h-screen bg-black">
       <TopBar
         onNavigate={(section) => {
-          const el = document.getElementById(section);
-          if (el) el.scrollIntoView({ behavior: "smooth" });
+          // Close project view if open
+          if (selectedProject) {
+            setSelectedProject(null);
+          }
+          // Small delay to ensure overlay is closed before scrolling
+          setTimeout(() => {
+            const el = document.getElementById(section);
+            if (el) el.scrollIntoView({ behavior: "smooth" });
+          }, 100);
+        }}
+        onCloseOverlay={() => {
+          // Close project view if open when navigating to academics page
+          if (selectedProject) {
+            setSelectedProject(null);
+          }
         }}
       />
 

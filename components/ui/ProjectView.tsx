@@ -58,6 +58,22 @@ export function ProjectView({ project, onClose }: ProjectViewProps) {
     };
   }, []);
 
+  // Remove browser extension injected attributes after hydration
+  useEffect(() => {
+    if (!project) return;
+    
+    const removeExtensionAttributes = () => {
+      const allElements = document.querySelectorAll('[bis_skin_checked]');
+      allElements.forEach((el) => {
+        el.removeAttribute('bis_skin_checked');
+      });
+    };
+    
+    // Run after a short delay to ensure hydration is complete
+    const timeoutId = setTimeout(removeExtensionAttributes, 0);
+    return () => clearTimeout(timeoutId);
+  }, [project]);
+
   const hasMedia = allMedia.length > 0;
 
   const getDisplayName = useCallback((src: string) => {
@@ -193,8 +209,9 @@ export function ProjectView({ project, onClose }: ProjectViewProps) {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
           className="fixed inset-0 z-20 bg-black bg-opacity-80 backdrop-blur-sm"
+          suppressHydrationWarning
         >
-          <div className="h-full w-full overflow-y-auto">
+          <div className="h-full w-full overflow-y-auto" suppressHydrationWarning>
             <button
               onClick={handleClose}
               aria-label="Close"
@@ -292,6 +309,7 @@ export function ProjectView({ project, onClose }: ProjectViewProps) {
                                     alt={project.name}
                                     className="w-full h-full object-cover"
                                     style={{ objectPosition: '10% center' }}
+                                    suppressHydrationWarning
                                   />
                                 )}
                               </div>
@@ -326,6 +344,7 @@ export function ProjectView({ project, onClose }: ProjectViewProps) {
                                             className="w-full h-auto object-contain transition-transform duration-300 group-hover:scale-105"
                                             loading="lazy"
                                             style={{ maxHeight: '60vh' }}
+                                            suppressHydrationWarning
                                           />
                                         ) : (
                                           <video
@@ -378,6 +397,7 @@ export function ProjectView({ project, onClose }: ProjectViewProps) {
                                             alt={`Screenshot ${idx + 1}`}
                                             className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                                             loading="lazy"
+                                            suppressHydrationWarning
                                           />
                                         ) : (
                                           <video
@@ -445,6 +465,7 @@ export function ProjectView({ project, onClose }: ProjectViewProps) {
                       src={allMedia[lightboxMediaIndex].src}
                       alt={`Media ${lightboxMediaIndex + 1}`}
                       className="max-w-full max-h-[70vh] object-contain rounded-lg shadow-2xl"
+                      suppressHydrationWarning
                     />
                   )}
                   {/* Controls - only show on hover */}

@@ -10,7 +10,7 @@ export const projects = [
     tools: ["VS Code Extension API", "TypeScript", "LLM Integration", "AI agents", "Git"],
     repoUrl: "https://github.com/zivbeh/Percepta",
     size: "large",
-    image: "/percepta/bg.svg",
+    image: "/percepta/background.svg",
     texture: "/textures/planets/percepta.png",
     theme: {
       surfaceColor1: "#9333EA",
@@ -27,7 +27,7 @@ export const projects = [
       "I’m building a specialized transformer-based computer vision system end-to-end: I designed the model, built a data-creation app so I can generate high-quality training sets quickly, and engineered a mobile↔cloud pipeline that clusters, captions, and retrieves 100k+ photos in real time. I obsess over throughput and correctness—multithreading, parallel algorithms, gRPC services, and websocket updates—so when I capture or upload on my phone, the GPU workers ingest, index, and surface results instantly. I treat the whole thing like a product: robust logging, versioned datasets, repeatable training, and deployable inference that actually holds up under load.",
     tools: ["PyTorch", "Transformer vision models", "CUDA", "React Native", "Node.js", "gRPC", "WebSockets", "Git"],
     size: "large",
-    image: "/stealth/logo.png",
+    image: "/stealth/Stealth.png",
     texture: "/textures/planets/stealth.png",
     theme: {
       surfaceColor1: "#CCCCCC", // Light gray
@@ -44,26 +44,30 @@ export const projects = [
       "Launched a real-time “seat radar” for UC Berkeley so students could stop wandering for desks. I wired Wi-Fi traffic sensors to a REST API and a live site that showed per-floor occupancy across campus libraries. We hit ~3.5k monthly active users in month one with ~30% WoW growth! We also spun up an Instagram channel that reached the whole campus (1,600+ followers; 200k+ views). The project was acquired by the ASUC (UC Berkeley Student Union), and we were accepted to SkyDeck Pad-13. Fun validation that speed + clarity solves real pain.",
     tools: ["Startups", "Wi-Fi AP sensors", "API Design", "Python/Node.js", "React", "production workflows", "marketing", "Git"],
     size: "large",
-    image: "/library-seat-radar.svg",
+    image: "/status/Status Logo.png",
     images: [
-      "/status/StatusLogo.png",
-      "/status/skydeck_berkeley_logo.jpeg",
-      "/status/outreachStats.png",
-      "/status/websiteEngagment.png",
-      "/status/websitelook.png",
-      "/status/wifiap.png",
+      "/status/Status Logo.png",
+      "/status/Berkeley Skydeck Incubator.jpeg",
+      "/status/Outreach Stats One Month After Launch.png",
+      "/status/Website Engagment.png",
+      "/status/Status Website Look.png",
+      "/status/Example Wi-Fi AP.png",
     ],
     imageSpans: {
       // Use tailwind grid span classes; base grid has 2 cols, md has 9 cols
       // Logos medium squares
-      "StatusLogo.png": "col-span-2 row-span-2 md:col-span-2 md:row-span-2",
-      "skydeck_berkeley_logo.jpeg": "col-span-2 row-span-2 md:col-span-2 md:row-span-2",
+      "Status Logo.png": "col-span-2 row-span-2 md:col-span-2 md:row-span-2",
+      "Berkeley Skydeck Incubator.jpeg":
+        "col-span-2 row-span-2 md:col-span-2 md:row-span-2",
       // Stats tall card - larger, spans more columns and rows
-      "outreachStats.png": "col-span-2 row-span-2 md:col-span-5 md:row-span-4",
-      "websiteEngagment.png": "col-span-2 row-span-2 md:col-span-4 md:row-span-2",
+      "Outreach Stats One Month After Launch.png":
+        "col-span-2 row-span-2 md:col-span-5 md:row-span-4",
+      "Website Engagment.png": "col-span-2 row-span-2 md:col-span-4 md:row-span-2",
       // Website look and AP side by side, same height, each taking 4 cols to fill all 8
-      "websitelook.png": "col-span-2 row-span-2 md:col-span-5 md:row-span-4",
-      "wifiap.png": "col-span-2 row-span-2 md:col-span-4 md:row-span-4",
+      "Status Website Look.png":
+        "col-span-2 row-span-2 md:col-span-5 md:row-span-4",
+      "Example Wi-Fi AP.png":
+        "col-span-2 row-span-2 md:col-span-4 md:row-span-4",
     },
     texture: "/textures/planets/lib_radar.png",
     theme: {
@@ -100,13 +104,14 @@ export const projects = [
     repoUrl: "https://github.com/zivbeh/OrderCubic",
     size: "medium",
     images: [
-      "/ordercubic/ordercubic.png",
-      "/ordercubic/floorplan2.jpg",
+      "/ordercubic/Floorplan for the App.png",
+      "/ordercubic/Floorplan2.jpg",
     ],
     imageSpans: {
       // Stack images vertically, each taking full width and proportional height
-      "ordercubic.png": "col-span-2 row-span-2 md:col-span-9 md:row-span-4",
-      "floorplan2.jpg": "col-span-2 row-span-2 md:col-span-9 md:row-span-5",
+      "Floorplan for the App.png":
+        "col-span-2 row-span-2 md:col-span-9 md:row-span-4",
+      "Floorplan2.jpg": "col-span-2 row-span-2 md:col-span-9 md:row-span-5",
     },
     texture: "/textures/planets/ordercubic.png",
     theme: {
@@ -151,17 +156,20 @@ export const projects = [
     tools: ["Logisim", "RISC-V ISA/specs", "path optimization", "Git"],
     size: "medium",
     images: [
-      "/c61cpu/datapath.png",
-      "/c61cpu/datapathinlogisim.png",
-      "/c61cpu/arithmeticunit.png",
+      "/c61cpu/RISC-V Datapath.png",
+      "/c61cpu/Data Path in Logisim.png",
+      "/c61cpu/Arithmetic Unit of CPU.png",
     ],
     imageSpans: {
       // On desktop: two datapath images stacked on left (5 cols each), arithmeticunit on right spanning top to bottom (4 cols)
       // On mobile: all stacked vertically as big boxes
-      "datapath.png": "col-span-1 row-span-3 md:col-span-5 md:row-span-5",
-      "datapathinlogisim.png": "col-span-1 row-span-3 md:col-span-5 md:row-span-5",
+      "RISC-V Datapath.png":
+        "col-span-1 row-span-3 md:col-span-5 md:row-span-5",
+      "Data Path in Logisim.png":
+        "col-span-1 row-span-3 md:col-span-5 md:row-span-5",
       // Arithmetic unit positioned on right, spanning full height (matches 5+5 rows of the two datapath images)
-      "arithmeticunit.png": "col-span-1 row-span-3 md:col-span-4 md:row-span-10 md:col-start-6 md:row-start-1",
+      "Arithmetic Unit of CPU.png":
+        "col-span-1 row-span-3 md:col-span-4 md:row-span-10 md:col-start-6 md:row-start-1",
     },
     texture: "/textures/planets/61cpu.png",
     theme: {
@@ -179,7 +187,7 @@ export const projects = [
       "A classical-style music generator that uses a custom, improved Markov process, supporting effectively unbounded state and sequence length. It works directly with MIDI files, focusing on creating transitions that feel musical rather than random.",
     tools: ["Java", "MIDI", "custom Markov modeling", "Git"],
     size: "small",
-    image: "/musicgen/bg.png",
+    image: "/musicgen/background.png",
     texture: "/textures/planets/musicgen.png",
     theme: {
       surfaceColor1: "#C4B5FD",
@@ -215,7 +223,7 @@ export const projects = [
       "A secure web messenger developed before the current AI wave. It implements two-factor authentication, group chats, profile customization, and an SQL data model with clean permissioning. Significant effort was dedicated to perfecting auth flows and user experience to ensure sessions are secure and the interface is fast on all devices.",
     tools: ["Node.js/Express", "MySQL", "JWT/sessions", "Web Security", "2FA", "Full Stack", "Git"],
     size: "medium",
-    image: "/chatup/bg.png",
+    image: "/chatup/background.png",
     texture: "/textures/planets/chatup.png",
     theme: {
       surfaceColor1: "#FDBA74",
@@ -233,10 +241,12 @@ export const projects = [
     tools: ["Chrome Extension API", "JavaScript", "HTML", "Canvas API", "Git"],
     repoUrl: "https://github.com/zivbeh/GraphReaderExtension",
     size: "small",
-    image: "/graphreader/bg.png",
+    image:
+      "/graphreader/Example on a hard to read NMOS curves with the slope feature and hover cords .png",
     imageSpans: {
       // Constrain single image to reasonable size
-      "bg.png": "col-span-2 row-span-2 md:col-span-6 md:row-span-6",
+      "Example on a hard to read NMOS curves with the slope feature and hover cords .png":
+        "col-span-2 row-span-2 md:col-span-6 md:row-span-6",
     },
     texture: "/textures/planets/graphreader.png",
     theme: {
@@ -255,7 +265,7 @@ export const projects = [
     tools: ["Next.js/React", "Vercel Hosting", "Full Stack", "SEO Optimization", "email service", "Git"],
     liveUrl: "https://www.capiros.ventures/",
     size: "medium",
-    image: "/capirosventures/sitebg.png",
+    image: "/capirosventures/Website Background.png",
     texture: "/textures/planets/caprios.png",
     theme: {
       surfaceColor1: "#67E8F9",
@@ -273,7 +283,7 @@ export const projects = [
     tools: ["NodeJS/Express", "MySQL", "cron/schedulers", "Full Stack", "Git"],
     repoUrl: "https://github.com/zivbeh/ToDoList",
     size: "medium",
-    image: "/todolist/bg.png",
+    image: "/todolist/background.png",
     texture: "/textures/planets/todolist'.png",
     theme: {
       surfaceColor1: "#FDE047",
@@ -288,6 +298,7 @@ export const projects = [
     punchline: "A web app to see where many friends are over the summer and plan meetups.",
     description:
       "A small web application for visualizing friends' locations over the summer and planning meetups. It was designed to be lightweight, with a simple sharing model, a map-based UI, and a user-friendly way to update status without spamming group chats.",
+    image: "/summerfriends/background.svg",
     tools: ["Web Design", "Google Maps API", "Git"],
     repoUrl: "https://github.com/zivbeh/AEPiInIsrael",
     size: "small",
@@ -309,19 +320,22 @@ export const projects = [
     liveUrl: "https://zivbeh.github.io/BalloonsPOP/",
     size: "medium",
     images: [
-      "/balloonspopgame/choose world.png",
-      "/balloonspopgame/map.png",
+      "/balloonspopgame/Choose World Screen.png",
+      "/balloonspopgame/Example Map.png",
     ],
     videos: [
-      "/balloonspopgame/BalloonsPopGamelplay.mp4",
+      "/balloonspopgame/Balloons Pop Gamelplay.mp4",
     ],
     imageSpans: {
       // Video on left, full height
-      "BalloonsPopGamelplay.mp4": "col-span-2 row-span-2 md:col-span-5 md:row-span-10",
+      "Balloons Pop Gamelplay.mp4":
+        "col-span-2 row-span-2 md:col-span-5 md:row-span-10",
       // First image on right, top half
-      "choose world.png": "col-span-2 row-span-2 md:col-span-4 md:row-span-5 md:col-start-6 md:row-start-1",
+      "Choose World Screen.png":
+        "col-span-2 row-span-2 md:col-span-4 md:row-span-5 md:col-start-6 md:row-start-1",
       // Second image on right, bottom half
-      "map.png": "col-span-2 row-span-2 md:col-span-4 md:row-span-5 md:col-start-6 md:row-start-6",
+      "Example Map.png":
+        "col-span-2 row-span-2 md:col-span-4 md:row-span-5 md:col-start-6 md:row-start-6",
     },
     texture: "/textures/planets/balloonspop.png",
     theme: {
@@ -339,13 +353,15 @@ export const projects = [
     tools: ["Canvas", "JavaScript", "custom physics/collision", "level design platform", "Git"],
     size: "medium",
     images: [
-      "/stickyfred/entirepage.png",
-      "/stickyfred/gameover.png",
+      "/stickyfred/Example Game.png",
+      "/stickyfred/Game Over.png",
     ],
     imageSpans: {
       // Two images side-by-side, filling full width (4 + 5 = 9 columns)
-      "entirepage.png": "col-span-2 row-span-2 md:col-span-4 md:row-span-6",
-      "gameover.png": "col-span-2 row-span-2 md:col-span-5 md:row-span-6 md:col-start-5",
+      "Example Game.png":
+        "col-span-2 row-span-2 md:col-span-4 md:row-span-6",
+      "Game Over.png":
+        "col-span-2 row-span-2 md:col-span-5 md:row-span-6 md:col-start-5",
     },
     theme: {
       surfaceColor1: "#FCD34D",
@@ -363,6 +379,11 @@ export const projects = [
     repoUrl: "https://github.com/zivbeh/babic-birth-day",
     size: "small",
     image: "/profile.JPG",
+    imageSpans: {
+      // Constrain single image to reasonable size
+      "profile.JPG":
+        "col-span-2 row-span-2 md:col-span-6 md:row-span-6",
+    },
     theme: {
       surfaceColor1: "#A5B4FC",
       surfaceColor2: "#4F46E5",
@@ -378,7 +399,7 @@ export const projects = [
     tools: ["JavaScript", "Web Design", "probability/simulation utilities", "Git"],
     repoUrl: "https://github.com/zivbeh/MonopolSolver",
     size: "small",
-    image: "/Monopoly Solver/bg.png",
+    image: "/Monopoly Solver/background.png",
     theme: {
       surfaceColor1: "#93C5FD",
       surfaceColor2: "#2563EB",
@@ -393,7 +414,7 @@ export const projects = [
     description: "This project reproduces the feel of Flappy Bird—frame timing, collision, difficulty ramp—purely in the browser. It was an exercise in sharpening fundamentals in game loops, assets, and hitboxes.",
     tools: ["Canvas", "JavaScript", "Git"],
     size: "small",
-    image: "/flafybird/bg.png",
+    image: "/flafybird/background.png",
     theme: {
       surfaceColor1: "#6EE7B7",
       surfaceColor2: "#059669",
@@ -409,13 +430,15 @@ export const projects = [
     tools: ["Canvas", "JavaScript", "custom physics", "level design", "Git"],
     size: "small",
     images: [
-      "/MoneyPortal/start.png",
-      "/MoneyPortal/portals!.png",
+      "/MoneyPortal/Gameplay Start.png",
+      "/MoneyPortal/Example portals.png",
     ],
     imageSpans: {
       // Two images side-by-side, filling full width (4 + 5 = 9 columns)
-      "start.png": "col-span-2 row-span-2 md:col-span-4 md:row-span-6",
-      "portals!.png": "col-span-2 row-span-2 md:col-span-5 md:row-span-6 md:col-start-5",
+      "Gameplay Start.png":
+        "col-span-2 row-span-2 md:col-span-4 md:row-span-6",
+      "Example portals.png":
+        "col-span-2 row-span-2 md:col-span-5 md:row-span-6 md:col-start-5",
     },
     theme: {
       surfaceColor1: "#F9A8D4",
@@ -448,10 +471,17 @@ export const projects = [
     liveUrl: "https://sp25.datastructur.es/projects/proj3/",
     size: "small",
     images: [
-      "/roomgame/Screenshot 2025-09-22 230008.png",
-      "/roomgame/seed441.png",
+      "/roomgame/Randomly Generated Rooms.png",
+      "/roomgame/Randomly Generated Rooms using seed441.png",
     ],
-theme: {
+    imageSpans: {
+      // Two images side-by-side, filling most of the width similar to MoneyPortal
+      "Randomly Generated Rooms.png":
+        "col-span-2 row-span-2 md:col-span-4 md:row-span-6",
+      "Randomly Generated Rooms using seed441.png":
+        "col-span-2 row-span-2 md:col-span-5 md:row-span-6 md:col-start-5",
+    },
+    theme: {
       surfaceColor1: "#F87171",
       surfaceColor2: "#B91C1C",
       atmosphereColor: "#EF4444",
@@ -467,19 +497,24 @@ theme: {
     tools: ["Onshape", "3D Printing"],
     size: "medium",
     images: [
-      "/3dprojs/tiefighter.png",
-      "/3dprojs/minion.png",
-      "/3dprojs/basketball.png",
-      "/3dprojs/marblegame.png",
-      "/3dprojs/boxes.png",
+      "/3dprojs/Star Wars Tie Fighter.png",
+      "/3dprojs/Minion.png",
+      "/3dprojs/Basketball Hoop For My Desk.png",
+      "/3dprojs/Marble Game.png",
+      "/3dprojs/Storage Boxes.png",
     ],
     imageSpans: {
       // Arrange 5 images in a grid: 2 on top row, 3 on bottom row, all taking substantial space
-      "tiefighter.png": "col-span-2 row-span-2 md:col-span-4 md:row-span-5",
-      "minion.png": "col-span-2 row-span-2 md:col-span-5 md:row-span-5 md:col-start-5",
-      "basketball.png": "col-span-2 row-span-2 md:col-span-3 md:row-span-5 md:row-start-6",
-      "marblegame.png": "col-span-2 row-span-2 md:col-span-3 md:row-span-5 md:col-start-4 md:row-start-6",
-      "boxes.png": "col-span-2 row-span-2 md:col-span-3 md:row-span-5 md:col-start-7 md:row-start-6",
+      "Star Wars Tie Fighter.png":
+        "col-span-2 row-span-2 md:col-span-4 md:row-span-5",
+      "Minion.png":
+        "col-span-2 row-span-2 md:col-span-5 md:row-span-5 md:col-start-5",
+      "Basketball Hoop For My Desk.png":
+        "col-span-2 row-span-2 md:col-span-3 md:row-span-5 md:row-start-6",
+      "Marble Game.png":
+        "col-span-2 row-span-2 md:col-span-3 md:row-span-5 md:col-start-4 md:row-start-6",
+      "Storage Boxes.png":
+        "col-span-2 row-span-2 md:col-span-3 md:row-span-5 md:col-start-7 md:row-start-6",
     },
     texture: "/textures/planets/ordercubic.png",
     theme: {

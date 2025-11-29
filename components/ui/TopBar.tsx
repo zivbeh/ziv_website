@@ -5,9 +5,10 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 
 interface TopBarProps {
   onNavigate?: (section: string) => void;
+  onCloseOverlay?: () => void;
 }
 
-export function TopBar({ onNavigate }: TopBarProps = {}) {
+export function TopBar({ onNavigate, onCloseOverlay }: TopBarProps = {}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Remove browser extension injected attributes after hydration
@@ -73,7 +74,18 @@ export function TopBar({ onNavigate }: TopBarProps = {}) {
               <a href="#featured" onClick={(e) => { e.preventDefault(); scrollTo('featured'); }} className="text-white/80 hover:text-white text-xs transition-colors">Featured</a>
               <a href="#projects" onClick={(e) => { e.preventDefault(); scrollTo('projects'); }} className="text-white/80 hover:text-white text-xs transition-colors">Projects</a>
               <a href="#games" onClick={(e) => { e.preventDefault(); scrollTo('games'); }} className="text-white/80 hover:text-white text-xs transition-colors">Games</a>
-              <a href="/academics" className="text-white/80 hover:text-white text-xs transition-colors">Academics</a>
+              <a 
+                href="/academics" 
+                onClick={(e) => {
+                  if (onCloseOverlay) {
+                    onCloseOverlay();
+                  }
+                  // Allow default navigation to proceed
+                }}
+                className="text-white/80 hover:text-white text-xs transition-colors"
+              >
+                Academics
+              </a>
               <a href="#contact" onClick={(e) => { e.preventDefault(); scrollTo('contact'); }} className="text-white/80 hover:text-white text-xs transition-colors">Contact</a>
             </div>
           </div>
@@ -146,6 +158,12 @@ export function TopBar({ onNavigate }: TopBarProps = {}) {
           </a>
           <a
             href="/academics"
+            onClick={(e) => {
+              if (onCloseOverlay) {
+                onCloseOverlay();
+              }
+              // Allow default navigation to proceed
+            }}
             className="text-white/80 hover:text-white text-lg"
           >
             Academics
