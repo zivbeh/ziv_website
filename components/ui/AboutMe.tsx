@@ -3,13 +3,96 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { useState, useEffect } from "react";
+
+// --- Configuration: Updated interests ---
+const INTERESTS = [
+  "turning ideas into reality.",
+  "shipping products people actually use.",
+  "building my own AI models.",
+  "coding interactive games.",
+  "coffee ☕️",
+  "creating websites and apps.",
+  "squeezing performance from silicon.",
+  "learning new things.",
+  "making mistakes.",
+  "solving problems people didn't know they had.",
+];
+
+const EMAIL = "zivbeh@gmail.com";
+const PHONE = "+14083387640";
 
 interface AboutMeProps {
   onLearnMoreClick?: () => void;
 }
 
+// Internal Typewriter Component
+const Typewriter = ({ words }: { words: string[] }) => {
+  const [index, setIndex] = useState(0);
+  const [subIndex, setSubIndex] = useState(0);
+  const [reverse, setReverse] = useState(false);
+  const [blink, setBlink] = useState(true);
+
+  // Blinking cursor effect
+  useEffect(() => {
+    const timeout2 = setTimeout(() => {
+      setBlink((prev) => !prev);
+    }, 500);
+    return () => clearTimeout(timeout2);
+  }, [blink]);
+
+  // Typing logic
+  useEffect(() => {
+    if (index >= words.length) {
+        setIndex(0);
+        return;
+    }
+
+    const currentWord = words[index];
+
+    if (subIndex === currentWord.length + 1 && !reverse) {
+      const timeout = setTimeout(() => {
+        setReverse(true);
+      }, 1500); 
+      return () => clearTimeout(timeout);
+    }
+
+    if (subIndex === 0 && reverse) {
+      setReverse(false);
+      setIndex((prev) => (prev + 1) % words.length);
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      setSubIndex((prev) => prev + (reverse ? -1 : 1));
+    }, reverse ? 50 : 100);
+
+    return () => clearTimeout(timeout);
+  }, [subIndex, index, reverse, words]);
+
+  return (
+    <span>
+      <span className="text-cyan-400 font-bold">
+        {/* Render zero-width space if string is empty to prevent layout jump */}
+        {words[index].substring(0, subIndex) || "\u200B"}
+      </span>
+      <span className={`${blink ? "opacity-100" : "opacity-0"} ml-1 text-cyan-400 font-bold`}>
+        |
+      </span>
+    </span>
+  );
+};
+
 export default function AboutMe({ onLearnMoreClick }: AboutMeProps) {
   const isMobile = useMediaQuery("(max-width: 768px)");
+  const [copied, setCopied] = useState<"email" | "phone" | null>(null);
+
+  useEffect(() => {
+    if (!copied) return;
+
+    const timeout = setTimeout(() => setCopied(null), 2000);
+    return () => clearTimeout(timeout);
+  }, [copied]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -92,7 +175,7 @@ export default function AboutMe({ onLearnMoreClick }: AboutMeProps) {
               <div className="relative w-52 h-52 lg:w-80 lg:h-full rounded-2xl overflow-hidden ring-2 ring-white/20">
                 <Image
                   src="/profile.JPG"
-                  alt="Ziv Beh portrait"
+                  alt="Ziv Behar portrait"
                   fill
                   sizes="(max-width: 1024px) 160px, 224px"
                   className="object-cover"
@@ -107,6 +190,15 @@ export default function AboutMe({ onLearnMoreClick }: AboutMeProps) {
               >
                 Ziv Behar
               </motion.h1>
+              
+              {/* FIX: Removed fixed height (h-8) and flex to allow natural text wrapping */}
+              <motion.div 
+                variants={textVariants}
+                className="text-lg lg:text-xl font-medium text-white/90 mb-4"
+              >
+                I like <Typewriter words={INTERESTS} />
+              </motion.div>
+
               <motion.p
                 variants={paragraphVariants}
                 className="text-white/90 text-base lg:text-lg leading-relaxed mb-4"
@@ -121,7 +213,7 @@ export default function AboutMe({ onLearnMoreClick }: AboutMeProps) {
                 UC Berkeley 2027 — Electrical Engineering and Computer Science honors student.
               </motion.p>
               <motion.div
-                className="mt-5 flex flex-wrap items-center justify-center lg:justify-start gap-3"
+                className="mt-5 relative flex flex-wrap items-center justify-center lg:justify-start gap-3"
                 variants={iconContainerVariants}
               >
                 <motion.a
@@ -148,26 +240,46 @@ export default function AboutMe({ onLearnMoreClick }: AboutMeProps) {
                     <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.762 2.239 5 5 5h14c2.762 0 5-2.238 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.784 1.764-1.75 1.764zm13.5 11.268h-3v-5.604c0-1.337-.027-3.058-1.863-3.058-1.864 0-2.149 1.454-2.149 2.957v5.705h-3v-10h2.881v1.367h.041c.401-.759 1.379-1.561 2.838-1.561 3.036 0 3.598 2.001 3.598 4.604v5.59z"/>
                   </svg>
                 </motion.a>
-                <motion.a
-                  href="mailto:zivbeh@gmail.com"
+                <motion.button
+                  type="button"
                   aria-label="Email"
                   className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-colors"
                   variants={iconVariants}
+                  onClick={() => {
+                    if (typeof navigator !== "undefined" && navigator.clipboard) {
+                      navigator.clipboard
+                        .writeText(EMAIL)
+                        .then(() => setCopied("email"))
+                        .catch(() => {
+                          // Silently fail if clipboard is unavailable
+                        });
+                    }
+                  }}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-white">
                     <path fillRule="evenodd" d="M1.5 5.25A2.25 2.25 0 0 1 3.75 3h16.5A2.25 2.25 0 0 1 22.5 5.25v13.5A2.25 2.25 0 0 1 20.25 21H3.75A2.25 2.25 0 0 1 1.5 18.75V5.25Zm1.68-.75a.75.75 0 0 0-.93 1.17l7.5 6a.75.75 0 0 0 .94 0l7.5-6a.75.75 0 0 0-.93-1.17l-7.03 5.62-7.03-5.62Z" clipRule="evenodd" />
                   </svg>
-                </motion.a>
-                <motion.a
-                  href="tel:+14083387640"
+                </motion.button>
+                <motion.button
+                  type="button"
                   aria-label="Phone"
                   className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-colors"
                   variants={iconVariants}
+                  onClick={() => {
+                    if (typeof navigator !== "undefined" && navigator.clipboard) {
+                      navigator.clipboard
+                        .writeText(PHONE)
+                        .then(() => setCopied("phone"))
+                        .catch(() => {
+                          // Silently fail if clipboard is unavailable
+                        });
+                    }
+                  }}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-white">
                     <path fillRule="evenodd" d="M1.5 4.5A3 3 0 0 1 4.5 1.5h3A1.5 1.5 0 0 1 9 3v3a1.5 1.5 0 0 1-1.5 1.5H6.78a13.5 13.5 0 0 0 9.94 9.94V16.5A1.5 1.5 0 0 1 18.22 15h3a1.5 1.5 0 0 1 1.5 1.5v3a3 3 0 0 1-3 3h-.75C9.268 22.5 1.5 14.732 1.5 5.25V4.5z" clipRule="evenodd" />
                   </svg>
-                </motion.a>
+                </motion.button>
                 <motion.a
                   href="/academics"
                   aria-label="Academics"
@@ -176,6 +288,16 @@ export default function AboutMe({ onLearnMoreClick }: AboutMeProps) {
                 >
                   Academics
                 </motion.a>
+                {copied && (
+                  <motion.div
+                    className="pointer-events-none text-xs text-emerald-300 flex justify-center lg:justify-start absolute -bottom-5 left-0 right-0"
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 4 }}
+                  >
+                    {copied === "email" ? "Email copied to clipboard" : "Phone number copied to clipboard"}
+                  </motion.div>
+                )}
               </motion.div>
               {onLearnMoreClick && (
                 <motion.div
@@ -205,5 +327,3 @@ export default function AboutMe({ onLearnMoreClick }: AboutMeProps) {
     </motion.section>
   );
 }
-
-

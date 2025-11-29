@@ -283,9 +283,9 @@ export const projects = [
   },
   {
     id: "summer-friends-map",
-    name: "Summer Friends Map & Hangouts",
+    name: "Meetup Map",
     category: "Other",
-    punchline: "A web app to see where friends are and plan summer meetups.",
+    punchline: "A web app to see where many friends are over the summer and plan meetups.",
     description:
       "A small web application for visualizing friends' locations over the summer and planning meetups. It was designed to be lightweight, with a simple sharing model, a map-based UI, and a user-friendly way to update status without spamming group chats.",
     tools: ["Web Design", "Google Maps API", "Git"],
