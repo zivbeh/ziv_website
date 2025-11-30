@@ -50,7 +50,6 @@ const AcademicCard = ({ classInfo, onSelect }: { classInfo: ClassInfo; onSelect:
       // Note: Removed 'whileHover={{ scale: 1.03 }}' because transforms break 'fixed' backgrounds.
       // Added: Shadow and border highlight for interaction feedback.
       whileHover={{ 
-        y: -4, // A slight vertical lift is performant and looks good
         borderColor: "rgba(255, 255, 255, 0.3)",
         boxShadow: "0px 10px 30px -10px rgba(0, 255, 255, 0.2)" 
       }}
