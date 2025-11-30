@@ -168,6 +168,8 @@ export function BoxesView({ projects, onSelect }: BoxesViewProps) {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [showScrollIndicator, setShowScrollIndicator] = useState(true);
+  const [hasSeenProjects, setHasSeenProjects] = useState(false);
+  const [hasSeenGames, setHasSeenGames] = useState(false);
 
   // Hide default cursor when spaceship cursor is active
   useEffect(() => {
@@ -182,18 +184,71 @@ export function BoxesView({ projects, onSelect }: BoxesViewProps) {
   // Handle scroll indicator
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 100) {
-        setShowScrollIndicator(false);
-      } else {
-        setShowScrollIndicator(true);
+      const projectsEl = document.getElementById("projects");
+      const gamesEl = document.getElementById("games");
+      const viewportHeight = window.innerHeight;
+
+      // --- Projects Logic ---
+      let projectsVisible = false;
+      if (projectsEl) {
+        const rect = projectsEl.getBoundingClientRect();
+        // Considered "seen" if the top is well within the viewport (70% from top)
+        if (rect.top < viewportHeight * 0.7) {
+          projectsVisible = true;
+        }
       }
+
+      if (projectsVisible && !hasSeenProjects) {
+        setHasSeenProjects(true);
+      }
+
+      // --- Games Logic ---
+      let gamesVisible = false;
+      let closeToGames = false;
+
+      if (gamesEl) {
+        const rect = gamesEl.getBoundingClientRect();
+        const distToViewportBottom = rect.top - viewportHeight;
+
+        // Considered "seen" if the top is well within the viewport
+        if (rect.top < viewportHeight * 0.7) {
+          gamesVisible = true;
+        }
+        
+        // Reappear when approaching Games (within 600px) but not yet fully entered
+        if (distToViewportBottom < 600 && !gamesVisible) {
+          closeToGames = true;
+        }
+      }
+
+      if (gamesVisible && !hasSeenGames) {
+        setHasSeenGames(true);
+      }
+
+      // --- Visibility Decision ---
+      let shouldShow = false;
+
+      if (!hasSeenProjects) {
+        // Phase 1: Haven't seen projects yet.
+        // Show unless currently viewing projects
+        shouldShow = !projectsVisible;
+      } else if (!hasSeenGames) {
+        // Phase 2: Seen projects, waiting for games.
+        // Show only when close to games
+        shouldShow = closeToGames;
+      } else {
+        // Phase 3: Seen both. Never show again.
+        shouldShow = false;
+      }
+
+      setShowScrollIndicator(shouldShow);
     };
 
     window.addEventListener("scroll", handleScroll);
     // Initial check
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [hasSeenProjects, hasSeenGames]);
 
   const handleMouseEnter = (id: string) => {
     setHoveredId(id);

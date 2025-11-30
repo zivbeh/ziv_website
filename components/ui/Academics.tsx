@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { academics, ClassInfo } from "@/lib/academics";
-import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 const extractTags = (classInfo: ClassInfo) => {
   const tools =
@@ -21,67 +21,54 @@ const extractTags = (classInfo: ClassInfo) => {
 
 const AcademicCard = ({ classInfo, onSelect }: { classInfo: ClassInfo; onSelect: () => void }) => {
   const tags = extractTags(classInfo);
-  const ref = useRef<HTMLDivElement>(null);
-  
-  const motionX = useMotionValue(0);
-  const motionY = useMotionValue(0);
-  
   const [isHovered, setIsHovered] = useState(false);
 
-  useEffect(() => {
-    const updatePosition = () => {
-      if (ref.current) {
-        const rect = ref.current.getBoundingClientRect();
-        motionX.set(-rect.left);
-        motionY.set(-rect.top);
-      }
-    };
-
-    updatePosition();
-    window.addEventListener("scroll", updatePosition, { passive: true });
-    window.addEventListener("resize", updatePosition);
-
-    return () => {
-      window.removeEventListener("scroll", updatePosition);
-      window.removeEventListener("resize", updatePosition);
-    };
-  }, [motionX, motionY]);
-
-  const hoverScale = 1.03;
+  // Removed: Complex useScroll/useTransform logic that caused the jitter.
+  // Replaced with: CSS native 'bg-fixed' for smooth performance.
 
   return (
     <motion.div
-      ref={ref}
       layoutId={`academic-card-${classInfo.title}`}
       onClick={onSelect}
-      className="relative p-6 rounded-2xl cursor-pointer overflow-hidden min-h-[12rem] flex flex-col justify-between group"
-      whileHover={{ scale: hoverScale }}
+      className="relative p-6 rounded-2xl cursor-pointer overflow-hidden min-h-[12rem] flex flex-col justify-between group border border-white/10 bg-gray-900"
+      // Note: Removed 'whileHover={{ scale: 1.03 }}' because transforms break 'fixed' backgrounds.
+      // Added: Shadow and border highlight for interaction feedback.
+      whileHover={{ 
+        y: -4, // A slight vertical lift is performant and looks good
+        borderColor: "rgba(255, 255, 255, 0.3)",
+        boxShadow: "0px 10px 30px -10px rgba(0, 255, 255, 0.2)" 
+      }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
       suppressHydrationWarning
     >
+      {/* Background Image Container */}
       <motion.div
-        className="absolute top-0 left-0 w-screen h-screen"
+        className="absolute inset-0 w-full h-full"
         style={{
           backgroundImage: "url('/berk.jpg')",
           backgroundSize: "cover",
           backgroundPosition: "center",
-          x: motionX,
-          y: motionY,
+          backgroundAttachment: "fixed", // The CSS fix for the "window" effect
         }}
-        animate={{ scale: isHovered ? 1 / hoverScale : 1 }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+        animate={{ 
+            // Slight dimming effect when not hovered to make text pop
+            filter: isHovered ? "brightness(0.7)" : "brightness(0.5)" 
+        }}
+        transition={{ duration: 0.3 }}
         suppressHydrationWarning
       />
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" suppressHydrationWarning />
-      <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/10 group-hover:ring-white/20 transition-all duration-300" suppressHydrationWarning />
+      
+      {/* Overlay Gradient for readability */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent pointer-events-none" suppressHydrationWarning />
+      
       <div className="relative z-10 flex flex-col h-full" suppressHydrationWarning>
-        <h3 className="text-xl font-bold text-white">{classInfo.title}</h3>
+        <h3 className="text-xl font-bold text-white shadow-black drop-shadow-md">{classInfo.title}</h3>
         <div className="flex-grow" />
         <div className="flex flex-wrap gap-2 mt-4" suppressHydrationWarning>
           {tags.map((tag) => (
-            <span key={tag} className="px-3 py-1 rounded-full text-xs bg-white/10 text-white/90 border border-white/10">
+            <span key={tag} className="px-3 py-1 rounded-full text-xs bg-white/10 backdrop-blur-md text-white/90 border border-white/10 shadow-sm">
               {tag}
             </span>
           ))}
@@ -106,20 +93,20 @@ const ClassModal = ({ classInfo, onClose }: { classInfo: ClassInfo; onClose: () 
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
         onClick={(e) => e.stopPropagation()}
-        className="bg-gray-900/80 border border-white/20 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 relative"
+        className="bg-gray-900 border border-white/20 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 relative"
         suppressHydrationWarning
       >
-        <button onClick={onClose} className="absolute top-4 right-4 text-white/50 hover:text-white transition-colors">
+        <button onClick={onClose} className="absolute top-4 right-4 text-white/50 hover:text-white transition-colors z-50">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
-        <h2 className="text-2xl font-bold text-white mb-4">{classInfo.title}</h2>
+        <h2 className="text-2xl font-bold text-white mb-4 pr-8">{classInfo.title}</h2>
 
         <div className="space-y-4 text-white/90" suppressHydrationWarning>
           <div suppressHydrationWarning>
             <h3 className="font-semibold text-lg text-cyan-400 mb-2">Core Knowledge</h3>
-            <ul className="list-disc list-outside pl-5 space-y-1 text-sm">
+            <ul className="list-disc list-outside pl-5 space-y-1 text-sm text-gray-300">
               {classInfo.coreKnowledge.map((item, i) => (
                 <li key={i}>{item}</li>
               ))}
@@ -127,7 +114,7 @@ const ClassModal = ({ classInfo, onClose }: { classInfo: ClassInfo; onClose: () 
           </div>
           <div suppressHydrationWarning>
             <h3 className="font-semibold text-lg text-cyan-400 mb-2">Tools/Software</h3>
-            <ul className="list-disc list-outside pl-5 space-y-1 text-sm">
+            <ul className="list-disc list-outside pl-5 space-y-1 text-sm text-gray-300">
               {classInfo.toolsSoftware.map((item, i) => (
                 <li key={i}>{item}</li>
               ))}
@@ -135,7 +122,7 @@ const ClassModal = ({ classInfo, onClose }: { classInfo: ClassInfo; onClose: () 
           </div>
           <div suppressHydrationWarning>
             <h3 className="font-semibold text-lg text-cyan-400 mb-2">Applications Used</h3>
-            <ul className="list-disc list-outside pl-5 space-y-1 text-sm">
+            <ul className="list-disc list-outside pl-5 space-y-1 text-sm text-gray-300">
               {classInfo.applicationsUsed.map((item, i) => (
                 <li key={i}>{item}</li>
               ))}
@@ -143,7 +130,7 @@ const ClassModal = ({ classInfo, onClose }: { classInfo: ClassInfo; onClose: () 
           </div>
           <div suppressHydrationWarning>
             <h3 className="font-semibold text-lg text-cyan-400 mb-2">Physical Devices/Instrumentation</h3>
-            <ul className="list-disc list-outside pl-5 space-y-1 text-sm">
+            <ul className="list-disc list-outside pl-5 space-y-1 text-sm text-gray-300">
               {classInfo.physicalDevices.map((item, i) => (
                 <li key={i}>{item}</li>
               ))}

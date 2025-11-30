@@ -98,9 +98,9 @@ export function FeaturedCarousel({ items, onSelect }: FeaturedCarouselProps) {
   return (
     <div 
       id="featured"
-      className="relative w-[90vw] md:w-[70vw] mx-auto h-[500px] md:h-[400px] mb-16 overflow-hidden rounded-2xl shadow-2xl border border-white/10 bg-black/50 backdrop-blur-sm group"
+      className="relative w-[calc(90vw-2rem)] md:w-[calc(70vw-2rem)] md:max-w-5xl min-[1700px]:!w-[60vw] min-[1700px]:!max-w-none mx-auto h-[500px] md:h-[400px] mb-16 overflow-hidden rounded-2xl shadow-2xl border border-white/10 bg-black/50 backdrop-blur-sm group"
     >
-      <AnimatePresence initial={false} custom={direction}>
+      <AnimatePresence initial={false} custom={direction} mode="popLayout">
         <motion.div
           key={index}
           custom={direction}
@@ -117,8 +117,8 @@ export function FeaturedCarousel({ items, onSelect }: FeaturedCarouselProps) {
           {/* Content Side */}
           <div className="flex-1 p-8 md:p-10 flex flex-col justify-center relative z-10 bg-gradient-to-r from-black via-black/90 to-transparent md:w-1/2">
             <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
             >
               <div className="flex items-center gap-2 mb-3">
