@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { academics, ClassInfo } from "@/lib/academics";
+import { getTagStyle } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 
 const extractTags = (classInfo: ClassInfo) => {
@@ -68,7 +69,7 @@ const AcademicCard = ({ classInfo, onSelect }: { classInfo: ClassInfo; onSelect:
         <div className="flex-grow" />
         <div className="flex flex-wrap gap-2 mt-4" suppressHydrationWarning>
           {tags.map((tag) => (
-            <span key={tag} className="px-3 py-1 rounded-full text-xs bg-white/10 backdrop-blur-md text-white/90 border border-white/10 shadow-sm">
+            <span key={tag} className={`px-3 py-1 rounded-full text-xs backdrop-blur-md border shadow-sm ${getTagStyle(tag)}`}>
               {tag}
             </span>
           ))}

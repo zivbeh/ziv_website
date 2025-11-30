@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Project } from "@/lib/types";
+import { getTagStyle } from "@/lib/utils";
 
 const AUTO_SWITCH_DURATION = 5500;
 const BALLOONS_POP_VIDEO_START_TIME = 15;
@@ -138,7 +139,7 @@ export function FeaturedCarousel({ items, onSelect }: FeaturedCarouselProps) {
               </p>
               <div className="flex flex-wrap gap-2 mb-6">
                 {currentProject.tools.slice(0, 3).map((tool, i) => (
-                  <span key={i} className="text-[10px] md:text-xs text-white/70 bg-white/5 px-2 py-1 rounded border border-white/10">
+                  <span key={i} className={`text-[10px] md:text-xs px-2 py-1 rounded border ${getTagStyle(tool)}`}>
                     {tool}
                   </span>
                 ))}
@@ -162,7 +163,7 @@ export function FeaturedCarousel({ items, onSelect }: FeaturedCarouselProps) {
               <video
                 ref={videoRef}
                 src={videoSrc}
-                className="h-full w-full object-cover opacity-65 md:opacity-100 transition-opacity duration-500"
+                className="h-full w-full object-cover opacity-80 md:opacity-100 transition-opacity duration-500"
                 autoPlay
                 muted
                 loop
@@ -172,7 +173,7 @@ export function FeaturedCarousel({ items, onSelect }: FeaturedCarouselProps) {
               <img
                 src={imageSrc}
                 alt={currentProject.name}
-                className="h-full w-full object-cover opacity-65 md:opacity-100 transition-opacity duration-500"
+                className="h-full w-full object-cover opacity-80 md:opacity-100 transition-opacity duration-500"
               />
             ) : (
               <div className="h-full w-full bg-gray-900" />

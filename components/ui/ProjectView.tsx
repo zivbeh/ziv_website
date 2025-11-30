@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useState, useCallback, useRef } from "react";
 import { Project } from "@/lib/types";
+import { getTagStyle } from "@/lib/utils";
 import { Academics } from "./Academics";
 
 type ProjectViewProps = {
@@ -241,7 +242,7 @@ export function ProjectView({ project, onClose }: ProjectViewProps) {
                       {project.tools.map((tool: string, index: number) => (
                         <span
                           key={index}
-                          className="bg-white/10 backdrop-blur px-3 py-1.5 rounded-full text-sm md:text-base font-medium text-white border border-white/10"
+                          className={`px-3 py-1.5 rounded-full text-sm md:text-base font-medium border backdrop-blur ${getTagStyle(tool)}`}
                         >
                           {tool}
                         </span>
@@ -255,7 +256,7 @@ export function ProjectView({ project, onClose }: ProjectViewProps) {
                           rel="noopener noreferrer"
                           className="inline-flex items-center text-cyan-300 hover:underline text-lg font-semibold"
                         >
-                          Live Site
+                          {project.id === "java-game-room" ? "Read more about the project" : "Live Site"}
                         </a>
                       )}
                       {project.repoUrl && (

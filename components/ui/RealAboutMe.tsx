@@ -3,8 +3,9 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { getTagStyle } from "@/lib/utils";
 
-const TAGS = ["Software", "AI", "Full Stack", "Low Level Systems"];
+const TAGS = ["AI", "Web", "Backend", "Low Level Systems"];
 
 export default function RealAboutMe() {
   const isMobile = useMediaQuery("(max-width: 768px)");
@@ -137,7 +138,7 @@ export default function RealAboutMe() {
                   <motion.span
                     key={tag}
                     variants={tagVariants}
-                    className="px-3 py-1 rounded-md bg-white/10 text-white/90 text-sm font-medium border border-white/10"
+                    className={`inline-block px-3 py-1 text-xs font-medium tracking-wider uppercase rounded-full border ${getTagStyle(tag)}`}
                   >
                     {tag}
                   </motion.span>

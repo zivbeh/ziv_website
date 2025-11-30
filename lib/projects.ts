@@ -262,7 +262,7 @@ export const projects = [
     punchline: "A fast, SEO-optimized marketing site for a venture studio.",
     description:
       "A fast, SEO-friendly marketing site designed and shipped for a venture studio. The project involved tuning metadata and OG tags, setting up Vercel hosting, and integrating a mailing system for leads and updates. The focus was on the details that matter for performance and visibility, such as image sizing, Core Web Vitals (CLS/LCP), and copy structure, rather than flashy effects.",
-    tools: ["Next.js/React", "Vercel Hosting", "Full Stack", "SEO Optimization", "email service", "Git"],
+    tools: ["Next.js/React", "Vercel Hosting", "Full Stack", "SEO Optimization", "Email Service", "Git"],
     liveUrl: "https://www.capiros.ventures/",
     size: "medium",
     image: "/capirosventures/Website Background.png",
@@ -370,24 +370,28 @@ export const projects = [
     },
   },
   {
-    id: "birthday-game",
-    name: "Birthday Game for My Dad",
+    id: "moneyportal",
+    name: "MoneyPortal",
     category: "Games",
-    punchline: "A celebratory arcade mini-game for my dad's birthday.",
-    description: "A celebratory arcade mini-game where players collect coins, dodge moving obstacles, and unlock an animation and music finale upon winning. The game was designed for quick joy and a nice reveal for my dad's birthday.",
-    tools: ["Canvas", "JavaScript", "Audio", "Git"],
-    repoUrl: "https://github.com/zivbeh/babic-birth-day",
+    punchline: "A physics-based playground for experimenting with portals and gravity.",
+    description: "A portal-and-gravity playground prototype where players navigate linked spaces under simple physics. It serves as a toybox for experimenting with movement and surprise.",
+    tools: ["Canvas", "JavaScript", "custom physics", "level design", "Git"],
     size: "small",
-    image: "/profile.JPG",
+    images: [
+      "/MoneyPortal/Gameplay Start.png",
+      "/MoneyPortal/Example portals.png",
+    ],
     imageSpans: {
-      // Constrain single image to reasonable size
-      "profile.JPG":
-        "col-span-2 row-span-2 md:col-span-6 md:row-span-6",
+      // Two images side-by-side, filling full width (4 + 5 = 9 columns)
+      "Gameplay Start.png":
+        "col-span-2 row-span-2 md:col-span-4 md:row-span-6",
+      "Example portals.png":
+        "col-span-2 row-span-2 md:col-span-5 md:row-span-6 md:col-start-5",
     },
     theme: {
-      surfaceColor1: "#A5B4FC",
-      surfaceColor2: "#4F46E5",
-      atmosphereColor: "#818CF8",
+      surfaceColor1: "#F9A8D4",
+      surfaceColor2: "#DB2777",
+      atmosphereColor: "#F472B6",
     },
   },
   {
@@ -422,28 +426,24 @@ export const projects = [
     },
   },
   {
-    id: "moneyportal",
-    name: "MoneyPortal",
+    id: "birthday-game",
+    name: "Birthday Game for My Dad",
     category: "Games",
-    punchline: "A physics-based playground for experimenting with portals and gravity.",
-    description: "A portal-and-gravity playground prototype where players navigate linked spaces under simple physics. It serves as a toybox for experimenting with movement and surprise.",
-    tools: ["Canvas", "JavaScript", "custom physics", "level design", "Git"],
+    punchline: "A celebratory arcade mini-game for my dad's birthday.",
+    description: "A celebratory arcade mini-game where players collect coins, dodge moving obstacles, and unlock an animation and music finale upon winning. The game was designed for quick joy and a nice reveal for my dad's birthday.",
+    tools: ["Canvas", "JavaScript", "Audio", "Git"],
+    repoUrl: "https://github.com/zivbeh/babic-birth-day",
     size: "small",
-    images: [
-      "/MoneyPortal/Gameplay Start.png",
-      "/MoneyPortal/Example portals.png",
-    ],
+    image: "/profile.JPG",
     imageSpans: {
-      // Two images side-by-side, filling full width (4 + 5 = 9 columns)
-      "Gameplay Start.png":
-        "col-span-2 row-span-2 md:col-span-4 md:row-span-6",
-      "Example portals.png":
-        "col-span-2 row-span-2 md:col-span-5 md:row-span-6 md:col-start-5",
+      // Constrain single image to reasonable size
+      "profile.JPG":
+        "col-span-2 row-span-2 md:col-span-6 md:row-span-6",
     },
     theme: {
-      surfaceColor1: "#F9A8D4",
-      surfaceColor2: "#DB2777",
-      atmosphereColor: "#F472B6",
+      surfaceColor1: "#A5B4FC",
+      surfaceColor2: "#4F46E5",
+      atmosphereColor: "#818CF8",
     },
   },
   {
@@ -467,7 +467,7 @@ export const projects = [
     category: "Games",
     punchline: "A Java game featuring a procedural room generator.",
     description: "A Java game featuring a procedural room generator. It includes randomized layouts, data structures doing real work, and a straightforward rendering loop.",
-    tools: ["Java", "OOP design", "RNG/procedural gen", "GUI", "Git"],
+    tools: ["Java", "OOP", "RNG/procedural gen", "GUI", "Git"],
     liveUrl: "https://sp25.datastructur.es/projects/proj3/",
     size: "small",
     images: [

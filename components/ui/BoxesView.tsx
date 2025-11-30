@@ -3,6 +3,7 @@
 import { useMemo, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Project } from "@/lib/types";
+import { getTagStyle } from "@/lib/utils";
 import AboutMe from "@/components/ui/AboutMe";
 import ContactMe from "@/components/ui/ContactMe";
 import RealAboutMe from "@/components/ui/RealAboutMe";
@@ -34,7 +35,13 @@ const Section = ({
   handleMouseEnter: (id: string) => void;
   handleMouseLeave: () => void;
 }) => {
+  const [expanded, setExpanded] = useState(false);
   const isSectionHovered = items.some((p) => p.id === hoveredId);
+  
+  const shouldLimit = isMobile && !expanded && items.length > 3;
+  const visibleItems = shouldLimit ? items.slice(0, 3) : items;
+  const remainingCount = items.length - 3;
+
   const gridLayout = "inline-grid grid-cols-1 gap-x-8 gap-y-16 md:grid-cols-2 xl:grid-cols-3";
 
   const containerVariants = {
@@ -63,15 +70,11 @@ const Section = ({
   return (
     <section id={title.toLowerCase()} className={`w-[90vw] md:w-[70vw] mx-auto mb-10 ${isSectionHovered ? "relative z-20" : ""}`}>
       <h2 className={`text-3xl md:text-4xl font-bold text-white mb-5 tracking-wide text-center`}>{title}</h2>
-      <motion.div
+      <div
         className="text-center"
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: isMobile ? 0.1 : 0.2 }}
       >
         <div className={gridLayout}>
-          {items.map((p, i) => {
+          {visibleItems.map((p, i) => {
             const video = (p as any).videos?.[0] ?? null;
             const thumb = (p as any).images?.[0] ?? (p as any).image ?? null;
             const originBase = "origin-center";
@@ -91,6 +94,9 @@ const Section = ({
                 onMouseEnter={() => handleMouseEnter(p.id)}
                 onMouseLeave={handleMouseLeave}
                 variants={itemVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: isMobile ? 0.05 : 0.2 }}
               >
                 <button
                   onClick={() => onSelect(p)}
@@ -141,7 +147,7 @@ const Section = ({
                           {p.tools.slice(0, 6).map((t, i) => (
                             <span
                               key={i}
-                              className="px-2 py-0.5 rounded-full text-[11px] md:text-xs bg-black/40 text-white/90 border border-white/10"
+                              className={`px-2 py-0.5 rounded-full text-[11px] md:text-xs border ${getTagStyle(t)}`}
                             >
                               {t}
                             </span>
@@ -160,7 +166,30 @@ const Section = ({
             );
           })}
         </div>
-      </motion.div>
+
+        {shouldLimit && (
+          <div className="mt-12 flex justify-center">
+            <button
+              onClick={() => setExpanded(true)}
+              className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-all duration-300"
+            >
+              <span className="text-base font-medium tracking-wide">Tap to see {remainingCount} more</span>
+              <div className="p-1 rounded-full bg-white/10 group-hover:bg-white/20 transition-colors">
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  strokeWidth={2} 
+                  stroke="currentColor" 
+                  className="w-4 h-4 group-hover:translate-y-0.5 transition-transform duration-300"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                </svg>
+              </div>
+            </button>
+          </div>
+        )}
+      </div>
     </section>
   );
 };
