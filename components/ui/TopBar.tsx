@@ -62,7 +62,7 @@ export function TopBar({ onNavigate, onCloseOverlay }: TopBarProps = {}) {
               <img src="/profile.JPG" alt="Ziv profile" className="w-10 h-10 rounded-full object-cover" />
               <div suppressHydrationWarning>
                 <h1 className="text-sm font-semibold text-white">Ziv Behar</h1>
-                <p className="text-white/80 text-xs max-w-xs">Electrical and Software Engineering, AI, Full Stack Web, and games. Scroll to explore my projects.</p>
+                <p className="text-white/80 text-xs max-w-xs">Engineering the future · UC Berkeley EECS Honors '27</p>
               </div>
             </div>
           </div>

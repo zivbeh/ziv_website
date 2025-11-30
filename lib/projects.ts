@@ -1,27 +1,8 @@
 export const projects = [
-  // Featured Projects
-  {
-    id: "percepta",
-    name: "Personal AI IDE for Code Generation",
-    category: "Featured",
-    punchline: "A personal Cursor clone with my own LLMs: a VS Code extension that autonomously analyzes repos, thinks, edits code, and verifies execution.",
-    description:
-      "A VS Code extension chatbot that serves as a personal AI coding assistant. It intelligently finds relevant information from all files in a repository, reasons through problems, autonomously edits code, and verifies execution without human intervention. Built as a personal alternative to Cursor, it integrates multiple LLM providers (Gemini, GPT-4, Claude) and provides context-aware assistance by analyzing the entire codebase structure. The extension can analyze code files, process images, manage multiple chat sessions, and perform autonomous code generation and verification workflows.",
-    tools: ["VS Code Extension API", "TypeScript", "LLM Integration", "AI agents", "Git"],
-    repoUrl: "https://github.com/zivbeh/Percepta",
-    size: "large",
-    image: "/percepta/background.svg",
-    texture: "/textures/planets/percepta.png",
-    theme: {
-      surfaceColor1: "#9333EA",
-      surfaceColor2: "#6B21A8",
-      atmosphereColor: "#A855F7",
-    },
-  },
   {
     id: "stealth-founder",
     name: "Stealth Founder",
-    category: "Featured",
+    category: "Other",
     punchline: "A custom computer vision pipeline for real-time photo intelligence.",
     description:
       "I’m building a specialized transformer-based computer vision system end-to-end: I designed the model, built a data-creation app so I can generate high-quality training sets quickly, and engineered a mobile↔cloud pipeline that clusters, captions, and retrieves 100k+ photos in real time. I obsess over throughput and correctness—multithreading, parallel algorithms, gRPC services, and websocket updates—so when I capture or upload on my phone, the GPU workers ingest, index, and surface results instantly. I treat the whole thing like a product: robust logging, versioned datasets, repeatable training, and deployable inference that actually holds up under load.",
@@ -38,7 +19,7 @@ export const projects = [
   {
     id: "library-seat-radar",
     name: "Library-Seat Radar (acquired)",
-    category: "Featured",
+    category: "Other",
     punchline: "Live campus library occupancy tracking, acquired by the student union.",
     description:
       "Launched a real-time “seat radar” for UC Berkeley so students could stop wandering for desks. I wired Wi-Fi traffic sensors to a REST API and a live site that showed per-floor occupancy across campus libraries. We hit ~3.5k monthly active users in month one with ~30% WoW growth! We also spun up an Instagram channel that reached the whole campus (1,600+ followers; 200k+ views). The project was acquired by the ASUC (UC Berkeley Student Union), and we were accepted to SkyDeck Pad-13. Fun validation that speed + clarity solves real pain.",
@@ -74,6 +55,25 @@ export const projects = [
       surfaceColor1: "#99ccff",
       surfaceColor2: "#0033cc",
       atmosphereColor: "#6699ff",
+    },
+  },
+  // Featured Projects
+  {
+    id: "percepta",
+    name: "Personal AI IDE for Code Generation",
+    category: "Other",
+    punchline: "A personal Cursor clone with my own LLMs: a VS Code extension that autonomously analyzes repos, thinks, edits code, and verifies execution.",
+    description:
+      "A VS Code extension chatbot that serves as a personal AI coding assistant. It intelligently finds relevant information from all files in a repository, reasons through problems, autonomously edits code, and verifies execution without human intervention. Built as a personal alternative to Cursor, it integrates multiple LLM providers (Gemini, GPT-4, Claude) and provides context-aware assistance by analyzing the entire codebase structure. The extension can analyze code files, process images, manage multiple chat sessions, and perform autonomous code generation and verification workflows.",
+    tools: ["VS Code Extension API", "TypeScript", "LLM Integration", "AI agents", "Git"],
+    repoUrl: "https://github.com/zivbeh/Percepta",
+    size: "large",
+    image: "/percepta/background.svg",
+    texture: "/textures/planets/percepta.png",
+    theme: {
+      surfaceColor1: "#9333EA",
+      surfaceColor2: "#6B21A8",
+      atmosphereColor: "#A855F7",
     },
   },
   {

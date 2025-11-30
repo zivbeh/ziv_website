@@ -1,19 +1,20 @@
 "use client";
 
 import { useMemo, useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Project } from "@/lib/types";
 import AboutMe from "@/components/ui/AboutMe";
 import ContactMe from "@/components/ui/ContactMe";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { CursorShip2D } from "@/components/ui/CursorShip2D";
+import { FeaturedCarousel } from "@/components/ui/FeaturedCarousel";
 
 type BoxesViewProps = {
   projects: Project[];
   onSelect: (project: Project) => void;
 };
 
-const featuredProjectIds = ["stealth-founder", "library-seat-radar"];
+const carouselProjectIds = ["stealth-founder", "library-seat-radar", "balloons-pop"];
 
 const Section = ({
   title,
@@ -32,11 +33,8 @@ const Section = ({
   handleMouseEnter: (id: string) => void;
   handleMouseLeave: () => void;
 }) => {
-  const isFeatured = title === "Featured";
   const isSectionHovered = items.some((p) => p.id === hoveredId);
-  const gridLayout = isFeatured
-    ? "grid grid-cols-1 md:grid-cols-2 gap-8"
-    : "inline-grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3";
+  const gridLayout = "inline-grid grid-cols-1 gap-x-8 gap-y-16 md:grid-cols-2 xl:grid-cols-3";
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -65,24 +63,20 @@ const Section = ({
     <section id={title.toLowerCase()} className={`w-[90vw] md:w-[70vw] mx-auto mb-10 ${isSectionHovered ? "relative z-20" : ""}`}>
       <h2 className={`text-3xl md:text-4xl font-bold text-white mb-5 tracking-wide text-center`}>{title}</h2>
       <motion.div
-        className={isFeatured ? "flex justify-center" : "text-center"}
+        className="text-center"
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: isMobile ? 0.1 : 0.2 }}
       >
-        <div className={`${gridLayout} ${isFeatured ? "w-full" : ""}`}>
+        <div className={gridLayout}>
           {items.map((p, i) => {
             const video = (p as any).videos?.[0] ?? null;
             const thumb = (p as any).images?.[0] ?? (p as any).image ?? null;
             const originBase = "origin-center";
             const mdOrigin = i % 2 === 0 ? "md:origin-left" : "md:origin-right";
             const xlMod = i % 3;
-            const xlOrigin = isFeatured
-              ? i % 2 === 0
-                ? "xl:origin-left"
-                : "xl:origin-right"
-              : xlMod === 0
+            const xlOrigin = xlMod === 0
               ? "xl:origin-left"
               : xlMod === 1
               ? "xl:origin-center"
@@ -173,6 +167,7 @@ const Section = ({
 export function BoxesView({ projects, onSelect }: BoxesViewProps) {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const isMobile = useMediaQuery("(max-width: 768px)");
+  const [showScrollIndicator, setShowScrollIndicator] = useState(true);
 
   // Hide default cursor when spaceship cursor is active
   useEffect(() => {
@@ -184,6 +179,22 @@ export function BoxesView({ projects, onSelect }: BoxesViewProps) {
     }
   }, [isMobile]);
 
+  // Handle scroll indicator
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        setShowScrollIndicator(false);
+      } else {
+        setShowScrollIndicator(true);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    // Initial check
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const handleMouseEnter = (id: string) => {
     setHoveredId(id);
   };
@@ -192,19 +203,26 @@ export function BoxesView({ projects, onSelect }: BoxesViewProps) {
     setHoveredId(null);
   };
 
-  const grouped = useMemo(() => {
-    const buckets: Record<"Featured" | "Projects" | "Games", Project[]> = {
-      Featured: [],
+  const { carouselItems, grouped } = useMemo(() => {
+    const carousel: Project[] = [];
+    // Find items for carousel
+    for (const id of carouselProjectIds) {
+      const p = projects.find((proj) => proj.id === id);
+      if (p) carousel.push(p);
+    }
+
+    const buckets: Record<"Projects" | "Games", Project[]> = {
       Projects: [],
       Games: [],
     };
+
     for (const p of projects) {
       if (p.id === "academics") continue;
-      if (featuredProjectIds.includes(p.id)) buckets.Featured.push(p);
-      else if (p.category === "Games") buckets.Games.push(p);
+      // Everything that is not "Games" goes to Projects (including "Other", which now holds Percepta, Stealth, Status)
+      if (p.category === "Games") buckets.Games.push(p);
       else buckets.Projects.push(p);
     }
-    return buckets;
+    return { carouselItems: carousel, grouped: buckets };
   }, [projects]);
 
   return (
@@ -213,17 +231,12 @@ export function BoxesView({ projects, onSelect }: BoxesViewProps) {
       <section id="about" className="w-[90vw] md:w-[70vw] mx-auto transition-opacity duration-500 mt-10 mb-10">
         <AboutMe />
       </section>
-      {grouped.Featured.length > 0 && (
-        <Section
-          title="Featured"
-          items={grouped.Featured.slice(0, 2)}
-          hoveredId={hoveredId}
-          isMobile={isMobile}
-          onSelect={onSelect}
-          handleMouseEnter={handleMouseEnter}
-          handleMouseLeave={handleMouseLeave}
-        />
+
+      {/* Carousel Section */}
+      {carouselItems.length > 0 && (
+        <FeaturedCarousel items={carouselItems} onSelect={onSelect} />
       )}
+
       {grouped.Projects.length > 0 && (
         <Section
           title="Projects"
@@ -249,8 +262,43 @@ export function BoxesView({ projects, onSelect }: BoxesViewProps) {
       <section id="contact" className="w-[90vw] md:w-[70vw] mx-auto mt-12">
         <ContactMe />
       </section>
+
+      {/* Scroll Indicator */}
+      <AnimatePresence>
+        {showScrollIndicator && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 pointer-events-none text-white/60"
+          >
+            <div className="flex flex-col items-center gap-2">
+              <span className="text-[10px] uppercase tracking-[0.2em] font-light text-cyan-300 drop-shadow-[0_0_5px_rgba(34,211,238,0.5)]">
+                Scroll Down
+              </span>
+              <motion.div
+                animate={{ y: [0, 8, 0] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <svg 
+                  width="24" 
+                  height="24" 
+                  viewBox="0 0 24 24" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  strokeWidth="2" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round"
+                  className="text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.6)]"
+                >
+                  <path d="M7 13l5 5 5-5" />
+                  <path d="M7 6l5 5 5-5" />
+                </svg>
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
-
-

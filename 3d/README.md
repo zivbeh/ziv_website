@@ -62,3 +62,4 @@ To reactivate the 3D portfolio view, follow these steps:
 - All files maintain their original structure for easy restoration
 - The main app now only uses the BoxesView (2D portfolio view)
 
+
