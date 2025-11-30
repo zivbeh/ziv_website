@@ -149,7 +149,7 @@ export const Galaxy = ({
         placed.push({ ...p, position: [0, y, 0] });
       });
       if (buckets.Games.length > 0) {
-        titles.push({ category: "Games", title: "Games", position: [0, gamesBaseY + 3, 0] });
+        titles.push({ category: "Games", title: "Interactive Demos & Games", position: [0, gamesBaseY + 3, 0] });
       }
 
       const academicsBaseY = gamesBaseY - buckets.Games.length * rowSpacing - gapBetween;
@@ -221,7 +221,7 @@ export const Galaxy = ({
     const gamesBaseY = projectsBaseY - projectRows * prRowSpace - gapBetween;
     const { rows: gameRows, rowSpacing: gameRowSpace } = placeScatteredGrid(buckets.Games, gamesBaseY, "Games");
     if (buckets.Games.length > 0) {
-      titles.push({ category: "Games", title: "Games", position: [0, gamesBaseY + 3, 0] });
+      titles.push({ category: "Games", title: "Interactive Demos & Games", position: [0, gamesBaseY + 3, 0] });
     }
 
     // Academics section

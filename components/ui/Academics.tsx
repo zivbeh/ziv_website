@@ -14,10 +14,25 @@ const extractTags = (classInfo: ClassInfo) => {
   const knowledge =
     classInfo.coreKnowledge
       .join(" ")
-      .match(/\b(Algorithms|Data Structures|Circuits|Linear Algebra|Machine Learning|AI|OS|Networking|Security|Databases)\b/gi) || [];
+      .match(/\b(Algorithms|Data Structures|Circuits|Linear Algebra|Machine Learning|AI|OS|Networking|Security|Databases|Markov|Probability|Multivariable Calculus)\b/gi) || [];
 
-  const allTags = [...new Set([...tools, ...knowledge])];
-  return allTags.slice(0, 4);
+  const allTagsRaw = [...tools, ...knowledge];
+  const uniqueTags = new Map<string, string>();
+
+  allTagsRaw.forEach((tag) => {
+    const key = tag.toLowerCase();
+    if (!uniqueTags.has(key)) {
+      uniqueTags.set(key, tag);
+    } else {
+      // Prefer capitalized version (e.g., "Probability" over "probability")
+      const current = uniqueTags.get(key)!;
+      if (tag[0] === tag[0].toUpperCase() && current[0] !== current[0].toUpperCase()) {
+        uniqueTags.set(key, tag);
+      }
+    }
+  });
+
+  return Array.from(uniqueTags.values()).slice(0, 4);
 };
 
 const AcademicCard = ({ classInfo, onSelect }: { classInfo: ClassInfo; onSelect: () => void }) => {

@@ -26,6 +26,7 @@ export const academics = {
         "Scheme/Racket (DrRacket), Chez Scheme; REPL-driven development.",
         "Unit test harnesses in Racket; simple profilers and tracers.",
         "Git for literate problem sets; Makefiles / scripts to run interpreters.",
+        "Python (cs61a.org adaptation)"
       ],
       applicationsUsed: [
         "Building a metacircular evaluator, macro expander, and tiny register-machine simulator.",
@@ -70,7 +71,7 @@ export const academics = {
       toolsSoftware: [
         "HDL or simulators (Logisim/Logisim-evolution; simple Verilog/VHDL exposure).",
         "Assembly toolchains (RISC-V, MIPS, or x86-64): assemblers, linkers, objdump.",
-        "Cache/pipeline simulators; performance counters (Linux perf, PAPI).",
+        "Cache/pipeline simulators; C/C++; performance counters (Linux perf, PAPI).",
       ],
       applicationsUsed: [
         "Designing a pipelined CPU in simulation; verifying forwarding/stall control.",
@@ -82,14 +83,14 @@ export const academics = {
     {
       title: "Linear Algebra",
       coreKnowledge: [
-        "Vector spaces, subspaces; span, basis, dimension; column/row/Null/Left-Null spaces.",
+        "Linear Algebra: Vector spaces, subspaces; span, basis, dimension; column/row/Null/Left-Null spaces.",
         "Linear maps; matrix representations; rank–nullity; invertibility conditions.",
         "Orthogonality, projections, Gram–Schmidt; QR; least squares/normal equations.",
         "Eigenvalues/eigenvectors; diagonalization; similarity; spectral theorem for symmetric matrices.",
         "SVD; low-rank approximations; pseudoinverse; conditioning and stability.",
       ],
       toolsSoftware: [
-        "Python/NumPy; MATLAB/Octave for decomposition (LU/QR/SVD) experiments.",
+        "Python/NumPy for decomposition (LU/QR/SVD) experiments.",
         "Symbolic checks with SymPy; LaTeX for proofs and derivations.",
       ],
       applicationsUsed: [
@@ -102,7 +103,7 @@ export const academics = {
     {
       title: "Designing Information Devices and Systems I/II",
       coreKnowledge: [
-        "Circuit foundations: KCL/KVL; Thevenin/Norton; op-amp ideal rules and non-idealities.",
+        "Circuits foundations: KCL/KVL; Thevenin/Norton; op-amp ideal rules and non-idealities.",
         "Linear systems view: impulse response, convolution; LTI modeling of sensors.",
         "Linear algebra for estimation: projections, least squares, over/underdetermined fits.",
         "State-space models: ẋ=Ax+Bu, y=Cx+Du; eigenvalues and stability.",
@@ -111,8 +112,8 @@ export const academics = {
       ],
       toolsSoftware: [
         "SPICE (DC/AC/transient, param sweeps); Python/NumPy for linear models.",
-        "MATLAB/Octave for quick LTI simulations.",
-        "MATLAB control tooling (conceptual); Python/SciPy signal for simulations.",
+        "Octave for quick LTI simulations.",
+        "Control tooling (conceptual); Python/SciPy signal for simulations.",
         "SPICE for dynamic/active circuits; Bode magnitude/phase extraction.",
       ],
       applicationsUsed: [
@@ -130,7 +131,7 @@ export const academics = {
     {
       title: "Microelectronic Devices and Circuits",
       coreKnowledge: [
-        "Semiconductor physics: drift/diffusion; carrier densities; depletion zones; built-in potential.",
+        "Circuits: Semiconductor physics: drift/diffusion; carrier densities; depletion zones; built-in potential.",
         "PN junctions: Shockley I–V; small-signal resistance/capacitances; diode models.",
         "MOS capacitor: C–V, threshold/flat-band concepts; oxide effects.",
         "MOSFETs: regions (cutoff/linear/sat), body effect, gm/ro; small-signal hybrid-π.",
@@ -161,7 +162,7 @@ export const academics = {
         "Multiple integrals; change of variables/Jacobian; line/surface integrals.",
         "Vector calculus: div/grad/curl; Green’s, Stokes’, Divergence theorems.",
       ],
-      toolsSoftware: ["MATLAB/NumPy/SymPy for visualization, symbolic differentiation/integration.", "Plotting (Matplotlib) for level sets/fields."],
+      toolsSoftware: ["SymPy for visualization, symbolic differentiation/integration.", "Plotting (Matplotlib) for level sets/fields."],
       applicationsUsed: [
         "Cost-surface analysis; curvature and second-order behavior of objective functions.",
         "Flux/circulation reasoning for fields; coordinate transforms for efficient integrals.",
@@ -177,11 +178,12 @@ export const academics = {
         "Graphs/trees; matchings and cuts (intro level).",
         "Probability: sample spaces, conditional probability/independence, Bayes; RVs, expectation/variance; concentration (Markov/Chebyshev), union bound; linearity of expectation.",
         "Randomized algorithms and the probabilistic method (existence proofs).",
+        "Markov Chains",
+        "Algorithms"
       ],
-      toolsSoftware: ["Python notebooks for Monte-Carlo sanity checks; LaTeX for formal write-ups."],
+      toolsSoftware: ["Python notebooks. LaTeX for formal write-ups."],
       applicationsUsed: [
-        "Cryptography sanity checks (mod exponentiation, inverses); hashing collision analysis.",
-        "A/B testing and risk bounds; error-tolerant storage/comm intuition.",
+        "(N/A—theory focused.)"
       ],
       physicalDevices: ["(N/A—theory focused.)"],
     },

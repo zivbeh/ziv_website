@@ -70,7 +70,8 @@ export function TopBar({ onNavigate, onCloseOverlay }: TopBarProps = {}) {
               <img src="/profile.JPG" alt="Ziv profile" className="w-10 h-10 rounded-full object-cover" />
               <div suppressHydrationWarning>
                 <h1 className="text-sm font-semibold text-white">Ziv Behar</h1>
-                <p className="text-white/80 text-xs max-w-xs">Engineering the future · UC Berkeley EECS Honors '27</p>
+                <p className="text-white/80 text-xs max-w-xs">UC Berkeley EECS Honors '27</p>
+                <p className="text-white/80 text-xs max-w-xs">I build real-world AI and full-stack systems and ship them to actual users.</p>
               </div>
             </div>
           </div>
@@ -79,9 +80,7 @@ export function TopBar({ onNavigate, onCloseOverlay }: TopBarProps = {}) {
           <div className="pointer-events-auto" suppressHydrationWarning>
             <div className="flex items-center gap-4 bg-black/60 backdrop-blur-sm rounded-lg p-2.5 shadow-2xl" suppressHydrationWarning>
               <a href="#home" onClick={(e) => { e.preventDefault(); scrollTo('home'); }} className="text-white/80 hover:text-white text-xs transition-colors">Home</a>
-              <a href="#featured" onClick={(e) => { e.preventDefault(); scrollTo('featured'); }} className="text-white/80 hover:text-white text-xs transition-colors">Featured</a>
               <a href="#projects" onClick={(e) => { e.preventDefault(); scrollTo('projects'); }} className="text-white/80 hover:text-white text-xs transition-colors">Projects</a>
-              <a href="#games" onClick={(e) => { e.preventDefault(); scrollTo('games'); }} className="text-white/80 hover:text-white text-xs transition-colors">Games</a>
               <a 
                 href="/academics" 
                 onClick={(e) => {
@@ -145,25 +144,11 @@ export function TopBar({ onNavigate, onCloseOverlay }: TopBarProps = {}) {
             Home
           </a>
           <a
-            href="#featured"
-            onClick={(e) => { e.preventDefault(); scrollTo('featured'); }}
-            className="text-white/80 hover:text-white text-lg"
-          >
-            Featured
-          </a>
-          <a
             href="#projects"
             onClick={(e) => { e.preventDefault(); scrollTo('projects'); }}
             className="text-white/80 hover:text-white text-lg"
           >
             Projects
-          </a>
-          <a
-            href="#games"
-            onClick={(e) => { e.preventDefault(); scrollTo('games'); }}
-            className="text-white/80 hover:text-white text-lg"
-          >
-            Games
           </a>
           <a
             href="/academics"

@@ -20,6 +20,7 @@ const carouselProjectIds = ["stealth-founder", "library-seat-radar", "balloons-p
 
 const Section = ({
   title,
+  id,
   items,
   hoveredId,
   isMobile,
@@ -28,6 +29,7 @@ const Section = ({
   handleMouseLeave,
 }: {
   title: string;
+  id?: string;
   items: Project[];
   hoveredId: string | null;
   isMobile: boolean;
@@ -68,7 +70,7 @@ const Section = ({
   };
 
   return (
-    <section id={title.toLowerCase()} className={`w-[90vw] md:w-[70vw] mx-auto mb-10 ${isSectionHovered ? "relative z-20" : ""}`}>
+    <section id={id || title.toLowerCase()} className={`w-[90vw] md:w-[70vw] mx-auto mb-10 ${isSectionHovered ? "relative z-20" : ""}`}>
       <h2 className={`text-3xl md:text-4xl font-bold text-white mb-5 tracking-wide text-center`}>{title}</h2>
       <div
         className="text-center"
@@ -335,7 +337,8 @@ export function BoxesView({ projects, onSelect }: BoxesViewProps) {
       )}
       {grouped.Games.length > 0 && (
         <Section
-          title="Games"
+          title="Interactive Demos & Games"
+          id="games"
           items={grouped.Games}
           hoveredId={hoveredId}
           isMobile={isMobile}

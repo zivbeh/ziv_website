@@ -10,7 +10,7 @@ export const getTagStyle = (tag: string): string => {
     [
       "machine learning", "vision", "llm", "agent", "transformer", "pytorch", "numpy", 
       "pandas", "scraping", "cuda", "tts", "data", "simulation", "markov", "autonomous", 
-      "targeting",
+      "targeting", "probability", "multivariable calculus"
     ].some(k => lowerTag.includes(k))
   ) {
     return "text-violet-400 bg-violet-400/10 border-violet-400/20";
@@ -77,7 +77,7 @@ export const getTagStyle = (tag: string): string => {
   // path optimization, Markov modeling, OOP, physics/collision, probability/simulation, RNG/procedural gen, Linear Algebra, Data Structures
   if (
     [
-      "algorithm", "data structure", "linear algebra", "probability", "math", "rng", 
+      "algorithm", "data structure", "linear algebra", "math", "rng", 
       "procedural", "optimization", "path", "physics", "collision", "oop", "backend"
     ].some(k => lowerTag.includes(k))
   ) {
