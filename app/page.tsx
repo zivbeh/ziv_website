@@ -22,15 +22,27 @@ export default function Home() {
     const urlSection = params.get("section");
     if (urlSection) {
       setTimeout(() => {
+        if (urlSection === "about") {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          return;
+        }
         const el = document.getElementById(urlSection);
         if (el) {
-          el.scrollIntoView({ behavior: "smooth" });
+          if (urlSection === "featured") {
+            el.scrollIntoView({ behavior: "smooth", block: "center" });
+          } else {
+            el.scrollIntoView({ behavior: "smooth" });
+          }
         } else {
           // Try again after a longer delay
           setTimeout(() => {
             const el2 = document.getElementById(urlSection);
             if (el2) {
-              el2.scrollIntoView({ behavior: "smooth" });
+              if (urlSection === "featured") {
+                el2.scrollIntoView({ behavior: "smooth", block: "center" });
+              } else {
+                el2.scrollIntoView({ behavior: "smooth" });
+              }
             }
           }, 500);
         }
@@ -53,8 +65,18 @@ export default function Home() {
           }
           // Small delay to ensure overlay is closed before scrolling
           setTimeout(() => {
+            if (section === "about") {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+              return;
+            }
             const el = document.getElementById(section);
-            if (el) el.scrollIntoView({ behavior: "smooth" });
+            if (el) {
+              if (section === "featured") {
+                el.scrollIntoView({ behavior: "smooth", block: "center" });
+              } else {
+                el.scrollIntoView({ behavior: "smooth" });
+              }
+            }
           }, 100);
         }}
         onCloseOverlay={() => {

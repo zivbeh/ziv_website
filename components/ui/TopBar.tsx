@@ -42,9 +42,17 @@ export function TopBar({ onNavigate, onCloseOverlay }: TopBarProps = {}) {
         window.location.href = url;
       } else {
         // Normal navigation on main page
-        const element = document.getElementById(id);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
+        if (id === "about") {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        } else {
+          const element = document.getElementById(id);
+          if (element) {
+            if (id === "featured") {
+              element.scrollIntoView({ behavior: "smooth", block: "center" });
+            } else {
+              element.scrollIntoView({ behavior: "smooth" });
+            }
+          }
         }
       }
     }
