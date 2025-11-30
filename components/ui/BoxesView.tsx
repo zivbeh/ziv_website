@@ -318,6 +318,11 @@ export function BoxesView({ projects, onSelect }: BoxesViewProps) {
         <ContactMe />
       </section>
 
+      {/* Footer */}
+      <div className="fixed bottom-4 left-6 text-white/30 text-[10px] z-50 pointer-events-none font-light tracking-wider">
+        &copy; {new Date().getFullYear()} Ziv Behar. All rights reserved.
+      </div>
+
       {/* Scroll Indicator */}
       <AnimatePresence>
         {showScrollIndicator && (
