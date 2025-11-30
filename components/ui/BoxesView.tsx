@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Project } from "@/lib/types";
 import AboutMe from "@/components/ui/AboutMe";
 import ContactMe from "@/components/ui/ContactMe";
+import RealAboutMe from "@/components/ui/RealAboutMe";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { CursorShip2D } from "@/components/ui/CursorShip2D";
 import { FeaturedCarousel } from "@/components/ui/FeaturedCarousel";
@@ -283,7 +284,7 @@ export function BoxesView({ projects, onSelect }: BoxesViewProps) {
   return (
     <div className="relative z-10 pt-20 pb-32" style={{ cursor: "none" }}>
       {!isMobile && <CursorShip2D />}
-      <section id="about" className="w-[90vw] md:w-[70vw] mx-auto transition-opacity duration-500 mt-10 mb-10">
+      <section id="home" className="w-[90vw] md:w-[70vw] mx-auto transition-opacity duration-500 mt-10 mb-10">
         <AboutMe />
       </section>
 
@@ -314,6 +315,9 @@ export function BoxesView({ projects, onSelect }: BoxesViewProps) {
           handleMouseLeave={handleMouseLeave}
         />
       )}
+      <section className="w-[90vw] md:w-[70vw] mx-auto mt-12">
+        <RealAboutMe />
+      </section>
       <section id="contact" className="w-[90vw] md:w-[70vw] mx-auto mt-12">
         <ContactMe />
       </section>

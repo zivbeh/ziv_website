@@ -42,7 +42,7 @@ export function TopBar({ onNavigate, onCloseOverlay }: TopBarProps = {}) {
         window.location.href = url;
       } else {
         // Normal navigation on main page
-        if (id === "about") {
+        if (id === "home") {
           window.scrollTo({ top: 0, behavior: "smooth" });
         } else {
           const element = document.getElementById(id);
@@ -78,7 +78,7 @@ export function TopBar({ onNavigate, onCloseOverlay }: TopBarProps = {}) {
           {/* Top-right mode switcher */}
           <div className="pointer-events-auto" suppressHydrationWarning>
             <div className="flex items-center gap-4 bg-black/60 backdrop-blur-sm rounded-lg p-2.5 shadow-2xl" suppressHydrationWarning>
-              <a href="#about" onClick={(e) => { e.preventDefault(); scrollTo('about'); }} className="text-white/80 hover:text-white text-xs transition-colors">About</a>
+              <a href="#home" onClick={(e) => { e.preventDefault(); scrollTo('home'); }} className="text-white/80 hover:text-white text-xs transition-colors">Home</a>
               <a href="#featured" onClick={(e) => { e.preventDefault(); scrollTo('featured'); }} className="text-white/80 hover:text-white text-xs transition-colors">Featured</a>
               <a href="#projects" onClick={(e) => { e.preventDefault(); scrollTo('projects'); }} className="text-white/80 hover:text-white text-xs transition-colors">Projects</a>
               <a href="#games" onClick={(e) => { e.preventDefault(); scrollTo('games'); }} className="text-white/80 hover:text-white text-xs transition-colors">Games</a>
@@ -94,6 +94,7 @@ export function TopBar({ onNavigate, onCloseOverlay }: TopBarProps = {}) {
               >
                 Academics
               </a>
+              <a href="#about" onClick={(e) => { e.preventDefault(); scrollTo('about'); }} className="text-white/80 hover:text-white text-xs transition-colors">About</a>
               <a href="#contact" onClick={(e) => { e.preventDefault(); scrollTo('contact'); }} className="text-white/80 hover:text-white text-xs transition-colors">Contact</a>
             </div>
           </div>
@@ -137,11 +138,11 @@ export function TopBar({ onNavigate, onCloseOverlay }: TopBarProps = {}) {
         </div>
         <nav className="flex flex-col items-center gap-6 mt-8" suppressHydrationWarning>
           <a
-            href="#about"
-            onClick={(e) => { e.preventDefault(); scrollTo('about'); }}
+            href="#home"
+            onClick={(e) => { e.preventDefault(); scrollTo('home'); }}
             className="text-white/80 hover:text-white text-lg"
           >
-            About
+            Home
           </a>
           <a
             href="#featured"
@@ -175,6 +176,13 @@ export function TopBar({ onNavigate, onCloseOverlay }: TopBarProps = {}) {
             className="text-white/80 hover:text-white text-lg"
           >
             Academics
+          </a>
+          <a
+            href="#about"
+            onClick={(e) => { e.preventDefault(); scrollTo('about'); }}
+            className="text-white/80 hover:text-white text-lg"
+          >
+            About
           </a>
           <a
             href="#contact"

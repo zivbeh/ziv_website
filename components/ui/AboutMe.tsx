@@ -161,7 +161,7 @@ export default function AboutMe({ onLearnMoreClick }: AboutMeProps) {
 
   return (
     <motion.section
-      id="about"
+      id="home-hero"
       className="relative z-20 w-full"
       initial="hidden"
       whileInView="visible"

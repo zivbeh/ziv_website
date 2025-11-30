@@ -22,7 +22,7 @@ export default function Home() {
     const urlSection = params.get("section");
     if (urlSection) {
       setTimeout(() => {
-        if (urlSection === "about") {
+        if (urlSection === "home") {
           window.scrollTo({ top: 0, behavior: "smooth" });
           return;
         }
@@ -65,7 +65,7 @@ export default function Home() {
           }
           // Small delay to ensure overlay is closed before scrolling
           setTimeout(() => {
-            if (section === "about") {
+            if (section === "home") {
               window.scrollTo({ top: 0, behavior: "smooth" });
               return;
             }
