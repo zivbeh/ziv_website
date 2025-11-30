@@ -87,7 +87,7 @@ export default function RealAboutMe() {
         >
           <h2 className="text-white text-3xl md:text-4xl font-bold tracking-tight">About Me</h2>
           <p className="text-white/60 mt-2 text-sm md:text-base">
-            Get to know more about my background, expertise, and what drives me to build things.
+            My background, expertise, and what drives me to build things.
           </p>
         </motion.div>
 
@@ -120,11 +120,11 @@ export default function RealAboutMe() {
               
               <div className="space-y-4 text-white/80 text-base leading-relaxed">
                 <motion.p variants={paragraphVariants}>
-                  I’m a UC Berkeley EECS student who likes turning messy ideas into working systems. Recently that’s meant building an acquired library-seat radar for campus, an AI photo-intelligence pipeline, and a personal AI IDE that edits code on its own. I care about projects that mix algorithms, UX, and real users.
+                  I’m a UC Berkeley EECS student who likes turning messy ideas into working systems. Recently that’s meant building an acquired library-seat radar for my university campus, an AI photo-intelligence pipeline, and a personal AI IDE that edits code on its own. I care about projects that mix complex architecture, UX, and real users.
                 </motion.p>
                 
                 <motion.p variants={paragraphVariants}>
-                  Before Berkeley, I learned to build in hardware and software through robotics and side projects – from PCBs and op-amp guitar amps to full-stack web apps. Now I’m focusing on AI, developer tools, and distributed systems, and I’m always looking for teams where I can own real pieces of the stack and ship fast.
+                  Before Berkeley, I learned to build in hardware and software through robotics and side projects – what started as building video games and websites evolved into more complicated projects. Now I’m focusing on AI, developer tools, and human-computer interaction, and I’m always looking for teams where I can own real pieces of the stack and ship fast.
                 </motion.p>
               </div>
 
@@ -137,7 +137,7 @@ export default function RealAboutMe() {
                   <motion.span
                     key={tag}
                     variants={tagVariants}
-                    className="px-3 py-1 rounded-md bg-blue-500/20 text-blue-200 text-sm font-medium border border-blue-500/30"
+                    className="px-3 py-1 rounded-md bg-white/10 text-white/90 text-sm font-medium border border-white/10"
                   >
                     {tag}
                   </motion.span>
