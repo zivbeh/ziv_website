@@ -125,7 +125,7 @@ export default function RealAboutMe() {
                 </motion.p>
                 
                 <motion.p variants={paragraphVariants}>
-                  Before Berkeley, I learned to build in hardware and software through robotics and side projects – what started as building video games and websites evolved into more complicated projects. Now I’m focusing on AI, developer tools, and human-computer interaction, and I’m always looking for teams where I can own real pieces of the stack and ship fast.
+                  That mindset came from a pretty simple place: I got tired of people wasting time because the tools they needed just didn’t exist yet. As a teenager I was teaching myself by making web games and working on robots. Over time that evolved into more serious projects: tools that classmates actually relied on, systems that had sensors and data behind them, and products I had to maintain instead of abandon. Now I’m focusing on AI, developer tools, and human-computer interaction, and I’m always looking for teams where I can own real pieces of the stack and ship fast.
                 </motion.p>
               </div>
 
