@@ -162,7 +162,7 @@ export function FeaturedCarousel({ items, onSelect }: FeaturedCarouselProps) {
               <video
                 ref={videoRef}
                 src={videoSrc}
-                className="h-full w-full object-cover opacity-40 md:opacity-100 transition-opacity duration-500"
+                className="h-full w-full object-cover opacity-65 md:opacity-100 transition-opacity duration-500"
                 autoPlay
                 muted
                 loop
@@ -172,7 +172,7 @@ export function FeaturedCarousel({ items, onSelect }: FeaturedCarouselProps) {
               <img
                 src={imageSrc}
                 alt={currentProject.name}
-                className="h-full w-full object-cover opacity-40 md:opacity-100 transition-opacity duration-500"
+                className="h-full w-full object-cover opacity-65 md:opacity-100 transition-opacity duration-500"
               />
             ) : (
               <div className="h-full w-full bg-gray-900" />
