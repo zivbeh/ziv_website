@@ -20,5 +20,9 @@ export interface Project {
   };
   repoUrl?: string;
   liveUrl?: string;
+  customLink?: {
+    url: string;
+    label: string;
+  };
 }
 

@@ -269,6 +269,16 @@ export function ProjectView({ project, onClose }: ProjectViewProps) {
                           Repo
                         </a>
                       )}
+                      {project.customLink && (
+                        <a
+                          href={project.customLink.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center text-cyan-300 hover:underline text-lg font-semibold"
+                        >
+                          {project.customLink.label}
+                        </a>
+                      )}
                     </div>
                   </div>
 

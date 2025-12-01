@@ -6,7 +6,7 @@ export const projects = [
     punchline: "A custom computer vision pipeline for real-time photo intelligence.",
     description:
       "I’m building a specialized transformer-based computer vision system end-to-end: I designed the model, built a data-creation app so I can generate high-quality training sets quickly, and engineered a mobile↔cloud pipeline that clusters, captions, and retrieves 100k+ photos in real time. I obsess over throughput and correctness—multithreading, parallel algorithms, gRPC services, and websocket updates—so when I capture or upload on my phone, the GPU workers ingest, index, and surface results instantly. I treat the whole thing like a product: robust logging, versioned datasets, repeatable training, and deployable inference that actually holds up under load.",
-    tools: ["PyTorch", "Transformer vision models", "CUDA", "React Native", "Node.js", "gRPC", "WebSockets", "Git"],
+    tools: ["PyTorch", "Transformer vision models", "CUDA", "React Native", "Node.js", "gRPC", "WebSockets"],
     size: "large",
     image: "/stealth/Stealth.png",
     texture: "/textures/planets/stealth.png",
@@ -24,6 +24,7 @@ export const projects = [
     description:
       "Launched a real-time “seat radar” for UC Berkeley so students could stop wandering for desks. I wired Wi-Fi traffic sensors to a REST API and a live site that showed per-floor occupancy across campus libraries. We hit ~3.5k monthly active users in month one with ~30% WoW growth! We also spun up an Instagram channel that reached the whole campus (1,600+ followers; 200k+ views). The project was acquired by the ASUC (UC Berkeley Student Union), and we were accepted to SkyDeck Pad-13. Fun validation that speed + clarity solves real pain.",
     tools: ["Startups", "Wi-Fi AP sensors", "API Design", "Python/Node.js", "React", "production workflows", "marketing", "Git"],
+    repoUrl: "https://github.com/zivbeh/MoffittStatus",
     size: "large",
     image: "/status/Status Logo.png",
     images: [
@@ -153,7 +154,7 @@ export const projects = [
     punchline: "A pipelined RISC-V CPU designed and tested in Logisim.",
     description:
       "A pipelined RISC-V CPU designed and tested in Logisim. The project involved laying out the datapath, writing the control logic, handling hazards, and verifying behavior against ISA-level tests. The experience taught the importance of keeping the pipeline honest and the timing predictable.",
-    tools: ["Logisim", "RISC-V ISA/specs", "path optimization", "Git"],
+    tools: ["Logisim", "RISC-V ISA/specs", "path optimization"],
     size: "medium",
     images: [
       "/c61cpu/RISC-V Datapath.png",
@@ -185,6 +186,10 @@ export const projects = [
     punchline: "A classical music generator using an advanced Markov process.",
     description:
       "A classical-style music generator that uses a custom, improved Markov process, supporting effectively unbounded state and sequence length. It works directly with MIDI files, focusing on creating transitions that feel musical rather than random.",
+    customLink: {
+      url: "https://github.com/zivbeh/Infinite-States-General-Markov",
+      label: "Link to Custom Markov",
+    },
     tools: ["Java", "MIDI", "custom Markov modeling", "Git"],
     size: "small",
     image: "/musicgen/background.png",
@@ -222,6 +227,7 @@ export const projects = [
     description:
       "A secure web messenger developed before the current AI wave. It implements two-factor authentication, group chats, profile customization, and an SQL data model with clean permissioning. Significant effort was dedicated to perfecting auth flows and user experience to ensure sessions are secure and the interface is fast on all devices.",
     tools: ["Node.js/Express", "MySQL", "JWT/sessions", "Web Security", "2FA", "Full Stack", "Git"],
+    repoUrl: "https://github.com/zivbeh/UChat",
     size: "medium",
     image: "/chatup/background.png",
     texture: "/textures/planets/chatup.png",
@@ -262,7 +268,7 @@ export const projects = [
     punchline: "A fast, SEO-optimized marketing site for a venture studio.",
     description:
       "A fast, SEO-friendly marketing site designed and shipped for a venture studio. The project involved tuning metadata and OG tags, setting up Vercel hosting, and integrating a mailing system for leads and updates. The focus was on the details that matter for performance and visibility, such as image sizing, Core Web Vitals (CLS/LCP), and copy structure, rather than flashy effects.",
-    tools: ["Next.js/React", "Vercel Hosting", "Full Stack", "SEO Optimization", "Email Service", "Git"],
+    tools: ["Next.js/React", "Vercel Hosting", "Full Stack", "SEO Optimization", "Email Service"],
     liveUrl: "https://www.capiros.ventures/",
     size: "medium",
     image: "/capirosventures/Website Background.png",
@@ -316,7 +322,7 @@ export const projects = [
     category: "Games",
     punchline: "A collaborative web strategy game with unit upgrades and tricky waves.",
     description: "A web strategy defense game where players place and upgrade units to pop increasingly tricky balloon waves. The game was co-built with a teammate overseas and uses the Canvas API for rendering. The game loop was tuned for responsiveness, and the project covered everything from mechanics to deployment. It encompases wise data structures for easy scalability and game state management.",
-    tools: ["Web Canvas", "JavaScript", "OOP", "Autonomous Targeting", "animation pipeline", "Git"],
+    tools: ["Web Canvas", "JavaScript", "OOP", "Autonomous Targeting", "animation pipeline"],
     liveUrl: "https://zivbeh.github.io/BalloonsPOP/",
     size: "medium",
     images: [
@@ -351,6 +357,7 @@ export const projects = [
     punchline: "A platformer with a custom physics engine for wall-sticking.",
     description: "A minimal physics engine for wall-stick movement, gravity, and collisions for this coin-collecting web-based game, which is packed with blade hazards and effects. A lightweight level editor was also built to allow for authoring new stages and tweaking gameplay constants in minutes. It is a fun blend of physics and game mechanics.",
     tools: ["Canvas", "JavaScript", "custom physics/collision", "level design platform", "Git"],
+    repoUrl: "https://github.com/zivbeh/sticky-fred",
     size: "medium",
     images: [
       "/stickyfred/Example Game.png",
@@ -375,7 +382,7 @@ export const projects = [
     category: "Games",
     punchline: "A physics-based playground for experimenting with portals and gravity.",
     description: "A portal-and-gravity playground prototype where players navigate linked spaces under simple physics. It serves as a toybox for experimenting with movement and surprise.",
-    tools: ["Canvas", "JavaScript", "custom physics", "level design", "Git"],
+    tools: ["Canvas", "JavaScript", "custom physics", "level design"],
     size: "small",
     images: [
       "/MoneyPortal/Gameplay Start.png",
@@ -416,7 +423,7 @@ export const projects = [
     category: "Games",
     punchline: "A browser-based Flappy Bird clone to master game loop fundamentals.",
     description: "This project reproduces the feel of Flappy Bird—frame timing, collision, difficulty ramp—purely in the browser. It was an exercise in sharpening fundamentals in game loops, assets, and hitboxes.",
-    tools: ["Canvas", "JavaScript", "Git"],
+    tools: ["Canvas", "JavaScript"],
     size: "small",
     image: "/flafybird/background.png",
     theme: {
@@ -452,7 +459,7 @@ export const projects = [
     category: "Games",
     punchline: "A low-latency browser toy for layering beats and triggering samples.",
     description: "A browser-based music toy that layers beats and triggers samples with low latency. The focus is on immediate feedback and playful controls.",
-    tools: ["Web Audio", "JavaScript", "Web Design", "Git"],
+    tools: ["Web Audio", "JavaScript", "Web Design"],
     size: "small",
     image: "/djapp/dj.png",
     theme: {
@@ -467,7 +474,7 @@ export const projects = [
     category: "Games",
     punchline: "A Java game featuring a procedural room generator.",
     description: "A Java game featuring a procedural room generator. It includes randomized layouts, data structures doing real work, and a straightforward rendering loop.",
-    tools: ["Java", "OOP", "RNG/procedural gen", "GUI", "Git"],
+    tools: ["Java", "OOP", "RNG/procedural gen", "GUI"],
     liveUrl: "https://sp25.datastructur.es/projects/proj3/",
     size: "small",
     images: [
