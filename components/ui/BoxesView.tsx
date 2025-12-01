@@ -124,7 +124,7 @@ const Section = ({
                     ) : (
                       <div className="absolute inset-0 bg-black/75" />
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/75 to-black/50" />
+                    <div className="absolute -inset-1 bg-gradient-to-t from-black/90 via-black/75 to-black/50" />
                   </div>
 
                   <div className="relative p-6 h-full flex flex-col justify-between">
