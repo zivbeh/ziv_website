@@ -170,8 +170,13 @@ export default function AboutMe({ onLearnMoreClick }: AboutMeProps) {
     >
       <div className="w-full px-4 pt-8 pb-4 flex justify-center">
         <div className="w-full max-w-5xl bg-black/70 backdrop-blur-md border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
-          <div className="flex flex-col lg:flex-row items-center lg:items-stretch gap-8 p-8 lg:p-12">
-            <motion.div className="shrink-0 flex justify-center lg:block" variants={imageVariants}>
+          <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-x-8 gap-y-4 lg:gap-y-2 p-8 lg:p-12 items-center lg:items-start xl:items-stretch">
+            
+            {/* Image Section */}
+            <motion.div 
+              className="shrink-0 flex justify-center lg:block lg:row-start-2 lg:col-start-1 xl:col-start-1 xl:row-start-1 xl:row-span-2 h-full" 
+              variants={imageVariants}
+            >
               <div className="relative w-52 h-52 lg:w-80 lg:h-full rounded-2xl overflow-hidden ring-2 ring-white/20">
                 <Image
                   src="/profile.JPG"
@@ -183,7 +188,9 @@ export default function AboutMe({ onLearnMoreClick }: AboutMeProps) {
                 />
               </div>
             </motion.div>
-            <div className="text-white max-w-3xl text-center lg:text-left">
+
+            {/* Header Section (Name + Tagline) */}
+            <div className="text-white text-center lg:text-left lg:col-span-2 lg:row-start-1 xl:col-span-1 xl:col-start-2 xl:row-start-1">
               <motion.h1
                 variants={textVariants}
                 className="text-3xl lg:text-5xl font-extrabold tracking-tight mb-3"
@@ -191,20 +198,23 @@ export default function AboutMe({ onLearnMoreClick }: AboutMeProps) {
                 Ziv Behar
               </motion.h1>
               
-              {/* FIX: Removed fixed height (h-8) and flex to allow natural text wrapping */}
               <motion.div 
                 variants={textVariants}
-                className="text-lg lg:text-xl font-medium text-white/90 mb-4"
+                className="text-lg lg:text-xl font-medium text-white/90 h-[3.5rem] sm:h-auto mb-0"
               >
                 I like <Typewriter words={INTERESTS} />
               </motion.div>
+            </div>
 
+            {/* Content Section (Description + Icons) */}
+            <div className="text-white text-center lg:text-left lg:row-start-2 lg:col-start-2 xl:col-start-2 xl:row-start-2">
               <motion.p
                 variants={paragraphVariants}
                 className="text-white/90 text-base lg:text-lg leading-relaxed mb-4"
               >
-                Tech innovator and entrepreneurial leader driven by a passion for leveraging technology
-                to drive positive change and solve complex problems.
+                I build real-world AI and full-stack systems and ship them to actual users. From architecting real-time computer vision
+                pipelines and autonomous AI agents to launching a product acquired by UC Berkeley, I obsess over performance,
+                reliability, and building tools that last.
               </motion.p>
               <motion.p
                 variants={paragraphVariants}
