@@ -60,12 +60,9 @@ const AcademicCard = ({ classInfo, onSelect }: { classInfo: ClassInfo; onSelect:
     >
       {/* Background Image Container */}
       <motion.div
-        className="absolute inset-0 w-full h-full"
+        className="absolute inset-0 w-full h-full bg-cover bg-center md:bg-fixed"
         style={{
           backgroundImage: "url('/berk.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundAttachment: "fixed", // The CSS fix for the "window" effect
         }}
         animate={{ 
             // Slight dimming effect when not hovered to make text pop
