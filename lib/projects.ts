@@ -66,7 +66,7 @@ export const projects = [
     punchline: "A personal Cursor clone with my own LLMs: a VS Code extension that autonomously analyzes repos, thinks, edits code, and verifies execution.",
     description:
       "A VS Code extension chatbot that serves as a personal AI coding assistant. It intelligently finds relevant information from all files in a repository, reasons through problems, autonomously edits code, and verifies execution without human intervention. Built as a personal alternative to Cursor, it integrates multiple LLM providers (Gemini, GPT-4, Claude) and provides context-aware assistance by analyzing the entire codebase structure. The extension can analyze code files, process images, manage multiple chat sessions, and perform autonomous code generation and verification workflows.",
-    tools: ["VS Code Extension API", "TypeScript", "LLM Integration", "AI agents", "Git"],
+    tools: ["VS Code Extension API", "TypeScript", "LLM Integration", "AI agents", "OOP"],
     repoUrl: "https://github.com/zivbeh/Percepta",
     size: "large",
     image: "/percepta/background.svg",
@@ -101,7 +101,7 @@ export const projects = [
     punchline: "SaaS for optimizing office seating plans with live, multiuser updates.",
     description:
       "A SaaS application designed to help companies reduce office costs by managing shared cubicles and seating plans. The front end features grid and canvas editors for layouts with instant, multiuser updates. The back end is a Node.js service with a MySQL schema that broadcasts database changes, ensuring all users see edits live. The application runs on AWS with autoscaling and CI/CD for reliable deployments and handling of traffic spikes.",
-    tools: ["Node.js", "TypeScript/JavaScript", "MySQL", "AWS (autoscaling, CI/CD)", "WebSockets/SSE", "Canvas/Grid UI", "Git"],
+    tools: ["Node.js", "JavaScript", "MySQL", "AWS (autoscaling, CI/CD)", "No AI used!", "WebSockets/SSE", "Canvas/Grid UI", "OOP", "Git"],
     repoUrl: "https://github.com/zivbeh/OrderCubic",
     size: "medium",
     images: [
@@ -190,7 +190,7 @@ export const projects = [
       url: "https://github.com/zivbeh/Infinite-States-General-Markov",
       label: "Link to Custom Markov",
     },
-    tools: ["Java", "MIDI", "custom Markov modeling", "Git"],
+    tools: ["Java", "MIDI", "custom Markov modeling", "No AI used!", "Git"],
     size: "small",
     image: "/musicgen/background.png",
     texture: "/textures/planets/musicgen.png",
@@ -211,7 +211,16 @@ export const projects = [
     size: "small",
     images: [
       "/guitarAMP/guitar.jpeg",
+      "/guitarAMP/Breadboard In Progress.jpg",
+      "/guitarAMP/BNC Adapter with Digilent Analog Discovery 2.jpg",
     ],
+    imageSpans: {
+      "guitar.jpeg": "col-span-2 row-span-2 md:col-span-4 md:row-span-10",
+      "Breadboard In Progress.jpg":
+        "col-span-2 row-span-2 md:col-span-5 md:row-span-5 md:col-start-5",
+      "BNC Adapter with Digilent Analog Discovery 2.jpg":
+        "col-span-2 row-span-2 md:col-span-5 md:row-span-5 md:col-start-5 md:row-start-6",
+    },
     texture: "/textures/planets/guitaramplifier.png",
     theme: {
       surfaceColor1: "#F0ABFC",
@@ -226,7 +235,7 @@ export const projects = [
     punchline: "A secure web messenger with 2FA, group chats, and a focus on UX.",
     description:
       "A secure web messenger developed before the current AI wave. It implements two-factor authentication, group chats, profile customization, and an SQL data model with clean permissioning. Significant effort was dedicated to perfecting auth flows and user experience to ensure sessions are secure and the interface is fast on all devices.",
-    tools: ["Node.js/Express", "MySQL", "JWT/sessions", "Web Security", "2FA", "Full Stack", "Git"],
+    tools: ["Node.js/Express", "MySQL", "JWT/sessions", "No AI used!", "Web Security", "2FA", "Full Stack", "OOP", "Git"],
     repoUrl: "https://github.com/zivbeh/UChat",
     size: "medium",
     image: "/chatup/background.png",
@@ -286,7 +295,7 @@ export const projects = [
     punchline: "A feature-rich to-do app with auth and notifications.",
     description:
       "A classic but feature-rich to-do application. It includes SQL persistence, email-based 2-step authentication, notifications, timers/reminders, priorities, and deep search/filtering. This project was an opportunity to learn how to wire authentication, scheduled jobs, and data models that remain simple as features are added.",
-    tools: ["NodeJS/Express", "MySQL", "cron/schedulers", "Full Stack", "Git"],
+    tools: ["NodeJS/Express", "MySQL", "cron/schedulers", "Full Stack", "No AI used!", "OOP", "Git"],
     repoUrl: "https://github.com/zivbeh/ToDoList",
     size: "medium",
     image: "/todolist/background.png",
@@ -320,9 +329,9 @@ export const projects = [
     id: "balloons-pop",
     name: "Balloons Pop",
     category: "Games",
-    punchline: "A collaborative web strategy game with unit upgrades and tricky waves.",
+    punchline: "A web strategy defense game where players place and upgrade units to pop increasingly tricky balloon waves. pre AI coding!",
     description: "A web strategy defense game where players place and upgrade units to pop increasingly tricky balloon waves. The game was co-built with a teammate overseas and uses the Canvas API for rendering. The game loop was tuned for responsiveness, and the project covered everything from mechanics to deployment. It encompases wise data structures for easy scalability and game state management.",
-    tools: ["Web Canvas", "JavaScript", "OOP", "Autonomous Targeting", "animation pipeline"],
+    tools: ["No AI used!", "Web Canvas",  "OOP", "JavaScript", "Autonomous Targeting", "animation pipeline"],
     liveUrl: "https://zivbeh.github.io/BalloonsPOP/",
     size: "medium",
     images: [
@@ -356,7 +365,7 @@ export const projects = [
     category: "Games",
     punchline: "A platformer with a custom physics engine for wall-sticking.",
     description: "A minimal physics engine for wall-stick movement, gravity, and collisions for this coin-collecting web-based game, which is packed with blade hazards and effects. A lightweight level editor was also built to allow for authoring new stages and tweaking gameplay constants in minutes. It is a fun blend of physics and game mechanics.",
-    tools: ["Canvas", "JavaScript", "custom physics/collision", "level design platform", "Git"],
+    tools: ["No AI used!", "Canvas", "JavaScript", "custom physics/collision", "level design platform", "Git"],
     repoUrl: "https://github.com/zivbeh/sticky-fred",
     size: "medium",
     images: [
@@ -382,7 +391,7 @@ export const projects = [
     category: "Games",
     punchline: "A physics-based playground for experimenting with portals and gravity.",
     description: "A portal-and-gravity playground prototype where players navigate linked spaces under simple physics. It serves as a toybox for experimenting with movement and surprise.",
-    tools: ["Canvas", "JavaScript", "custom physics", "level design"],
+    tools: ["No AI used!", "Canvas", "JavaScript", "custom physics", "OOP", "level design"],
     size: "small",
     images: [
       "/MoneyPortal/Gameplay Start.png",
@@ -407,7 +416,7 @@ export const projects = [
     category: "Games",
     punchline: "A Monopoly-style web game with a built-in strategy solver.",
     description: "A Monopoly-style web game with configurable rules and a strategy helper that computes the most profitable board squares. The project is a fun blend of probability/EV logic and an approachable UI.",
-    tools: ["JavaScript", "Web Design", "probability/simulation utilities", "Git"],
+    tools: ["No AI used!","JavaScript", "OOP", "Web Design", "probability/simulation utilities", "Git"],
     repoUrl: "https://github.com/zivbeh/MonopolSolver",
     size: "small",
     image: "/Monopoly Solver/background.png",
@@ -423,7 +432,7 @@ export const projects = [
     category: "Games",
     punchline: "A browser-based Flappy Bird clone to master game loop fundamentals.",
     description: "This project reproduces the feel of Flappy Bird—frame timing, collision, difficulty ramp—purely in the browser. It was an exercise in sharpening fundamentals in game loops, assets, and hitboxes.",
-    tools: ["Canvas", "JavaScript"],
+    tools: ["No AI used!", "Canvas", "JavaScript"],
     size: "small",
     image: "/flafybird/background.png",
     theme: {
@@ -438,7 +447,7 @@ export const projects = [
     category: "Games",
     punchline: "A celebratory arcade mini-game for my dad's birthday.",
     description: "A celebratory arcade mini-game where players collect coins, dodge moving obstacles, and unlock an animation and music finale upon winning. The game was designed for quick joy and a nice reveal for my dad's birthday.",
-    tools: ["Canvas", "JavaScript", "Audio", "Git"],
+    tools: ["No AI used!", "Canvas", "JavaScript", "Audio", "Git"],
     repoUrl: "https://github.com/zivbeh/babic-birth-day",
     size: "small",
     image: "/profile.JPG",
@@ -459,7 +468,7 @@ export const projects = [
     category: "Games",
     punchline: "A low-latency browser toy for layering beats and triggering samples.",
     description: "A browser-based music toy that layers beats and triggers samples with low latency. The focus is on immediate feedback and playful controls.",
-    tools: ["Web Audio", "JavaScript", "Web Design"],
+    tools: ["Web Audio", "JavaScript", "Web Design", "No AI used!"],
     size: "small",
     image: "/djapp/dj.png",
     theme: {
@@ -474,7 +483,7 @@ export const projects = [
     category: "Games",
     punchline: "A Java game featuring a procedural room generator.",
     description: "A Java game featuring a procedural room generator. It includes randomized layouts, data structures doing real work, and a straightforward rendering loop.",
-    tools: ["Java", "OOP", "RNG/procedural gen", "GUI"],
+    tools: ["No AI used!", "Java", "OOP", "RNG/procedural gen", "GUI"],
     liveUrl: "https://sp25.datastructur.es/projects/proj3/",
     size: "small",
     images: [

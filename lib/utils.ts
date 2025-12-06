@@ -132,6 +132,18 @@ export const getTagStyle = (tag: string): string => {
     return "text-slate-300 bg-slate-400/10 border-slate-400/20";
   }
 
+  // -------------------------------------------------------
+  // 12. NO AI used
+  // -------------------------------------------------------
+  // No AI used
+  if (
+    [
+      "no ai used"
+    ].some(k => lowerTag.includes(k))
+  ) {
+    return "text-brown-300 bg-brown-400/10 border-brown-400/20";
+  }
+
   // Catch-all
   return "text-slate-300 bg-slate-400/10 border-slate-400/20";
 };
