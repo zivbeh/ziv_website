@@ -129,7 +129,7 @@ export const projects = [
     description:
       "An automated pipeline that transforms a single prompt into a published YouTube video. The process involves scraping online for story material, using GPT-4 to reshape it into a catchy script, fetching images and clips via media APIs, and then stitching everything together with MoviePy into a cohesive MP4 file. The pipeline is fully automated, with TTS narration and OAuth upload, allowing a video to go from an idea to live on YouTube in a single run within a minute, easy to create hundreds of videos daily.",
     tools: ["Python", "MoviePy", "AI Agents", "Scraping", "media APIs", "TTS", "YouTube Data API (OAuth)", "Git"],
-    repoUrl: "https://github.com/zivbeh/auto-video-gen",
+    repoUrl: "https://github.com/zivbeh/Video-Generator",
     size: "medium",
     videos: [
       "/aividgen/version2.mp4",
