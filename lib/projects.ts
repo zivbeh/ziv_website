@@ -1,19 +1,19 @@
 export const projects = [
   {
     id: "stealth-founder",
-    name: "Stealth Founder (Present)",
+    name: "Snap Sort",
     category: "Other",
     punchline: "A custom computer vision pipeline for real-time photo intelligence.",
     description:
-      "I’m building a specialized transformer-based computer vision system end-to-end: I designed the model, built a data-creation app so I can generate high-quality training sets quickly, and engineered a mobile↔cloud pipeline that clusters, captions, and retrieves 100k+ photos in real time. I obsess over throughput and correctness—multithreading, parallel algorithms, gRPC services, and websocket updates—so when I capture or upload on my phone, the GPU workers ingest, index, and surface results instantly. I treat the whole thing like a product: robust logging, versioned datasets, repeatable training, and deployable inference that actually holds up under load.",
-    tools: ["PyTorch", "Transformer vision models", "CUDA", "React Native", "Node.js", "gRPC", "WebSockets"],
+      "Built an AI-powered photo organization system designed to automatically sort, cluster, and annotate your large image datasets based on events. It consists of a mobile/web client and a high-performance computing (HPC) distributed systems-oriented backend that handles tasks such as face detection, captioning, and clustering into events through custom ML models with communication over gRPC.",
+    tools: ["PyTorch", "Machine Learning", "Distributed Systems", "CUDA", "React Native", "Node.js", "gRPC", "WebSockets"],
     size: "large",
-    image: "/stealth/Stealth.png",
-    texture: "/textures/planets/stealth.png",
+    images: ["/textures/planets/snap-sort-events.png", "/stealth/Stealth.png"],
+    texture: "/textures/planets/snap-sort-events.png",
     theme: {
-      surfaceColor1: "#CCCCCC", // Light gray
-      surfaceColor2: "#666666", // Medium gray
-      atmosphereColor: "#FFFFFF", // White
+      surfaceColor1: "#22D3EE", // cyan
+      surfaceColor2: "#F97316", // warm orange
+      atmosphereColor: "#34D399", // greenish glow
     },
   },
   {
@@ -58,6 +58,48 @@ export const projects = [
       atmosphereColor: "#6699ff",
     },
   },
+  {
+    id: "bsac-liwei-lin-lab",
+    name: "BSAC Liwei Lin Lab",
+    category: "Academics",
+    punchline:
+      "3D Ultrasound imaging research using compressed sensing.",
+    description:
+      "In the Berkeley Sensor & Actuator Center (BSAC) with Prof. Liwei Lin, I work on 3D ultrasound imaging that uses compressed sensing and pMUTs for submillimeter-level volumetric reconstruction. " +
+      "On the software side, I implemented and optimized a FISTA-based compressed-sensing reconstruction pipeline that recovers sparse 3D voxel grids from noisy multichannel echoes, with custom benchmarking and visualization to validate accuracy against ground truth scenes. " +
+      "I also wrote microcontroller firmware to coordinate ultrasonic pulse transmission and data acquisition, and implemented a genetic algorithm to tune drive parameters and minimize ringdown by over 90% so the reconstruction sees cleaner signals. " +
+      "The compact dual-rail inverting supply board shown here is part of that larger system—an embedded module I designed and brought up so the mixed-signal stack has the stable negative rails, allowing the pMUTs to drive 2x higher voltages. This increases resolution accuracy and maximum depth field of view.",
+    tools: [
+      "Compressed sensing",
+      "Machine Learning",
+      "Firmware",
+      "Genetic algorithms",
+      "Python",
+      "C/C++",
+      "KiCad PCB design",
+    ],
+    repoUrl: "https://github.com/zivbeh/pcb_inverter",
+    size: "medium",
+    images: [
+      "/research/reconstruction of the cross.jpeg",
+      "/research/design.png",
+      "/research/pcb-preassembly.jpeg",
+    ],
+    imageSpans: {
+      "reconstruction of the cross.jpeg":
+        "col-span-2 row-span-2 md:col-span-5 md:row-span-6",
+      "design.png":
+        "col-span-2 row-span-2 md:col-span-4 md:row-span-6 md:col-start-6",
+      "pcb-preassembly.jpeg":
+        "col-span-2 row-span-2 md:col-span-4 md:row-span-6 md:col-start-6",
+    },
+    texture: "/textures/planets/lib_radar.png",
+    theme: {
+      surfaceColor1: "#0EA5E9",
+      surfaceColor2: "#0369A1",
+      atmosphereColor: "#38BDF8",
+    },
+  },
   // Featured Projects
   {
     id: "percepta",
@@ -75,6 +117,36 @@ export const projects = [
       surfaceColor1: "#9333EA",
       surfaceColor2: "#6B21A8",
       atmosphereColor: "#A855F7",
+    },
+  },
+  {
+    id: "liftr",
+    name: "LIFTR — On-device ML Fitness Coaching",
+    category: "Other",
+    punchline: "Shipped on-device vision inference for real-time personalized iOS coaching.",
+    description:
+      "At LIFTR, I shipped a fitness coaching iOS app that runs real-time ML vision inference on-device. I derived structured form feedback by analyzing pose signals at ~30 FPS on mobile hardware, turning raw model outputs into personalized coaching cues. I also built an LSTM-based workout recommendation engine that retrains incrementally as users log sessions, adapting recommendations over time while preserving privacy and keeping zero network latency. Stack: CoreML, Swift/SwiftUI, PyTorch, Firebase, and Superwall.",
+    tools: ["CoreML", "Swift/SwiftUI", "PyTorch", "Firebase", "On-device ML", "iOS", "Superwall"],
+    liveUrl: "https://getliftr.com/",
+    size: "medium",
+    images: [
+      "/liftr/liftie-coach.png",
+      "/liftr/liftr home.png",
+      "/liftr/liftr body rankings.png",
+      "/liftr/data analytics.JPG",
+    ],
+    imageSpans: {
+      "liftie-coach.png": "col-span-2 row-span-2 md:col-span-5 md:row-span-6",
+      "liftr home.png": "col-span-2 row-span-2 md:col-span-4 md:row-span-5 md:col-start-6",
+      "liftr body rankings.png":
+        "col-span-2 row-span-2 md:col-span-4 md:row-span-5 md:col-start-6 md:row-start-6",
+      "data analytics.JPG": "col-span-2 row-span-2 md:col-span-5 md:row-span-4",
+    },
+    texture: "/liftr/liftie-coach.png",
+    theme: {
+      surfaceColor1: "#0EA5E9",
+      surfaceColor2: "#0284C7",
+      atmosphereColor: "#38BDF8",
     },
   },
   {
@@ -145,6 +217,50 @@ export const projects = [
       surfaceColor1: "#ccffcc",
       surfaceColor2: "#00cc00",
       atmosphereColor: "#99ff99",
+    },
+  },
+  {
+    id: "strata-bb-hacks",
+    name: "STRATA — (B&B Hacks 1st Place)",
+    category: "Other",
+    punchline:
+      "Autonomous polymarket trading AI agent that turns conflict news into market trades.",
+    description:
+      "At the 2026 Blockchain@Berkeley Hackathon, Roy Ruppin and I built STRATA, " +
+      "a real-time pipeline that turns live conflict news in the Middle East into structured events, " +
+      "maps them to Polymarket prediction markets, and can automatically place trades. " +
+      "A Python pipeline ingests and filters messages from conflict-focused Telegram channels, " +
+      "uses AI to cross reference and extract events (who/what/where/when, confidence), builds out a map of implications " +
+      "(find specific companies/comodities/actors/etc. affected by the event), and ranks corresponding " +
+      "Polymarket contracts. A Node.js terminal UI then shows how the pipeline works in real time.",
+    tools: [
+      "Hackathons",
+      "Python",
+      "Node.js",
+      "AI Agents",
+      "Telegram API",
+      "Anthropic API",
+      "Polymarket API",
+    ],
+    repoUrl: "https://github.com/zivbeh/b-bhacks",
+    size: "large",
+    images: [
+      "/hackathonBAB/view.png",
+      "/hackathonBAB/winning photo.jpg",
+      "/hackathonBAB/ziv and roy b@b hacks seating.jpg",
+    ],
+    imageSpans: {
+      "view.png": "col-span-2 row-span-2 md:col-span-5 md:row-span-6",
+      "winning photo.jpg":
+        "col-span-2 row-span-2 md:col-span-4 md:row-span-6 md:col-start-6",
+      "ziv and roy b@b hacks seating.jpg":
+        "col-span-2 row-span-2 md:col-span-4 md:row-span-6 md:col-start-6 md:row-start-6",
+    },
+    texture: "/textures/planets/percepta.png",
+    theme: {
+      surfaceColor1: "#22C55E",
+      surfaceColor2: "#15803D",
+      atmosphereColor: "#4ADE80",
     },
   },
   {

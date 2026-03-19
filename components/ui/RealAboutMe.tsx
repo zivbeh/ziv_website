@@ -88,7 +88,7 @@ export default function RealAboutMe() {
         >
           <h2 className="text-white text-3xl md:text-4xl font-bold tracking-tight">About Me</h2>
           <p className="text-white/60 mt-2 text-sm md:text-base">
-            My background, expertise, and what drives me to build things.
+            My background, current research, and what drives me to build things.
           </p>
         </motion.div>
 
@@ -121,7 +121,10 @@ export default function RealAboutMe() {
               
               <div className="space-y-4 text-white/80 text-base leading-relaxed">
                 <motion.p variants={paragraphVariants}>
-                  I’m a UC Berkeley EECS student who likes turning messy ideas into working systems. Recently that’s meant building an acquired library-seat radar for my university campus, an AI photo-intelligence pipeline, and a personal AI IDE that edits code on its own. I care about projects that mix complex architecture, UX, and real users.
+                  I’m a UC Berkeley EECS student who likes turning messy ideas into working systems.{" "}
+                  Recently that’s meant building an acquired library-seat radar for my university campus,{" "}
+                  doing research on 3D ultrasound imaging using compressed sensing, an AI photo-intelligence pipeline, and a personal AI IDE that edits code on its own.{" "}
+                  I care about projects that mix complex architecture, UX, and real users.
                 </motion.p>
                 
                 <motion.p variants={paragraphVariants}>

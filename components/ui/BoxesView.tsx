@@ -16,7 +16,13 @@ type BoxesViewProps = {
   onSelect: (project: Project) => void;
 };
 
-const carouselProjectIds = ["stealth-founder", "library-seat-radar", "balloons-pop"];
+const carouselProjectIds = [
+  "bsac-liwei-lin-lab",
+  "strata-bb-hacks",
+  "stealth-founder",
+  "library-seat-radar",
+  "balloons-pop",
+];
 
 const Section = ({
   title,
@@ -121,6 +127,12 @@ const Section = ({
                       />
                     ) : thumb ? (
                       <img src={thumb} alt={p.name} loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
+                    ) : p.texture ? (
+                      <div
+                        className="absolute inset-0 bg-black/75 bg-cover bg-center"
+                        style={{ backgroundImage: `url('${p.texture}')` }}
+                        aria-label={`${p.name} background`}
+                      />
                     ) : (
                       <div className="absolute inset-0 bg-black/75" />
                     )}
@@ -308,6 +320,16 @@ export function BoxesView({ projects, onSelect }: BoxesViewProps) {
       // Everything that is not "Games" goes to Projects (including "Other", which now holds Percepta, Stealth, Status)
       if (p.category === "Games") buckets.Games.push(p);
       else buckets.Projects.push(p);
+    }
+
+    // Swap positions in the box-view grid (Projects section only).
+    // Carousel ordering is controlled separately by `carouselProjectIds`.
+    const perceptaIdx = buckets.Projects.findIndex((p) => p.id === "percepta");
+    const strataIdx = buckets.Projects.findIndex((p) => p.id === "strata-bb-hacks");
+    if (perceptaIdx !== -1 && strataIdx !== -1) {
+      const tmp = buckets.Projects[perceptaIdx];
+      buckets.Projects[perceptaIdx] = buckets.Projects[strataIdx];
+      buckets.Projects[strataIdx] = tmp;
     }
     return { carouselItems: carousel, grouped: buckets };
   }, [projects]);

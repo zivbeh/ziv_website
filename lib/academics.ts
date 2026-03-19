@@ -11,7 +11,7 @@ export const academics = {
   honorStudent: true,
   classes: [
     {
-      title: "CS61A - Structure and Interpretation of Computer Programs (A)",
+      title: "CS61A - Structure and Interpretation of Computer Programs",
       coreKnowledge: [
         "Abstraction as the central idea in programming: names, environments, and the environment model of evaluation.",
         "Control abstraction: recursion and tree recursion, higher-order functions, iterators/generators, and functional patterns (map/filter/reduce).",
@@ -37,7 +37,7 @@ export const academics = {
     },
 
     {
-      title: "CS61B - Data Structures and Algorithms (A)",
+      title: "CS61B - Data Structures and Algorithms",
       coreKnowledge: [
         "Asymptotic analysis of algorithms: big-O, big-Theta, big-Omega; amortized analysis for dynamic structures.",
         "Core data structures: dynamic arrays, linked lists, stacks, queues, priority queues, hash tables, and disjoint sets (union–find).",
@@ -62,7 +62,7 @@ export const academics = {
     },
 
     {
-      title: "CS61C - Computer Architecture (A)",
+      title: "CS61C - Computer Architecture",
       coreKnowledge: [
         "C programming: pointers, memory layout, structs, manual memory management, and low-level debugging.",
         "Number representation: binary/hex, signed vs. unsigned, two’s complement, and IEEE 754 floating point.",
@@ -93,7 +93,7 @@ export const academics = {
     },
 
     {
-      title: "EECS16A - Linear Algebra (A)",
+      title: "EECS16A - Linear Algebra",
       coreKnowledge: [
         "Solving systems of linear equations via Gaussian elimination and understanding when solutions exist and are unique.",
         "Matrix arithmetic, determinants, inverses, and the relationship between linear systems and matrix properties.",
@@ -120,7 +120,7 @@ export const academics = {
     },
 
     {
-      title: "EECS16B - Designing Information Devices and Systems I/II (A)",
+      title: "EECS16B - Designing Information Devices and Systems I/II",
       coreKnowledge: [
         "Circuit theory fundamentals: KCL, KVL, nodal analysis, resistive networks, and operational amplifier models.",
         "Linear-algebraic tools in context: projections, least squares, and overdetermined systems for sensor fusion.",
@@ -150,7 +150,7 @@ export const academics = {
     },
 
     {
-      title: "EE105 - Microelectronic Devices and Circuits (A)",
+      title: "EE105 - Microelectronic Devices and Circuits",
       coreKnowledge: [
         "Semiconductor physics: carriers, drift and diffusion, pn junctions, depletion regions, and built-in potential.",
         "Diode I–V characteristics, small-signal models, and rectifier-style applications.",
@@ -178,7 +178,7 @@ export const academics = {
     },
 
     {
-      title: "MATH53 - Multivariable Calculus (A-)",
+      title: "MATH53 - Multivariable Calculus",
       coreKnowledge: [
         "Parametric curves and polar coordinates as alternative coordinate systems.",
         "Vectors in 2D and 3D: dot and cross products, lines and planes, and basic geometry.",
@@ -202,7 +202,7 @@ export const academics = {
     },
 
     {
-      title: "CS70 - Discrete Mathematics and Probability Theory (A)",
+      title: "CS70 - Discrete Mathematics and Probability Theory",
       coreKnowledge: [
         "Propositional logic, proof techniques (direct, contrapositive, contradiction), and induction/strong induction.",
         "Sets, functions, cardinality, and infinity; applications to undecidability and algorithmic limits.",
@@ -228,7 +228,84 @@ export const academics = {
     },
 
     {
-      title: "PHYS7A/B - Mechanics, Electricity, Magnetism (A)",
+      title: "CS189 - Introduction to Machine Learning",
+      coreKnowledge: [
+        "Supervised learning fundamentals: linear regression, logistic regression, regularization, and bias–variance trade-offs.",
+        "Optimization for ML: gradients, SGD variants, and practical training dynamics (initialization, normalization, overfitting controls).",
+        "Probabilistic modeling: maximum likelihood/MAP, Gaussian models, and discriminative vs. generative classification.",
+        "Kernel methods and margin-based learning: SVM-style intuition and feature transformations.",
+        "Unsupervised learning: k-means clustering, EM-style latent variable models, and dimensionality reduction (PCA).",
+        "Neural networks and deep learning: backpropagation, MLPs, CNNs, and representation learning foundations.",
+        "Model evaluation: cross-validation, metrics, calibration, and error analysis workflows.",
+      ],
+      toolsSoftware: [
+        "Python for end-to-end ML pipelines.",
+        "NumPy for numerical computing and vectorized implementations.",
+        "PyTorch for training neural networks and deep models.",
+        "Jupyter notebooks for experimentation and visualization.",
+        "Gradescope/Ed-style workflows for submission and iteration.",
+      ],
+      applicationsUsed: [
+        "Implementing and training models on real datasets, then iterating based on quantitative evaluation and error analysis.",
+        "Building reproducible experiments (data splits, baselines, ablations) and reporting results clearly.",
+        "Debugging training issues such as overfitting, unstable optimization, and data leakage.",
+      ],
+      physicalDevices: ["(N/A — software-focused)."],
+    },
+
+    {
+      title: "CS170 - Efficient Algorithms and Intractable Problems",
+      coreKnowledge: [
+        "Algorithm design paradigms: divide-and-conquer, greedy algorithms, dynamic programming, and reductions.",
+        "Graph algorithms: traversals, shortest paths, and classic modeling patterns for real problems.",
+        "Fast primitives and analysis: recurrences/Master theorem, selection/median finding, and asymptotic reasoning.",
+        "Algebraic/transform techniques: FFT-style ideas and where they unlock speedups.",
+        "Linear programming: formulating problems as LPs plus duality-style intuition and optimality conditions.",
+        "Complexity and NP-completeness: polynomial-time reductions and what “intractable” means in practice.",
+        "Number theory foundations used in algorithms (as covered in the DPV-style syllabus).",
+      ],
+      toolsSoftware: [
+        "DPV textbook-style problem solving (design + proofs of correctness/runtime).",
+        "Pseudocode-to-implementation discipline (language-agnostic; commonly Python/Java/C for practice).",
+        "Asymptotic analysis tooling: recurrence solving and empirical validation via small benchmarks.",
+        "LaTeX for rigorous writeups and proofs.",
+      ],
+      applicationsUsed: [
+        "Modeling real problems into algorithmic formulations and choosing the right paradigm under constraints.",
+        "Designing DP state representations, proving optimal substructure, and validating with edge cases.",
+        "Using reductions to connect novel problems to known hard/easy classes and justify approach selection.",
+        "Recognizing when LP/FFT/number-theoretic tools are the right hammer for a performance bottleneck.",
+      ],
+      physicalDevices: ["(N/A — theory/software-focused)."],
+    },
+
+    {
+      title: "CS152 - Computer Architecture and Engineering",
+      coreKnowledge: [
+        "Processor microarchitecture: pipelines, hazards, forwarding, and control flow (branch prediction concepts).",
+        "Memory hierarchy: caches, coherence concepts, virtual memory, and performance trade-offs.",
+        "Parallelism: ILP, SIMD/vectorization, multithreading basics, and throughput/latency reasoning.",
+        "Performance engineering: CPI, bottleneck analysis, roofline-style thinking, and microbenchmarking.",
+        "Hardware/software interface: ISA vs. microarchitecture, and how compiler/code patterns impact performance.",
+        "Modern architecture workflow: iterating with simulation + measurement to justify design decisions.",
+      ],
+      toolsSoftware: [
+        "Chisel (Scala-embedded HDL) for architecture labs and hardware design iteration.",
+        "Python and C/C++ for testing, evaluation harnesses, and performance experiments.",
+        "Architecture simulators and profiling/benchmark harnesses (course tooling).",
+        "ISA-level reasoning (RISC-V concepts) for performance-sensitive code paths.",
+      ],
+      applicationsUsed: [
+        "Analyzing workloads to identify whether compute, memory, or branch behavior dominates performance.",
+        "Designing and evaluating microarchitectural trade-offs via simulation/benchmark results.",
+        "Connecting algorithmic patterns to cache behavior and throughput on real machines.",
+        "Building and validating hardware modules in labs, then writing tests to prove correctness/performance.",
+      ],
+      physicalDevices: ["Instructional servers/workstations for benchmarking and simulation."],
+    },
+
+    {
+      title: "PHYS7A/B - Mechanics, Electricity, Magnetism",
       coreKnowledge: [
         "Newtonian mechanics: kinematics, Newton’s laws, work–energy, momentum, rotation, and torque.",
         "Oscillations and waves: simple harmonic motion, damping/driving, wave propagation, and sound.",
@@ -256,7 +333,7 @@ export const academics = {
     },
 
     {
-      title: "CCNA (A)",
+      title: "CCNA",
       coreKnowledge: [
         "Network fundamentals: OSI/TCP-IP models, Ethernet framing, IPv4/IPv6 addressing, subnetting, and VLAN concepts.",
         "Network access: switching, MAC learning, trunking, spanning tree, and basic wireless LAN concepts.",
