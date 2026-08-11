@@ -33,7 +33,7 @@ export const academics = {
         "Using tables, SQL, and Python together for basic data analysis and query-style workloads.",
         "Practicing test-driven debugging workflows and code review on introductory but nontrivial codebases.",
       ],
-      physicalDevices: ["(N/A — software/theory-focused course)."],
+      physicalDevices: ["(N/A: software/theory-focused course)."],
     },
 
     {
@@ -58,7 +58,7 @@ export const academics = {
         "Building multi-thousand-line projects such as map/routing tools or tile-based worlds that exercise graphs and trees.",
         "Designing and stabilizing APIs for reusable data-structure libraries in a team-like environment.",
       ],
-      physicalDevices: ["(N/A — software-focused)."],
+      physicalDevices: ["(N/A: software-focused)."],
     },
 
     {
@@ -116,7 +116,7 @@ export const academics = {
         "acoustic positioning system reading signals and using linear algebra to estimate position.",
         "Using eigen-analysis for stability questions and decoupling linear systems of ODEs.",
       ],
-      physicalDevices: ["(N/A — math/theory-focused)."],
+      physicalDevices: ["(N/A: math/theory-focused)."],
     },
 
     {
@@ -198,7 +198,7 @@ export const academics = {
         "Using gradients for multivariable optimization examples.",
         "Relating line and surface integrals directly to electromagnetism and fluid flow examples.",
       ],
-      physicalDevices: ["(N/A — math/theory-focused)."],
+      physicalDevices: ["(N/A: math/theory-focused)."],
     },
 
     {
@@ -224,7 +224,7 @@ export const academics = {
         "Designing and analyzing probabilistic models for simple random processes and algorithms.",
         "Connecting discrete math tools to real CS systems (hash tables, consensus-style problems, markov chains).",
       ],
-      physicalDevices: ["(N/A — proofs/theory-focused)."],
+      physicalDevices: ["(N/A: proofs/theory-focused)."],
     },
 
     {
@@ -250,7 +250,7 @@ export const academics = {
         "Building reproducible experiments (data splits, baselines, ablations) and reporting results clearly.",
         "Debugging training issues such as overfitting, unstable optimization, and data leakage.",
       ],
-      physicalDevices: ["(N/A — software-focused)."],
+      physicalDevices: ["(N/A: software-focused)."],
     },
 
     {
@@ -276,7 +276,7 @@ export const academics = {
         "Using reductions to connect novel problems to known hard/easy classes and justify approach selection.",
         "Recognizing when LP/FFT/number-theoretic tools are the right hammer for a performance bottleneck.",
       ],
-      physicalDevices: ["(N/A — theory/software-focused)."],
+      physicalDevices: ["(N/A: theory/software-focused)."],
     },
 
     {

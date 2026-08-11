@@ -35,22 +35,6 @@ export const projects = [
       "/status/Status Website Look.png",
       "/status/Example Wi-Fi AP.png",
     ],
-    imageSpans: {
-      // Use tailwind grid span classes; base grid has 2 cols, md has 9 cols
-      // Logos medium squares
-      "Status Logo.png": "col-span-2 row-span-2 md:col-span-2 md:row-span-2",
-      "Berkeley Skydeck Incubator.jpeg":
-        "col-span-2 row-span-2 md:col-span-2 md:row-span-2",
-      // Stats tall card - larger, spans more columns and rows
-      "Outreach Stats One Month After Launch.png":
-        "col-span-2 row-span-2 md:col-span-5 md:row-span-4",
-      "Website Engagment.png": "col-span-2 row-span-2 md:col-span-4 md:row-span-2",
-      // Website look and AP side by side, same height, each taking 4 cols to fill all 8
-      "Status Website Look.png":
-        "col-span-2 row-span-2 md:col-span-5 md:row-span-4",
-      "Example Wi-Fi AP.png":
-        "col-span-2 row-span-2 md:col-span-4 md:row-span-4",
-    },
     texture: "/textures/planets/lib_radar.png",
     theme: {
       surfaceColor1: "#99ccff",
@@ -68,7 +52,7 @@ export const projects = [
       "In the Berkeley Sensor & Actuator Center (BSAC) with Prof. Liwei Lin, I work on 3D ultrasound imaging that uses compressed sensing and pMUTs for submillimeter-level volumetric reconstruction. " +
       "On the software side, I implemented and optimized a FISTA-based compressed-sensing reconstruction pipeline that recovers sparse 3D voxel grids from noisy multichannel echoes, with custom benchmarking and visualization to validate accuracy against ground truth scenes. " +
       "I also wrote microcontroller firmware to coordinate ultrasonic pulse transmission and data acquisition, and implemented a genetic algorithm to tune drive parameters and minimize ringdown by over 90% so the reconstruction sees cleaner signals. " +
-      "The compact dual-rail inverting supply board shown here is part of that larger system—an embedded module I designed and brought up so the mixed-signal stack has the stable negative rails, allowing the pMUTs to drive 2x higher voltages. This increases resolution accuracy and maximum depth field of view.",
+      "The compact dual-rail inverting supply board shown here is part of that larger system: an embedded module I designed and brought up so the mixed-signal stack has the stable negative rails, allowing the pMUTs to drive 2x higher voltages. This increases resolution accuracy and maximum depth field of view.",
     tools: [
       "Compressed sensing",
       "Machine Learning",
@@ -81,18 +65,15 @@ export const projects = [
     repoUrl: "https://github.com/zivbeh/pcb_inverter",
     size: "medium",
     images: [
+      "/research/ultrasound-rig-desk.jpg",
+      "/research/ultrasound-target-setup.jpg",
+      "/research/cal-reconstruction.png",
+      "/research/pcb-layout.jpg",
       "/research/reconstruction of the cross.jpeg",
       "/research/design.png",
       "/research/pcb-preassembly.jpeg",
+      "/research/pcb-onboard.png",
     ],
-    imageSpans: {
-      "reconstruction of the cross.jpeg":
-        "col-span-2 row-span-2 md:col-span-5 md:row-span-6",
-      "design.png":
-        "col-span-2 row-span-2 md:col-span-4 md:row-span-6 md:col-start-6",
-      "pcb-preassembly.jpeg":
-        "col-span-2 row-span-2 md:col-span-4 md:row-span-6 md:col-start-6",
-    },
     texture: "/textures/planets/lib_radar.png",
     theme: {
       surfaceColor1: "#0EA5E9",
@@ -121,28 +102,23 @@ export const projects = [
   },
   {
     id: "liftr",
-    name: "LIFTR — On-device ML Fitness Coaching",
+    name: "LIFTR: On-device ML Fitness Coaching",
     category: "Other",
     punchline: "Shipped on-device vision inference for real-time personalized iOS coaching.",
     description:
       "At LIFTR, I shipped a fitness coaching iOS app that runs real-time ML vision inference on-device. I derived structured form feedback by analyzing pose signals at ~30 FPS on mobile hardware, turning raw model outputs into personalized coaching cues. I also built an LSTM-based workout recommendation engine that retrains incrementally as users log sessions, adapting recommendations over time while preserving privacy and keeping zero network latency. Stack: CoreML, Swift/SwiftUI, PyTorch, Firebase, and Superwall.",
     tools: ["CoreML", "Swift/SwiftUI", "PyTorch", "Firebase", "On-device ML", "iOS", "Superwall"],
-    liveUrl: "https://getliftr.com/",
+    liveUrl: "https://apps.apple.com/us/app/liftr-get-jacked/id6748885669",
     size: "medium",
+    // Product walkthrough only (all portrait) — coaching lead, then app surfaces.
+    // Mascot is landscape; mixing it here broke the phone strip into a junk album.
     images: [
-      "/liftr/liftie-coach.png",
+      "/liftr/pullup with score.png",
       "/liftr/liftr home.png",
       "/liftr/liftr body rankings.png",
       "/liftr/data analytics.JPG",
     ],
-    imageSpans: {
-      "liftie-coach.png": "col-span-2 row-span-2 md:col-span-5 md:row-span-6",
-      "liftr home.png": "col-span-2 row-span-2 md:col-span-4 md:row-span-5 md:col-start-6",
-      "liftr body rankings.png":
-        "col-span-2 row-span-2 md:col-span-4 md:row-span-5 md:col-start-6 md:row-start-6",
-      "data analytics.JPG": "col-span-2 row-span-2 md:col-span-5 md:row-span-4",
-    },
-    texture: "/liftr/liftie-coach.png",
+    texture: "/liftr/pullup with score.png",
     theme: {
       surfaceColor1: "#0EA5E9",
       surfaceColor2: "#0284C7",
@@ -180,12 +156,6 @@ export const projects = [
       "/ordercubic/Floorplan for the App.png",
       "/ordercubic/Floorplan2.jpg",
     ],
-    imageSpans: {
-      // Stack images vertically, each taking full width and proportional height
-      "Floorplan for the App.png":
-        "col-span-2 row-span-2 md:col-span-9 md:row-span-4",
-      "Floorplan2.jpg": "col-span-2 row-span-2 md:col-span-9 md:row-span-5",
-    },
     texture: "/textures/planets/ordercubic.png",
     theme: {
       surfaceColor1: "#ffccff",
@@ -204,14 +174,9 @@ export const projects = [
     repoUrl: "https://github.com/zivbeh/Video-Generator",
     size: "medium",
     videos: [
-      "/aividgen/version2.mp4",
       "/aividgen/version1.mp4",
+      "/aividgen/version2.mp4",
     ],
-    imageSpans: {
-      // Stack videos vertically with proportional sizes - version2 is taller, version1 is wider
-      "version2.mp4": "col-span-2 row-span-2 md:col-span-9 md:row-span-5",
-      "version1.mp4": "col-span-2 row-span-2 md:col-span-9 md:row-span-4",
-    },
     texture: "/textures/planets/vidgen.png",
     theme: {
       surfaceColor1: "#ccffcc",
@@ -221,7 +186,7 @@ export const projects = [
   },
   {
     id: "strata-bb-hacks",
-    name: "STRATA — (B&B Hacks 1st Place)",
+    name: "STRATA (B&B Hacks 1st Place)",
     category: "Other",
     punchline:
       "Autonomous polymarket trading AI agent that turns conflict news into market trades.",
@@ -249,13 +214,6 @@ export const projects = [
       "/hackathonBAB/winning photo.jpg",
       "/hackathonBAB/ziv and roy b@b hacks seating.jpg",
     ],
-    imageSpans: {
-      "view.png": "col-span-2 row-span-2 md:col-span-5 md:row-span-6",
-      "winning photo.jpg":
-        "col-span-2 row-span-2 md:col-span-4 md:row-span-6 md:col-start-6",
-      "ziv and roy b@b hacks seating.jpg":
-        "col-span-2 row-span-2 md:col-span-4 md:row-span-6 md:col-start-6 md:row-start-6",
-    },
     texture: "/textures/planets/percepta.png",
     theme: {
       surfaceColor1: "#22C55E",
@@ -277,17 +235,6 @@ export const projects = [
       "/c61cpu/Data Path in Logisim.png",
       "/c61cpu/Arithmetic Unit of CPU.png",
     ],
-    imageSpans: {
-      // On desktop: two datapath images stacked on left (5 cols each), arithmeticunit on right spanning top to bottom (4 cols)
-      // On mobile: all stacked vertically as big boxes
-      "RISC-V Datapath.png":
-        "col-span-1 row-span-3 md:col-span-5 md:row-span-5",
-      "Data Path in Logisim.png":
-        "col-span-1 row-span-3 md:col-span-5 md:row-span-5",
-      // Arithmetic unit positioned on right, spanning full height (matches 5+5 rows of the two datapath images)
-      "Arithmetic Unit of CPU.png":
-        "col-span-1 row-span-3 md:col-span-4 md:row-span-10 md:col-start-6 md:row-start-1",
-    },
     texture: "/textures/planets/61cpu.png",
     theme: {
       surfaceColor1: "#FDA4AF",
@@ -330,13 +277,6 @@ export const projects = [
       "/guitarAMP/Breadboard In Progress.jpg",
       "/guitarAMP/BNC Adapter with Digilent Analog Discovery 2.jpg",
     ],
-    imageSpans: {
-      "guitar.jpeg": "col-span-2 row-span-2 md:col-span-4 md:row-span-10",
-      "Breadboard In Progress.jpg":
-        "col-span-2 row-span-2 md:col-span-5 md:row-span-5 md:col-start-5",
-      "BNC Adapter with Digilent Analog Discovery 2.jpg":
-        "col-span-2 row-span-2 md:col-span-5 md:row-span-5 md:col-start-5 md:row-start-6",
-    },
     texture: "/textures/planets/guitaramplifier.png",
     theme: {
       surfaceColor1: "#F0ABFC",
@@ -374,11 +314,6 @@ export const projects = [
     size: "small",
     image:
       "/graphreader/Example on a hard to read NMOS curves with the slope feature and hover cords .png",
-    imageSpans: {
-      // Constrain single image to reasonable size
-      "Example on a hard to read NMOS curves with the slope feature and hover cords .png":
-        "col-span-2 row-span-2 md:col-span-6 md:row-span-6",
-    },
     texture: "/textures/planets/graphreader.png",
     theme: {
       surfaceColor1: "#60A5FA",
@@ -457,17 +392,6 @@ export const projects = [
     videos: [
       "/balloonspopgame/Balloons Pop Gamelplay.mp4",
     ],
-    imageSpans: {
-      // Video on left, full height
-      "Balloons Pop Gamelplay.mp4":
-        "col-span-2 row-span-2 md:col-span-5 md:row-span-10",
-      // First image on right, top half
-      "Choose World Screen.png":
-        "col-span-2 row-span-2 md:col-span-4 md:row-span-5 md:col-start-6 md:row-start-1",
-      // Second image on right, bottom half
-      "Example Map.png":
-        "col-span-2 row-span-2 md:col-span-4 md:row-span-5 md:col-start-6 md:row-start-6",
-    },
     texture: "/textures/planets/balloonspop.png",
     theme: {
       surfaceColor1: "#FCA5A5",
@@ -488,13 +412,6 @@ export const projects = [
       "/stickyfred/Example Game.png",
       "/stickyfred/Game Over.png",
     ],
-    imageSpans: {
-      // Two images side-by-side, filling full width (4 + 5 = 9 columns)
-      "Example Game.png":
-        "col-span-2 row-span-2 md:col-span-4 md:row-span-6",
-      "Game Over.png":
-        "col-span-2 row-span-2 md:col-span-5 md:row-span-6 md:col-start-5",
-    },
     theme: {
       surfaceColor1: "#FCD34D",
       surfaceColor2: "#D97706",
@@ -513,13 +430,6 @@ export const projects = [
       "/MoneyPortal/Gameplay Start.png",
       "/MoneyPortal/Example portals.png",
     ],
-    imageSpans: {
-      // Two images side-by-side, filling full width (4 + 5 = 9 columns)
-      "Gameplay Start.png":
-        "col-span-2 row-span-2 md:col-span-4 md:row-span-6",
-      "Example portals.png":
-        "col-span-2 row-span-2 md:col-span-5 md:row-span-6 md:col-start-5",
-    },
     theme: {
       surfaceColor1: "#F9A8D4",
       surfaceColor2: "#DB2777",
@@ -547,7 +457,7 @@ export const projects = [
     name: "Flappy Bird Clone",
     category: "Games",
     punchline: "A browser-based Flappy Bird clone to master game loop fundamentals.",
-    description: "This project reproduces the feel of Flappy Bird—frame timing, collision, difficulty ramp—purely in the browser. It was an exercise in sharpening fundamentals in game loops, assets, and hitboxes.",
+    description: "This project reproduces the feel of Flappy Bird (frame timing, collision, difficulty ramp), purely in the browser. It was an exercise in sharpening fundamentals in game loops, assets, and hitboxes.",
     tools: ["No AI used!", "Canvas", "JavaScript"],
     size: "small",
     image: "/flafybird/background.png",
@@ -567,11 +477,6 @@ export const projects = [
     repoUrl: "https://github.com/zivbeh/babic-birth-day",
     size: "small",
     image: "/profile.JPG",
-    imageSpans: {
-      // Constrain single image to reasonable size
-      "profile.JPG":
-        "col-span-2 row-span-2 md:col-span-6 md:row-span-6",
-    },
     theme: {
       surfaceColor1: "#A5B4FC",
       surfaceColor2: "#4F46E5",
@@ -606,13 +511,6 @@ export const projects = [
       "/roomgame/Randomly Generated Rooms.png",
       "/roomgame/Randomly Generated Rooms using seed441.png",
     ],
-    imageSpans: {
-      // Two images side-by-side, filling most of the width similar to MoneyPortal
-      "Randomly Generated Rooms.png":
-        "col-span-2 row-span-2 md:col-span-4 md:row-span-6",
-      "Randomly Generated Rooms using seed441.png":
-        "col-span-2 row-span-2 md:col-span-5 md:row-span-6 md:col-start-5",
-    },
     theme: {
       surfaceColor1: "#F87171",
       surfaceColor2: "#B91C1C",
@@ -635,19 +533,6 @@ export const projects = [
       "/3dprojs/Marble Game.png",
       "/3dprojs/Storage Boxes.png",
     ],
-    imageSpans: {
-      // Arrange 5 images in a grid: 2 on top row, 3 on bottom row, all taking substantial space
-      "Star Wars Tie Fighter.png":
-        "col-span-2 row-span-2 md:col-span-4 md:row-span-5",
-      "Minion.png":
-        "col-span-2 row-span-2 md:col-span-5 md:row-span-5 md:col-start-5",
-      "Basketball Hoop For My Desk.png":
-        "col-span-2 row-span-2 md:col-span-3 md:row-span-5 md:row-start-6",
-      "Marble Game.png":
-        "col-span-2 row-span-2 md:col-span-3 md:row-span-5 md:col-start-4 md:row-start-6",
-      "Storage Boxes.png":
-        "col-span-2 row-span-2 md:col-span-3 md:row-span-5 md:col-start-7 md:row-start-6",
-    },
     texture: "/textures/planets/ordercubic.png",
     theme: {
       surfaceColor1: "#CA8A04",

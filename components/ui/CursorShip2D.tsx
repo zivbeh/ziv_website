@@ -8,15 +8,45 @@ const TRAIL_DURATION = 600;
 const TRAIL_WIDTH_MAX = 20; 
 // CHANGED: Reduced to 28px.
 // This puts the trail origin very close to the center of rotation, eliminating the wide swing arc.
-const TRAIL_OFFSET = 50; 
-const TRAIL_COLOR = "#F8D628";
-const EXHAUST_COLORS = ["#ff4400", "#ff8800", TRAIL_COLOR];
+const TRAIL_OFFSET = 50;
+const DEFAULT_TRAIL = "#F8D628";
+const DEFAULT_EXHAUST = ["#ff4400", "#ff8800", DEFAULT_TRAIL] as const;
 
-export function CursorShip2D() {
+export type ShipFx = {
+  /** Main streak color */
+  trail: string;
+  /** Outer → mid → core exhaust (3 stops) */
+  exhaust: readonly [string, string, string];
+};
+
+type CursorShip2DProps = {
+  /** Ship image URL */
+  src?: string;
+  /** Asset faces right by default in generated art → use -90 */
+  headingOffsetDeg?: number;
+  size?: number;
+  /** Trail + exhaust palette fitted to the ship */
+  fx?: ShipFx;
+};
+
+export function CursorShip2D({
+  src = "/spaceship.png",
+  headingOffsetDeg = 0,
+  size = 96,
+  fx,
+}: CursorShip2DProps) {
   const shipRef = useRef<HTMLDivElement | null>(null);
   const trailContainerRef = useRef<SVGGElement | null>(null);
   const exhaustRef = useRef<HTMLDivElement | null>(null);
   const rafRef = useRef<number | null>(null);
+  const fxRef = useRef<ShipFx>({
+    trail: fx?.trail ?? DEFAULT_TRAIL,
+    exhaust: fx?.exhaust ?? DEFAULT_EXHAUST,
+  });
+  fxRef.current = {
+    trail: fx?.trail ?? DEFAULT_TRAIL,
+    exhaust: fx?.exhaust ?? DEFAULT_EXHAUST,
+  };
   
   const target = useRef({ x: 0, y: 0 });
   const pos = useRef({ x: 0, y: 0 });
@@ -127,15 +157,19 @@ export function CursorShip2D() {
       exhaustEl.style.transform = `translate(${exhaustX}px, ${exhaustY}px) translate(-50%, -50%) rotate(${angle + Math.PI}rad)`;
       exhaustEl.style.opacity = baseScale.toString();
 
+      const { trail: trailColor, exhaust: exhaustColors } = fxRef.current;
       const flames = exhaustEl.children;
       if (flames.length >= 3) {
         const s1 = (0.8 + 0.2 * Math.sin(time * 1.5)) * baseScale;
         const s2 = (0.8 + 0.2 * Math.sin(time * 2.0)) * baseScale;
         const s3 = (0.8 + 0.2 * Math.sin(time * 2.5)) * baseScale;
-        
+
         (flames[0] as HTMLElement).style.transform = `translate(-50%, -50%) scale(${s1})`;
+        (flames[0] as HTMLElement).style.background = `radial-gradient(ellipse at center, #ffffff 15%, ${exhaustColors[2]} 40%, ${exhaustColors[1]} 70%, ${exhaustColors[0]} 100%)`;
         (flames[1] as HTMLElement).style.transform = `translate(-50%, -50%) scale(${s2})`;
+        (flames[1] as HTMLElement).style.background = `radial-gradient(ellipse at center, ${exhaustColors[2]} 30%, ${exhaustColors[1]} 70%, ${exhaustColors[0]} 100%)`;
         (flames[2] as HTMLElement).style.transform = `translate(-50%, -50%) scale(${s3})`;
+        (flames[2] as HTMLElement).style.background = `radial-gradient(ellipse at center, ${exhaustColors[1]} 0%, ${exhaustColors[0]} 100%)`;
       }
 
       // --- 4. Trail Logic ---
@@ -169,7 +203,7 @@ export function CursorShip2D() {
             path.setAttribute("y1", p1.y.toString());
             path.setAttribute("x2", p2.x.toString());
             path.setAttribute("y2", p2.y.toString());
-            path.setAttribute("stroke", TRAIL_COLOR);
+            path.setAttribute("stroke", trailColor);
             path.setAttribute("stroke-width", width.toString());
             path.setAttribute("stroke-linecap", "round");
             path.setAttribute("stroke-opacity", opacity.toString());
@@ -218,7 +252,7 @@ export function CursorShip2D() {
           willChange: "transform, opacity",
         }}
       >
-         <div
+        <div
           style={{
             position: "absolute",
             left: "50%",
@@ -226,7 +260,7 @@ export function CursorShip2D() {
             transform: "translate(-50%, -50%)",
             width: "24px",
             height: "40px",
-            background: `radial-gradient(ellipse at center, #ffffff 15%, ${EXHAUST_COLORS[2]} 40%, ${EXHAUST_COLORS[1]} 70%, ${EXHAUST_COLORS[0]} 100%)`,
+            background: `radial-gradient(ellipse at center, #ffffff 15%, ${fxRef.current.exhaust[2]} 40%, ${fxRef.current.exhaust[1]} 70%, ${fxRef.current.exhaust[0]} 100%)`,
             borderRadius: "50% 50% 50% 50% / 60% 60% 40% 40%",
             filter: "blur(2px)",
             opacity: 0.8,
@@ -240,7 +274,7 @@ export function CursorShip2D() {
             transform: "translate(-50%, -50%)",
             width: "16px",
             height: "60px",
-            background: `radial-gradient(ellipse at center, ${EXHAUST_COLORS[2]} 30%, ${EXHAUST_COLORS[1]} 70%, ${EXHAUST_COLORS[0]} 100%)`,
+            background: `radial-gradient(ellipse at center, ${fxRef.current.exhaust[2]} 30%, ${fxRef.current.exhaust[1]} 70%, ${fxRef.current.exhaust[0]} 100%)`,
             borderRadius: "50% 50% 50% 50% / 60% 60% 40% 40%",
             filter: "blur(1.5px)",
             opacity: 0.7,
@@ -254,7 +288,7 @@ export function CursorShip2D() {
             transform: "translate(-50%, -50%)",
             width: "12px",
             height: "30px",
-            background: `radial-gradient(ellipse at center, ${EXHAUST_COLORS[1]} 0%, ${EXHAUST_COLORS[0]} 100%)`,
+            background: `radial-gradient(ellipse at center, ${fxRef.current.exhaust[1]} 0%, ${fxRef.current.exhaust[0]} 100%)`,
             borderRadius: "50% 50% 50% 50% / 60% 60% 40% 40%",
             filter: "blur(1px)",
             opacity: 0.6,
@@ -275,12 +309,18 @@ export function CursorShip2D() {
           willChange: "transform",
         }}
       >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/spaceship.png"
+          key={src}
+          src={src}
           alt=""
           style={{
-            width: "96px",
-            height: "96px",
+            width: size,
+            height: size,
+            objectFit: "contain",
+            transform: headingOffsetDeg
+              ? `rotate(${headingOffsetDeg}deg)`
+              : undefined,
           }}
         />
       </div>

@@ -1,10 +1,19 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import Script from "next/script";
+import { Fraunces, Space_Grotesk } from "next/font/google";
 import "./globals.css";
-import { TopBar } from "@/components/ui/TopBar";
+import { SiteIntro } from "@/components/ui/SiteIntro";
 import { Analytics } from "@vercel/analytics/react";
 
-const inter = Inter({ subsets: ["latin"] });
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-fraunces",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space-grotesk",
+});
 
 export const viewport: Viewport = {
   themeColor: "black",
@@ -15,12 +24,12 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://zivbehar.vercel.app"),
   title: {
-    default: "Ziv Behar's Portfolio",
+    default: "Ziv Behar",
     template: "%s | Ziv Behar",
   },
   description:
-    "Electrical and Software Engineering, AI, web, and games. UC Berkeley EECS '27. Engineering the future.",
-  applicationName: "Ziv Behar Portfolio",
+    "UC Berkeley EECS Honors ’27. Products, research, and systems from campus tools to on-device ML.",
+  applicationName: "Ziv Behar",
   authors: [{ name: "Ziv Behar", url: "https://zivbehar.vercel.app" }],
   creator: "Ziv Behar",
   publisher: "Ziv Behar",
@@ -33,39 +42,36 @@ export const metadata: Metadata = {
     "EECS",
     "AI",
     "Web Development",
-    "Game Development",
     "Next.js",
     "React",
-    "Three.js",
     "TypeScript",
-    "Developer",
   ],
   icons: {
     icon: "/favicon.ico",
-    apple: "/apple-touch-icon.png", // Assuming you might have or want one
+    apple: "/apple-touch-icon.png",
   },
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "/",
-    siteName: "Ziv Behar's Portfolio",
-    title: "Ziv Behar's Portfolio",
+    siteName: "Ziv Behar",
+    title: "Ziv Behar",
     description:
-      "Electrical and Software Engineering, AI, web, and games. UC Berkeley EECS '27. Engineering the future.",
+      "UC Berkeley EECS Honors ’27. Products, research, and systems from campus tools to on-device ML.",
     images: [
       {
         url: "/website.png",
         width: 1200,
         height: 630,
-        alt: "Ziv Behar's Portfolio Preview",
+        alt: "Ziv Behar",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ziv Behar's Portfolio",
+    title: "Ziv Behar",
     description:
-      "Electrical and Software Engineering, AI, web, and games. UC Berkeley EECS '27. Engineering the future.",
+      "UC Berkeley EECS Honors ’27. Products, research, and systems from campus tools to on-device ML.",
     images: ["/website.png"],
   },
   robots: {
@@ -88,8 +94,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className} suppressHydrationWarning>
-        <TopBar />
+      <body
+        className={`${fraunces.variable} ${spaceGrotesk.variable} bg-black text-white antialiased`}
+        suppressHydrationWarning
+      >
+        <Script id="site-intro-boot" strategy="beforeInteractive">
+          {`(function(){try{var q=location.search;if(/[?&]skipIntro=1/.test(q))return;var p=location.pathname;if(p==="/"||p===""){document.documentElement.dataset.intro="pending";}}catch(e){}})();`}
+        </Script>
+        <SiteIntro />
         {children}
         <Analytics />
       </body>
