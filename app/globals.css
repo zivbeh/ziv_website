@@ -51,6 +51,8 @@ html,
 body,
 #__next {
     height: 100%;
+    max-width: 100%;
+    overflow-x: clip;
 }
 
 body {
@@ -479,8 +481,7 @@ html[data-intro="pending"] body::before {
     height: 72px;
 }
 
-.hero-boot-window--expand,
-.hero-boot-window--settled {
+.hero-boot-window--expand {
     width: 100vmax;
     height: 100vmax;
     left: 50%;
@@ -489,17 +490,21 @@ html[data-intro="pending"] body::before {
 }
 
 .hero-boot-window--settled {
+    inset: 0;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transform: none;
     opacity: 1;
     transition: none;
 }
 
 .hero-boot-scene {
     position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 100vw;
-    height: 100dvh;
-    transform: translate(-50%, -50%);
+    inset: 0;
+    width: 100%;
+    height: 100%;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -659,6 +664,9 @@ html[data-intro="pending"] body::before {
     /* Transparent — fixed hero dither shows through (same as About) */
     background: transparent;
     isolation: isolate;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
 }
 
 .projects-stage::before {
@@ -709,6 +717,51 @@ html[data-intro="pending"] body::before {
     );
 }
 
+.project-row {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+.project-row-shell {
+    width: 100%;
+    max-width: 1320px;
+    min-width: 0;
+    margin-inline: auto;
+}
+
+/* Default: stacked. Side-by-side only when there's real room. */
+.project-row-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: center;
+    gap: 1.25rem;
+    width: 100%;
+    min-width: 0;
+}
+
+.project-row-copy,
+.project-row-media {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.project-row-copy {
+    max-width: 36rem;
+}
+
+.project-row-body-detail {
+    display: none;
+}
+
+.project-row-lede {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+}
+
 .project-row-cta {
     display: inline-flex;
     align-items: center;
@@ -739,6 +792,9 @@ html[data-intro="pending"] body::before {
     border: 0;
     background: transparent;
     padding: 0;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
     cursor: pointer;
     transition: transform 160ms var(--ease-out);
 }
@@ -749,65 +805,74 @@ html[data-intro="pending"] body::before {
 
 .project-photos {
     display: grid;
-    gap: 0.75rem;
+    gap: 0.5rem;
     width: 100%;
+    max-width: 100%;
+    min-width: 0;
 }
 
 .project-photos--pair {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     align-items: stretch;
 }
 
 .project-photos--trio {
-    grid-template-columns: 1.4fr 1fr;
-    align-items: stretch;
-    height: min(56vh, 32rem);
-    max-height: min(56vh, 32rem);
+    grid-template-columns: minmax(0, 1fr);
+    height: auto;
+    max-height: none;
 }
 
 .project-photos-stack {
     display: grid;
-    grid-template-rows: 1fr 1fr;
-    gap: 0.75rem;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 0.5rem;
     min-height: 0;
-    height: 100%;
+    width: 100%;
 }
 
 .project-photo {
     position: relative;
     overflow: hidden;
-    border-radius: 16px;
+    border-radius: 12px;
     background: #1a1916;
     border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+    min-width: 0;
     min-height: 0;
+    width: 100%;
 }
 
 .project-photo--hero {
     aspect-ratio: 16 / 11;
-    max-height: min(62vh, 36rem);
+    max-height: min(42vh, 22rem);
 }
 
 .project-photo--primary {
-    height: 100%;
-    min-height: 0;
+    height: auto;
+    aspect-ratio: 16 / 10;
+    max-height: min(28vh, 16rem);
 }
 
 .project-photos--pair .project-photo {
     aspect-ratio: 4 / 5;
-    max-height: min(52vh, 30rem);
+    max-height: min(36vh, 18rem);
+}
+
+.project-photos-stack .project-photo {
+    aspect-ratio: 4 / 3;
+    max-height: min(14vh, 8rem);
 }
 
 .project-photo img,
 .project-photo-video {
     width: 100%;
     height: 100%;
+    max-width: 100%;
     object-fit: cover;
     display: block;
     transition:
         transform 280ms var(--ease-out),
         filter 280ms ease;
-    will-change: transform;
 }
 
 .project-photo-video {
@@ -830,24 +895,79 @@ html[data-intro="pending"] body::before {
     }
 }
 
-@media (max-width: 1023px) {
-    .project-photos--trio {
-        grid-template-columns: 1fr;
-        min-height: 0;
-    }
-
-    .project-photos-stack {
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: auto;
-    }
-
+/* Comfortable tablet: still stacked, a bit more media room */
+@media (min-width: 640px) and (max-width: 899px) {
     .project-photo--primary {
-        min-height: 0;
-        aspect-ratio: 16 / 10;
+        max-height: min(32vh, 18rem);
     }
 
     .project-photos-stack .project-photo {
-        aspect-ratio: 4 / 3;
+        max-height: min(16vh, 9rem);
+    }
+}
+
+/* Desktop split — only when both columns can breathe */
+@media (min-width: 900px) {
+    .project-row-grid {
+        grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+        gap: 2.5rem;
+    }
+
+    .project-row-grid.is-flipped .project-row-copy {
+        order: 2;
+        margin-left: auto;
+    }
+
+    .project-row-grid.is-flipped .project-row-media {
+        order: 1;
+    }
+
+    .project-row-body-detail {
+        display: block;
+    }
+
+    .project-row-lede {
+        display: block;
+        -webkit-line-clamp: unset;
+        overflow: visible;
+    }
+
+    .project-photos--trio {
+        grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+        height: min(52vh, 30rem);
+        max-height: min(52vh, 30rem);
+        gap: 0.75rem;
+    }
+
+    .project-photos-stack {
+        grid-template-columns: none;
+        grid-template-rows: 1fr 1fr;
+        height: 100%;
+        gap: 0.75rem;
+    }
+
+    .project-photo {
+        border-radius: 16px;
+    }
+
+    .project-photo--primary {
+        height: 100%;
+        max-height: none;
+        aspect-ratio: auto;
+    }
+
+    .project-photos-stack .project-photo {
+        height: auto;
+        max-height: none;
+        aspect-ratio: auto;
+    }
+
+    .project-photo--hero {
+        max-height: min(62vh, 36rem);
+    }
+
+    .project-photos--pair .project-photo {
+        max-height: min(52vh, 30rem);
     }
 }
 
@@ -1046,6 +1166,89 @@ html[data-intro="pending"] body::before {
     position: relative;
     isolation: isolate;
     background: transparent;
+}
+
+/*
+ * Shared hero/contact portrait.
+ * Phones: wider frame + softer left fade so the face isn't sliced.
+ * Desktop: original right-rail crop.
+ */
+.site-portrait {
+    position: absolute;
+    right: 0;
+    bottom: -10vh;
+    z-index: 2;
+    height: 108%;
+    width: 88%;
+    pointer-events: none;
+    -webkit-mask-image:
+        linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(0, 0, 0, 0.45) 8%,
+            #000 20%
+        ),
+        linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.55) 10%, #000 24%, #000 92%, rgba(0, 0, 0, 0.4) 97%, transparent 100%),
+        linear-gradient(90deg, #000 0%, #000 72%, rgba(0, 0, 0, 0.5) 86%, transparent 98%);
+    mask-image:
+        linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(0, 0, 0, 0.45) 8%,
+            #000 20%
+        ),
+        linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.55) 10%, #000 24%, #000 92%, rgba(0, 0, 0, 0.4) 97%, transparent 100%),
+        linear-gradient(90deg, #000 0%, #000 72%, rgba(0, 0, 0, 0.5) 86%, transparent 98%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+}
+
+.site-portrait-img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: 58% 14%;
+    filter: grayscale(1);
+}
+
+/* Keep copy readable when the portrait goes wide on phones */
+.site-text-veil {
+    pointer-events: none;
+    background: linear-gradient(
+        105deg,
+        rgba(0, 0, 0, calc(0.62 + var(--site-veil, 0.65) * 0.35)) 0%,
+        rgba(0, 0, 0, calc(0.38 + var(--site-veil, 0.65) * 0.28)) 42%,
+        rgba(0, 0, 0, 0.12) 62%,
+        transparent 82%
+    );
+}
+
+@media (min-width: 768px) {
+    .site-portrait {
+        width: 48%;
+        -webkit-mask-image:
+            linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.55) 14%, #000 32%),
+            linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.6) 12%, #000 28%, #000 90%, rgba(0, 0, 0, 0.45) 97%, transparent 100%),
+            linear-gradient(90deg, #000 0%, #000 62%, rgba(0, 0, 0, 0.45) 78%, transparent 94%);
+        mask-image:
+            linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.55) 14%, #000 32%),
+            linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.6) 12%, #000 28%, #000 90%, rgba(0, 0, 0, 0.45) 97%, transparent 100%),
+            linear-gradient(90deg, #000 0%, #000 62%, rgba(0, 0, 0, 0.45) 78%, transparent 94%);
+    }
+
+    .site-portrait-img {
+        object-position: 50% 18%;
+    }
+
+    .site-text-veil {
+        background: linear-gradient(
+            105deg,
+            rgba(0, 0, 0, calc(0.5 + var(--site-veil, 0.65) * 0.4)) 0%,
+            rgba(0, 0, 0, calc(0.2 + var(--site-veil, 0.65) * 0.25)) 36%,
+            rgba(0, 0, 0, 0.08) 58%,
+            transparent 76%
+        );
+    }
 }
 
 .contact-archive-stage {

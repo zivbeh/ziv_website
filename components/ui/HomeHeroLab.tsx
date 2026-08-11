@@ -45,8 +45,6 @@ const OFF = { enableMouseInteraction: false as const, mouseRadius: 0 };
 /** Locked Desk −1 visual */
 const DESK = {
   veil: 0.65,
-  /** Face-forward; bottom crop eats studio gray, not the jacket */
-  focus: "50% 18%",
   ditherOpacity: 1,
   ditherBlend: "normal" as const,
   dither: {
@@ -59,20 +57,6 @@ const DESK = {
     waveFrequency: 2.5,
     waveSpeed: 0.03,
   },
-};
-
-/** Top + left rise; late bottom dissolve so the jacket stays deep */
-const RISE_BASE =
-  "linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.55) 14%, #000 32%), linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.6) 12%, #000 28%, #000 90%, rgba(0,0,0,0.45) 97%, transparent 100%)";
-
-const RIGHT_CUT =
-  "linear-gradient(90deg, #000 0%, #000 62%, rgba(0,0,0,0.45) 78%, transparent 94%)";
-
-const RISE_MASK: React.CSSProperties = {
-  WebkitMaskImage: `${RISE_BASE}, ${RIGHT_CUT}`,
-  maskImage: `${RISE_BASE}, ${RIGHT_CUT}`,
-  WebkitMaskComposite: "source-in",
-  maskComposite: "intersect",
 };
 
 const LINE = "UC Berkeley EECS Honors ’27";
@@ -105,17 +89,17 @@ const FONT = {
 
 const SIZE = {
   col: "max-w-2xl md:max-w-3xl",
-  name: "text-7xl md:text-9xl",
-  line: "text-2xl md:text-3xl",
-  bio: "text-lg md:text-xl",
+  name: "text-[2.85rem] sm:text-6xl md:text-9xl",
+  line: "text-xl sm:text-2xl md:text-3xl",
+  bio: "text-base sm:text-lg md:text-xl",
   bioMax: "max-w-lg",
   cta: "text-base",
-  ctaPad: "px-7 py-3.5",
-  gapName: "mt-7",
-  gapLine: "mt-5",
-  gapBio: "mt-10",
-  /** ~60% of previous strip width (was max-w-xl / 36rem → ~22rem) */
-  marqueeMax: "w-[22rem] max-w-[22rem]",
+  ctaPad: "px-6 py-3 sm:px-7 sm:py-3.5",
+  gapName: "mt-5 sm:mt-7",
+  gapLine: "mt-4 sm:mt-5",
+  gapBio: "mt-8 sm:mt-10",
+  /** Full width on phones; capped strip on desktop */
+  marqueeMax: "w-full max-w-[22rem]",
 } as const;
 
 type LogoMeta = {
@@ -378,9 +362,13 @@ function TopNav({
 function HeroContent({
   nameReady = false,
   onCopyReady,
+  onProjects,
+  onContact,
 }: {
   nameReady?: boolean;
   onCopyReady?: () => void;
+  onProjects?: () => void;
+  onContact?: () => void;
 }) {
   const ink = "#F4F4F4";
   const reduce = useReducedMotion();
@@ -479,6 +467,10 @@ function HeroContent({
             href="#projects"
             className={`hero-cta hero-pressable ${SIZE.ctaPad} ${SIZE.cta} font-medium`}
             style={{ fontFamily: FONT.body }}
+            onClick={(e) => {
+              e.preventDefault();
+              onProjects?.();
+            }}
           >
             View projects
           </a>
@@ -486,6 +478,10 @@ function HeroContent({
             href="#contact"
             className={`hero-cta-ghost hero-pressable ${SIZE.ctaPad} ${SIZE.cta}`}
             style={{ fontFamily: FONT.body }}
+            onClick={(e) => {
+              e.preventDefault();
+              onContact?.();
+            }}
           >
             Contact
           </a>
@@ -609,10 +605,26 @@ export function HomeHeroLab() {
       const root = scrollerRef.current;
       const el = document.getElementById(id);
       if (!root || !el) return;
-      root.scrollTo({
-        top: el.offsetTop,
-        behavior: reduce ? "auto" : "smooth",
-      });
+
+      const top = el.offsetTop;
+      if (reduce) {
+        root.scrollTo({ top, behavior: "auto" });
+        return;
+      }
+
+      // Snap points eat long smooth scrolls — pause them for the glide.
+      root.style.scrollSnapType = "none";
+      root.scrollTo({ top, behavior: "smooth" });
+
+      let settled = false;
+      const restore = () => {
+        if (settled) return;
+        settled = true;
+        root.style.scrollSnapType = "";
+        root.removeEventListener("scrollend", restore);
+      };
+      root.addEventListener("scrollend", restore);
+      window.setTimeout(restore, 1100);
     },
     [reduce]
   );
@@ -621,10 +633,21 @@ export function HomeHeroLab() {
     setContactPanel("contact");
     const root = scrollerRef.current;
     if (!root) return;
-    root.scrollTo({
-      top: 0,
-      behavior: reduce ? "auto" : "smooth",
-    });
+    if (reduce) {
+      root.scrollTo({ top: 0, behavior: "auto" });
+      return;
+    }
+    root.style.scrollSnapType = "none";
+    root.scrollTo({ top: 0, behavior: "smooth" });
+    let settled = false;
+    const restore = () => {
+      if (settled) return;
+      settled = true;
+      root.style.scrollSnapType = "";
+      root.removeEventListener("scrollend", restore);
+    };
+    root.addEventListener("scrollend", restore);
+    window.setTimeout(restore, 1100);
   }, [reduce]);
 
   const scrollToAbout = useCallback(() => scrollToId("about"), [scrollToId]);
@@ -673,16 +696,12 @@ export function HomeHeroLab() {
 
       {portraitInBoot ? (
         <div className="absolute inset-0" style={{ zIndex: 2 }}>
-          <div
-            className="pointer-events-none absolute -bottom-[10vh] right-0 h-[108%] w-[54%] md:w-[48%]"
-            style={RISE_MASK}
-          >
+          <div className="site-portrait">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/profile-classic.png"
               alt=""
-              className="h-full w-full object-cover grayscale"
-              style={{ objectPosition: DESK.focus }}
+              className="site-portrait-img"
               draggable={false}
             />
           </div>
@@ -691,10 +710,10 @@ export function HomeHeroLab() {
 
       <div
         aria-hidden
-        className="absolute inset-0"
+        className="site-text-veil absolute inset-0"
         style={{
           zIndex: 4,
-          background: `linear-gradient(105deg, rgba(0,0,0,${0.5 + DESK.veil * 0.4}) 0%, rgba(0,0,0,${0.2 + DESK.veil * 0.25}) 36%, rgba(0,0,0,0.08) 58%, transparent 76%)`,
+          ["--site-veil" as string]: String(DESK.veil),
         }}
       />
     </>
@@ -703,7 +722,7 @@ export function HomeHeroLab() {
   return (
     <div
       ref={scrollerRef}
-      className="relative h-[100dvh] overflow-x-hidden overflow-y-auto bg-black text-white snap-y snap-mandatory overscroll-y-contain"
+      className="relative h-[100dvh] w-full max-w-[100%] overflow-x-clip overflow-y-auto bg-black text-white snap-y snap-mandatory overscroll-y-contain"
     >
       {shipLive ? (
         <CursorShip2D
@@ -737,21 +756,22 @@ export function HomeHeroLab() {
       <div className="relative z-20">
         <section className="relative h-[100dvh] w-full shrink-0 snap-start overflow-hidden">
           {portraitInHero ? (
-            <div
-              className="pointer-events-none absolute -bottom-[10vh] right-0 z-[2] h-[108%] w-[54%] md:w-[48%]"
-              style={RISE_MASK}
-            >
+            <div className="site-portrait">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/profile-classic.png"
                 alt=""
-                className="h-full w-full object-cover grayscale"
-                style={{ objectPosition: DESK.focus }}
+                className="site-portrait-img"
                 draggable={false}
               />
             </div>
           ) : null}
-          <HeroContent nameReady={boot.nameReady} onCopyReady={onCopyReady} />
+          <HeroContent
+            nameReady={boot.nameReady}
+            onCopyReady={onCopyReady}
+            onProjects={scrollToProjects}
+            onContact={scrollToContact}
+          />
 
           {navReady ? (
             <a

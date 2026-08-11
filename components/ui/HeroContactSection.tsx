@@ -13,19 +13,6 @@ const FONT = {
 
 const EMAIL = "zivbeh@gmail.com";
 
-const RISE_BASE =
-  "linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.55) 14%, #000 32%), linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.6) 12%, #000 28%, #000 90%, rgba(0,0,0,0.45) 97%, transparent 100%)";
-
-const RIGHT_CUT =
-  "linear-gradient(90deg, #000 0%, #000 62%, rgba(0,0,0,0.45) 78%, transparent 94%)";
-
-const RISE_MASK: React.CSSProperties = {
-  WebkitMaskImage: `${RISE_BASE}, ${RIGHT_CUT}`,
-  maskImage: `${RISE_BASE}, ${RIGHT_CUT}`,
-  WebkitMaskComposite: "source-in",
-  maskComposite: "intersect",
-};
-
 export function HeroContactSection({
   onMoreWorks,
 }: {
@@ -50,17 +37,12 @@ export function HeroContactSection({
 
   return (
     <div className="contact-stage relative flex h-full w-full flex-col justify-center overflow-hidden px-6 pb-10 pt-8 md:px-12">
-      <div
-        className="pointer-events-none absolute -bottom-[10vh] right-0 z-[2] h-[108%] w-[54%] md:w-[48%]"
-        style={RISE_MASK}
-        aria-hidden
-      >
+      <div className="site-portrait" aria-hidden>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/profile-classic.png"
           alt=""
-          className="h-full w-full object-cover grayscale"
-          style={{ objectPosition: "50% 18%" }}
+          className="site-portrait-img"
           draggable={false}
         />
       </div>
@@ -80,7 +62,7 @@ export function HeroContactSection({
           transition={{ duration: reduce ? 0 : 0.28, ease: EASE_OUT }}
         >
           <h2
-            className="text-6xl leading-[0.94] tracking-[-0.02em] text-[#F4F4F4] md:text-8xl lg:text-9xl"
+            className="text-[2.85rem] leading-[0.94] tracking-[-0.02em] text-[#F4F4F4] sm:text-6xl md:text-8xl lg:text-9xl"
             style={{
               fontFamily: FONT.display,
               fontWeight: 400,
@@ -90,7 +72,7 @@ export function HeroContactSection({
           </h2>
 
           <p
-            className="mt-6 text-xl leading-snug text-[#F4F4F4] md:text-2xl"
+            className="mt-5 text-xl leading-snug text-[#F4F4F4] sm:mt-6 md:text-2xl"
             style={{ fontFamily: FONT.display }}
           >
             UC Berkeley EECS Honors ’27

@@ -278,10 +278,10 @@ function ProjectRow({
         className={`field-veil${flip ? " field-veil--flip" : ""}`}
       />
 
-      <div className="relative mx-auto flex w-full max-w-[1320px] flex-col justify-center">
+      <div className="project-row-shell relative flex flex-col justify-center">
         {isFirst ? (
           <motion.div
-            className="mb-6 md:mb-7 max-w-xl"
+            className="mb-4 max-w-xl md:mb-7"
             initial={
               reduce
                 ? false
@@ -302,7 +302,7 @@ function ProjectRow({
               Projects
             </p>
             <h2
-              className="text-[1.65rem] leading-none tracking-[-0.02em] text-[#F4F4F4] md:text-[1.85rem]"
+              className="text-[1.45rem] leading-none tracking-[-0.02em] text-[#F4F4F4] md:text-[1.85rem]"
               style={{ fontFamily: FONT.display, fontWeight: 400 }}
             >
               Selected works
@@ -311,16 +311,10 @@ function ProjectRow({
         ) : null}
 
         <div
-          className={`grid w-full items-center gap-10 lg:gap-16 ${
-            flip
-              ? "lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.15fr)]"
-              : "lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.15fr)]"
-          }`}
+          className={`project-row-grid${flip ? " is-flipped" : ""}`}
         >
           <motion.div
-            className={`relative z-10 flex max-w-xl flex-col ${
-              flip ? "lg:order-2 lg:ml-auto" : "lg:order-1"
-            }`}
+            className="project-row-copy relative z-10 flex flex-col"
             initial={
               reduce
                 ? false
@@ -338,7 +332,7 @@ function ProjectRow({
             }}
           >
             <p
-              className="mb-3 text-xs font-medium uppercase tracking-[0.2em] text-[#8A8A8A]"
+              className="mb-2 text-xs font-medium uppercase tracking-[0.2em] text-[#8A8A8A] md:mb-3"
               style={{ fontFamily: FONT.body }}
             >
               {String(index + 1).padStart(2, "0")}
@@ -350,23 +344,23 @@ function ProjectRow({
 
             <h3
               id={`project-row-${meta.id}`}
-              className="text-[clamp(2.15rem,4.4vw,3.35rem)] leading-[1.02] tracking-[-0.03em] text-[#F4F4F4]"
+              className="text-[clamp(1.75rem,6vw,3.35rem)] leading-[1.02] tracking-[-0.03em] text-[#F4F4F4]"
               style={{ fontFamily: FONT.display, fontWeight: 400 }}
             >
               {meta.short}
             </h3>
 
             <div
-              className="mt-5 space-y-3.5 text-base leading-relaxed text-[#C8C8C8] md:text-lg"
+              className="mt-3 space-y-3 text-[0.95rem] leading-relaxed text-[#C8C8C8] md:mt-4 lg:mt-5 lg:space-y-3.5 lg:text-lg"
               style={{ fontFamily: FONT.body }}
             >
-              <p>{meta.lede}</p>
-              <p>{meta.body}</p>
+              <p className="project-row-lede">{meta.lede}</p>
+              <p className="project-row-body-detail">{meta.body}</p>
             </div>
 
             <button
               type="button"
-              className="project-row-cta mt-8 w-fit"
+              className="project-row-cta mt-5 w-fit md:mt-6 lg:mt-8"
               style={{ fontFamily: FONT.body }}
               onClick={() => onOpen(project)}
             >
@@ -378,7 +372,7 @@ function ProjectRow({
           </motion.div>
 
           <motion.div
-            className={`${flip ? "lg:order-1" : "lg:order-2"}`}
+            className="project-row-media"
             initial={
               reduce
                 ? false
@@ -398,7 +392,7 @@ function ProjectRow({
           >
             <button
               type="button"
-              className="project-media-hit w-full text-left"
+              className="project-media-hit text-left"
               onClick={() => onOpen(project)}
               aria-label={`Open ${meta.short}`}
             >
