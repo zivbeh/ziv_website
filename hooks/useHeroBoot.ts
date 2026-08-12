@@ -1,10 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { useReducedMotion } from "framer-motion";
+import { useEffect, useState } from "react";
 import {
   BOOT,
-  BOOT_EXPAND_DONE_MS,
   clearIntroPendingHold,
   markSiteIntroSeen,
   shouldSkipSiteIntro,
@@ -20,80 +18,109 @@ export type BootChrome = {
   nameReady: boolean;
 };
 
-function motionPreference(): boolean {
-  if (typeof window === "undefined") return false;
-  try {
-    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  } catch {
-    return false;
-  }
+const PHASES: BootVisualPhase[] = ["plus", "square", "expand", "done"];
+
+const DWELL: Record<BootVisualPhase, number> = {
+  plus: BOOT.plusHold,
+  square: BOOT.toSquare,
+  expand: BOOT.expand,
+  done: 0,
+};
+
+const INITIAL: BootChrome = {
+  visual: "plus",
+  live: false,
+  bypass: false,
+  nameReady: false,
+};
+
+/** Module singleton — survives Strict Mode remounts */
+let snap: BootChrome = { ...INITIAL };
+let started = false;
+let timer: number | null = null;
+const listeners = new Set<(s: BootChrome) => void>();
+
+function publish(next: BootChrome) {
+  snap = next;
+  listeners.forEach((fn) => fn(snap));
 }
 
-/**
- * Always runs the boot (≥1s on the +, then square, then expand).
- * Skip only for reduced-motion or ?skipIntro=1.
- */
-export function useHeroBoot(): BootChrome {
-  const reduceHook = useReducedMotion();
-  const finished = useRef(false);
+function ensureBoot() {
+  if (started) return;
+  started = true;
 
-  const [visual, setVisual] = useState<BootVisualPhase>("plus");
-  const [live, setLive] = useState(false);
-  const [bypass, setBypass] = useState(false);
-  const [nameReady, setNameReady] = useState(false);
+  if (timer != null) {
+    window.clearTimeout(timer);
+    timer = null;
+  }
 
-  useEffect(() => {
-    clearIntroPendingHold();
+  clearIntroPendingHold();
 
-    const reduce =
-      reduceHook === null ? motionPreference() : !!reduceHook;
-    const skip = shouldSkipSiteIntro() || reduce;
+  if (typeof window !== "undefined" && shouldSkipSiteIntro()) {
+    publish({
+      visual: "done",
+      live: false,
+      bypass: true,
+      nameReady: true,
+    });
+    document.body.style.overflow = "";
+    return;
+  }
 
-    // Skip must win even across Strict Mode / reduceHook null→bool flips
-    if (skip) {
-      finished.current = true;
-      setBypass(true);
-      setLive(false);
-      setVisual("done");
-      setNameReady(true);
+  document.body.style.overflow = "hidden";
+  publish({
+    visual: "plus",
+    live: true,
+    bypass: false,
+    nameReady: false,
+  });
+
+  const advance = () => {
+    const idx = PHASES.indexOf(snap.visual);
+    if (idx < 0 || snap.visual === "done") return;
+
+    const next = PHASES[idx + 1];
+
+    if (next === "done") {
+      timer = null;
+      publish({
+        visual: "done",
+        live: true,
+        bypass: false,
+        nameReady: true,
+      });
+      markSiteIntroSeen();
       document.body.style.overflow = "";
       return;
     }
 
-    if (finished.current) return;
-
-    let cancelled = false;
-    const timers: number[] = [];
-    const at = (ms: number, fn: () => void) => {
-      timers.push(
-        window.setTimeout(() => {
-          if (!cancelled) fn();
-        }, ms)
-      );
-    };
-
-    document.body.style.overflow = "hidden";
-    setBypass(false);
-    setLive(true);
-    setVisual("plus");
-    setNameReady(false);
-
-    at(BOOT.plusHold, () => setVisual("square"));
-    at(BOOT.plusHold + BOOT.toSquare, () => setVisual("expand"));
-    at(BOOT_EXPAND_DONE_MS, () => {
-      setVisual("done");
-      markSiteIntroSeen();
-      document.body.style.overflow = "";
-      finished.current = true;
-      setNameReady(true);
+    publish({
+      visual: next,
+      live: true,
+      bypass: false,
+      nameReady: false,
     });
+    timer = window.setTimeout(advance, DWELL[next]);
+  };
 
+  timer = window.setTimeout(advance, DWELL.plus);
+}
+
+/**
+ * Always runs the boot (≥1s on the +, then square, then expand).
+ * Skip only for ?skipIntro=1.
+ */
+export function useHeroBoot(): BootChrome {
+  const [state, setState] = useState<BootChrome>(snap);
+
+  useEffect(() => {
+    ensureBoot();
+    listeners.add(setState);
+    setState(snap);
     return () => {
-      cancelled = true;
-      timers.forEach((id) => window.clearTimeout(id));
-      document.body.style.overflow = "";
+      listeners.delete(setState);
     };
-  }, [reduceHook]);
+  }, []);
 
-  return { visual, live, bypass, nameReady };
+  return state;
 }

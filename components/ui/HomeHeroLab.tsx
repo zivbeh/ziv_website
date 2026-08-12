@@ -720,10 +720,16 @@ export function HomeHeroLab() {
   );
 
   return (
-    <div
-      ref={scrollerRef}
-      className="relative h-[100dvh] w-full max-w-[100%] overflow-x-clip overflow-y-auto bg-black text-white snap-y snap-mandatory overscroll-y-contain"
-    >
+    <>
+      {/* Boot must sit outside the snap scroller — overflow-x clip kills the vmax expand */}
+      <HeroBootReveal
+        visual={boot.visual}
+        live={boot.live}
+        bypass={boot.bypass}
+      >
+        {field}
+      </HeroBootReveal>
+
       {shipLive ? (
         <CursorShip2D
           src={SHIP_SRC}
@@ -736,71 +742,68 @@ export function HomeHeroLab() {
         />
       ) : null}
 
-      <HeroBootReveal
-        visual={boot.visual}
-        live={boot.live}
-        bypass={boot.bypass}
+      <div
+        ref={scrollerRef}
+        className="relative z-10 h-[100dvh] w-full max-w-[100%] overflow-x-clip overflow-y-auto bg-transparent text-white snap-y snap-mandatory overscroll-y-contain"
       >
-        {field}
-      </HeroBootReveal>
+        <TopNav
+          ready={navReady}
+          onHome={scrollToHome}
+          onAbout={scrollToAbout}
+          onProjects={scrollToProjects}
+          onContact={scrollToContact}
+          onAcademics={scrollToAcademics}
+        />
 
-      <TopNav
-        ready={navReady}
-        onHome={scrollToHome}
-        onAbout={scrollToAbout}
-        onProjects={scrollToProjects}
-        onContact={scrollToContact}
-        onAcademics={scrollToAcademics}
-      />
+        <div className="relative z-20">
+          <section className="relative h-[100dvh] w-full shrink-0 snap-start overflow-hidden">
+            {portraitInHero ? (
+              <div className="site-portrait">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/profile-classic.png"
+                  alt=""
+                  className="site-portrait-img"
+                  draggable={false}
+                />
+              </div>
+            ) : null}
+            <HeroContent
+              nameReady={boot.nameReady}
+              onCopyReady={onCopyReady}
+              onProjects={scrollToProjects}
+              onContact={scrollToContact}
+            />
 
-      <div className="relative z-20">
-        <section className="relative h-[100dvh] w-full shrink-0 snap-start overflow-hidden">
-          {portraitInHero ? (
-            <div className="site-portrait">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/profile-classic.png"
-                alt=""
-                className="site-portrait-img"
-                draggable={false}
-              />
-            </div>
-          ) : null}
-          <HeroContent
-            nameReady={boot.nameReady}
-            onCopyReady={onCopyReady}
-            onProjects={scrollToProjects}
-            onContact={scrollToContact}
+            {navReady ? (
+              <a
+                href="#about"
+                className="hero-scroll-cue"
+                data-hidden={cueVisible ? undefined : "true"}
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToAbout();
+                }}
+              >
+                <span>About</span>
+                <span className="hero-scroll-cue-mark" aria-hidden>
+                  ↓
+                </span>
+              </a>
+            ) : null}
+          </section>
+
+          <HeroAboutSection />
+          <HeroProjectsSection
+            onModalOpenChange={setProjectModalOpen}
           />
-
-          {navReady ? (
-            <a
-              href="#about"
-              className="hero-scroll-cue"
-              data-hidden={cueVisible ? undefined : "true"}
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToAbout();
-              }}
-            >
-              <span>About</span>
-              <span className="hero-scroll-cue-mark" aria-hidden>
-                ↓
-              </span>
-            </a>
-          ) : null}
-        </section>
-
-        <HeroAboutSection />
-        <HeroProjectsSection
-          onModalOpenChange={setProjectModalOpen}
-        />
-        <HeroContactArchiveStage
-          panel={contactPanel}
-          onPanelChange={setContactPanel}
-          onModalOpenChange={setProjectModalOpen}
-        />
+          <HeroContactArchiveStage
+            panel={contactPanel}
+            onPanelChange={setContactPanel}
+            onModalOpenChange={setProjectModalOpen}
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 }

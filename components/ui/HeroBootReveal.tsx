@@ -77,6 +77,8 @@ export function HeroBootReveal({
     (visual === "plus" || (visual === "square" && !frozeSpin.current));
   const asSquare =
     visual === "square" || visual === "expand" || visual === "done";
+  /** Above the page scroller while playing — otherwise bg-black covers the whole boot */
+  const layerZ = visual === "done" ? "z-0" : "z-[280]";
 
   const timingStyle = {
     ["--boot-square" as string]: `${BOOT.toSquare}ms`,
@@ -85,9 +87,10 @@ export function HeroBootReveal({
 
   return (
     <div
-      className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-black"
+      className={`pointer-events-none fixed inset-0 ${layerZ} overflow-hidden bg-black`}
       style={timingStyle}
       aria-hidden
+      data-boot-phase={visual}
     >
       <div
         ref={geoRef}
