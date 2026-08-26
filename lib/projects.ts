@@ -44,15 +44,15 @@ export const projects = [
   },
   {
     id: "bsac-liwei-lin-lab",
-    name: "BSAC Liwei Lin Lab",
+    name: "PIML 3D Reconstruction",
     category: "Academics",
     punchline:
-      "3D Ultrasound imaging research using compressed sensing.",
+      "Physics-informed 3D ultrasonic imaging at BSAC. 3 abstracts to IEEE MEMS 2027; writing 1 journal paper.",
     description:
-      "In the Berkeley Sensor & Actuator Center (BSAC) with Prof. Liwei Lin, I work on 3D ultrasound imaging that uses compressed sensing and pMUTs for submillimeter-level volumetric reconstruction. " +
-      "On the software side, I implemented and optimized a FISTA-based compressed-sensing reconstruction pipeline that recovers sparse 3D voxel grids from noisy multichannel echoes, with custom benchmarking and visualization to validate accuracy against ground truth scenes. " +
-      "I also wrote microcontroller firmware to coordinate ultrasonic pulse transmission and data acquisition, and implemented a genetic algorithm to tune drive parameters and minimize ringdown by over 90% so the reconstruction sees cleaner signals. " +
-      "The compact dual-rail inverting supply board shown here is part of that larger system: an embedded module I designed and brought up so the mixed-signal stack has the stable negative rails, allowing the pMUTs to drive 2x higher voltages. This increases resolution accuracy and maximum depth field of view.",
+      "In the Berkeley Sensor & Actuator Center (BSAC) with Prof. Liwei Lin, I invented the first physics-informed learned reconstruction method for in-air 3D ultrasonic imaging. The system uses just 8 PMUT sensors (vs. hundreds conventionally) and cuts acquisition time by 10–100×, reconstructing target position, size, and orientation with 34 mm median surface error to ground truth. " +
+      "I also developed methods for synthetic-aperture and non-line-of-sight PMUT imaging, improving resolution 11.3× to 2.87 mm and localizing occluded targets up to 1.42 m away within 0.9 mm of ground truth. " +
+      "This work has 3 abstracts submitted to IEEE MEMS 2027, and I am writing 1 journal paper. " +
+      "The hardware is a compact in-air ultrasonic imager: piezoelectric micromachined ultrasonic transducers (PMUTs) driven from a mixed-signal stack I brought up. I wrote microcontroller firmware to coordinate pulse transmission and data acquisition, used a genetic algorithm to tune drive parameters and cut ringdown by over 90% so the reconstruction sees cleaner echoes, and designed a dual-rail inverting supply PCB so the pMUTs can drive 2× higher voltages for better resolution and a deeper field of view.",
     tools: [
       "Compressed sensing",
       "Machine Learning",
@@ -102,11 +102,11 @@ export const projects = [
   },
   {
     id: "liftr",
-    name: "LIFTR: On-device ML Fitness Coaching",
+    name: "LIFTR: On-device ML Fitness Coaching (acquired)",
     category: "Other",
-    punchline: "Shipped on-device vision inference for real-time personalized iOS coaching.",
+    punchline: "On-device vision for real-time iOS coaching. Acquired.",
     description:
-      "At LIFTR, I shipped a fitness coaching iOS app that runs real-time ML vision inference on-device. I derived structured form feedback by analyzing pose signals at ~30 FPS on mobile hardware, turning raw model outputs into personalized coaching cues. I also built an LSTM-based workout recommendation engine that retrains incrementally as users log sessions, adapting recommendations over time while preserving privacy and keeping zero network latency. Stack: CoreML, Swift/SwiftUI, PyTorch, Firebase, and Superwall.",
+      "At LIFTR, I shipped an acquired fitness coaching iOS app that runs real-time ML vision inference on-device. I derived structured form feedback by analyzing pose signals at ~30 FPS on mobile hardware, turning raw model outputs into personalized coaching cues. I also built an LSTM-based workout recommendation engine that retrains incrementally as users log sessions, adapting recommendations over time while preserving privacy and keeping zero network latency. Stack: CoreML, Swift/SwiftUI, PyTorch, Firebase, and Superwall.",
     tools: ["CoreML", "Swift/SwiftUI", "PyTorch", "Firebase", "On-device ML", "iOS", "Superwall"],
     liveUrl: "https://apps.apple.com/us/app/liftr-get-jacked/id6748885669",
     size: "medium",

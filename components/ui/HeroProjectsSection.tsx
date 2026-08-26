@@ -22,8 +22,8 @@ const FONT = {
  * Each row is a full snap stage: copy + 1–3 media plates.
  */
 export const FEATURED_PROJECT_IDS = [
-  "library-seat-radar",
   "liftr",
+  "library-seat-radar",
   "bsac-liwei-lin-lab",
   "balloons-pop",
   "strata-bb-hacks",
@@ -47,6 +47,18 @@ type FeaturedMeta = {
 
 const FEATURED: FeaturedMeta[] = [
   {
+    id: "liftr",
+    short: "LIFTR",
+    lede: "On-device vision for real-time iOS form coaching at ~30 FPS.",
+    body: "Shipped an acquired revenue-generating mobile fitness app using on-device ML to process exercise-form pose signals at 30 FPS and transform them into personalized real-time coaching feedback.",
+    tag: "Acquired",
+    media: [
+      { type: "image", src: "/liftr/pullup with score.png" },
+      { type: "image", src: "/liftr/liftr home.png" },
+      { type: "image", src: "/liftr/liftr body rankings.png" },
+    ],
+  },
+  {
     id: "library-seat-radar",
     short: "Library-Seat Radar",
     lede: "Live campus occupancy, acquired by UC Berkeley, SkyDeck Pad-13.",
@@ -62,22 +74,11 @@ const FEATURED: FeaturedMeta[] = [
     ],
   },
   {
-    id: "liftr",
-    short: "LIFTR",
-    lede: "On-device vision for real-time iOS form coaching at ~30 FPS.",
-    body: "Pose signals on-device become personalized coaching cues with zero network latency. Also shipped an LSTM recommender that retrains as people log sessions. CoreML, SwiftUI, PyTorch.",
-    tag: "iOS · ML",
-    media: [
-      { type: "image", src: "/liftr/pullup with score.png" },
-      { type: "image", src: "/liftr/liftr home.png" },
-      { type: "image", src: "/liftr/liftr body rankings.png" },
-    ],
-  },
-  {
     id: "bsac-liwei-lin-lab",
-    short: "BSAC Ultrasound",
-    lede: "3D imaging with compressed sensing, firmware, and PCB bring-up.",
-    body: "FISTA reconstruction for sparse voxel grids from noisy multichannel echoes, MCU firmware for pulse timing, and a dual-rail inverter board so pMUTs can drive higher voltages for deeper FOV.",
+    short: "PIML 3D Reconstruction",
+    lede:
+      "Invented the first physics-informed learned reconstruction method for in-air 3D ultrasonic imaging.",
+    body: "Uses just 8 PMUT sensors (vs. hundreds conventionally) and cuts acquisition time by 10–100×, reconstructing target position, size, and orientation with 34 mm median surface error to ground truth.",
     tag: "Research",
     media: [
       { type: "image", src: "/research/ultrasound-rig-desk.jpg" },
