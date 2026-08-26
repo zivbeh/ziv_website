@@ -36,7 +36,7 @@ export function HeroContactSection({
   };
 
   return (
-    <div className="contact-stage relative flex h-full w-full flex-col justify-center overflow-hidden px-6 pb-10 pt-8 md:px-12">
+    <div className="hero-stage contact-stage relative flex h-full w-full flex-col justify-center overflow-hidden px-6 pb-10 pt-8 md:px-12">
       <div className="site-portrait" aria-hidden>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -49,7 +49,7 @@ export function HeroContactSection({
 
       <div aria-hidden className="field-veil" />
 
-      <div className="relative z-10 mx-auto flex w-full max-w-[1200px] flex-col justify-center">
+      <div className="contact-copy relative z-10 mx-auto flex w-full max-w-[1200px] flex-col justify-center">
         <motion.div
           className="max-w-2xl md:max-w-3xl"
           initial={
@@ -82,13 +82,12 @@ export function HeroContactSection({
             className="mt-10 flex flex-wrap gap-3"
             style={{ fontFamily: FONT.body }}
           >
-            <button
-              type="button"
+            <a
+              href="/resume"
               className="hero-cta hero-pressable px-7 py-3.5 text-base font-medium"
-              onClick={copyEmail}
             >
-              {copied ? "Email copied" : "Copy email"}
-            </button>
+              Resume
+            </a>
             <button
               type="button"
               className="hero-cta-ghost hero-pressable px-7 py-3.5 text-base"
@@ -124,16 +123,16 @@ export function HeroContactSection({
                 →
               </span>
             </a>
-            <a
-              href="/CV.pdf"
-              download="Ziv_Behar_Resume.pdf"
+            <button
+              type="button"
               className="project-row-cta text-[#C8C8C8]"
+              onClick={copyEmail}
             >
-              Resume
+              {copied ? "Email copied" : "Email"}
               <span aria-hidden className="project-row-cta-arrow">
                 →
               </span>
-            </a>
+            </button>
           </div>
         </motion.div>
       </div>

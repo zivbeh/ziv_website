@@ -85,9 +85,9 @@ export function HeroAboutSection() {
     >
       <div aria-hidden className="field-veil field-veil--about" />
 
-      <div className="relative mx-auto flex w-full max-w-7xl flex-col items-stretch lg:block lg:min-h-[min(78vh,40rem)]">
+      <div className="about-inner relative mx-auto flex w-full max-w-7xl flex-col items-stretch lg:block lg:min-h-[min(78vh,40rem)]">
         <motion.div
-          className="relative z-10 max-w-xl"
+          className="about-copy relative z-10 max-w-xl"
           initial={
             reduce
               ? false
@@ -139,9 +139,7 @@ export function HeroAboutSection() {
             style={{ fontFamily: FONT.body }}
           >
             <a
-              href="/CV.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/resume"
               className="hero-cta hero-pressable px-6 py-3 text-sm font-medium"
             >
               View resume
@@ -159,7 +157,7 @@ export function HeroAboutSection() {
 
         {/* Breaks out of the text column — bleeds to the viewport edge */}
         <motion.div
-          className="relative mt-12 h-[min(54vh,27rem)] w-full overflow-hidden lg:absolute lg:top-0 lg:bottom-0 lg:right-[calc(50%-50vw)] lg:my-auto lg:h-[min(77vh,41rem)] lg:w-[56vw]"
+          className="about-wall relative mt-12 h-[min(54vh,27rem)] w-full overflow-hidden lg:absolute lg:top-0 lg:bottom-0 lg:right-[calc(50%-50vw)] lg:my-auto lg:h-[min(77vh,41rem)] lg:w-[56vw]"
           initial={reduce ? false : { opacity: 0, y: 12 }}
           whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}

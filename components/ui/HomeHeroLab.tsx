@@ -405,7 +405,7 @@ function HeroContent({
 
   return (
     <div
-      className="relative z-20 flex h-[100dvh] w-full items-center px-6 pb-10 pt-8 md:px-12"
+      className="hero-stage relative z-20 flex h-[100dvh] w-full items-center px-6 pb-10 pt-8 md:px-12"
       style={{ pointerEvents: showName ? "auto" : "none" }}
     >
       <div className={`w-full ${SIZE.col}`}>

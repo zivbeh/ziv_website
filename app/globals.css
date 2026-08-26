@@ -1547,3 +1547,70 @@ html[data-intro="pending"] body::before {
         transition: none;
     }
 }
+
+/* Ultrawide only — keep laptop / 1080p / 1440p composition unchanged */
+@media (min-width: 2000px) {
+    :root {
+        --site-stage: 100rem;
+        --site-stage-pad: calc((100vw - 100rem) / 2);
+    }
+
+    .hero-stage {
+        padding-left: var(--site-stage-pad);
+        padding-right: 3rem;
+    }
+
+    .site-portrait {
+        width: 52rem;
+        right: var(--site-stage-pad);
+    }
+
+    .contact-copy {
+        margin-left: 0;
+        margin-right: 0;
+        max-width: 48rem;
+    }
+
+    #about {
+        padding-left: var(--site-stage-pad);
+        padding-right: 0;
+    }
+
+    #about .about-inner {
+        max-width: none;
+        min-height: min(82vh, 46rem);
+    }
+
+    #about .about-copy {
+        max-width: 42rem;
+    }
+
+    #about .about-wall {
+        right: 0;
+        width: min(62vw, calc(100vw - var(--site-stage-pad) - 26rem));
+        height: min(82vh, 46rem);
+        -webkit-mask-image: linear-gradient(
+            90deg,
+            transparent 0%,
+            #000 5%,
+            #000 96%,
+            transparent 100%
+        );
+        mask-image: linear-gradient(
+            90deg,
+            transparent 0%,
+            #000 5%,
+            #000 96%,
+            transparent 100%
+        );
+    }
+
+    .project-row {
+        padding-left: var(--site-stage-pad);
+        padding-right: var(--site-stage-pad);
+    }
+
+    .project-row-shell {
+        max-width: 100rem;
+    }
+}
