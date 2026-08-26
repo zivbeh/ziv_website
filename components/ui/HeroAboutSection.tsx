@@ -81,11 +81,11 @@ export function HeroAboutSection() {
   return (
     <section
       id="about"
-      className="relative z-20 min-h-[100dvh] w-full shrink-0 snap-start overflow-hidden px-6 py-24 md:px-12 md:py-28"
+      className="relative z-20 flex h-[100dvh] w-full shrink-0 snap-start flex-col justify-center overflow-hidden px-6 pb-10 pt-20 md:px-12 md:pb-12 md:pt-24"
     >
       <div aria-hidden className="field-veil field-veil--about" />
 
-      <div className="about-inner relative mx-auto flex w-full max-w-7xl flex-col items-stretch lg:block lg:min-h-[min(78vh,40rem)]">
+      <div className="about-inner relative mx-auto grid w-full max-w-7xl items-center lg:grid-cols-[minmax(0,36rem)_minmax(0,1fr)] lg:gap-8">
         <motion.div
           className="about-copy relative z-10 max-w-xl"
           initial={
@@ -155,9 +155,8 @@ export function HeroAboutSection() {
           </div>
         </motion.div>
 
-        {/* Breaks out of the text column — bleeds to the viewport edge */}
         <motion.div
-          className="about-wall relative mt-12 h-[min(54vh,27rem)] w-full overflow-hidden lg:absolute lg:top-0 lg:bottom-0 lg:right-[calc(50%-50vw)] lg:my-auto lg:h-[min(77vh,41rem)] lg:w-[56vw]"
+          className="about-wall relative mt-12 h-[min(54vh,27rem)] w-full overflow-hidden lg:mt-0 lg:h-[min(68vh,36rem)]"
           initial={reduce ? false : { opacity: 0, y: 12 }}
           whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
