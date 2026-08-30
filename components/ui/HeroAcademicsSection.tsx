@@ -18,14 +18,14 @@ function extractTags(classInfo: ClassInfo) {
     classInfo.toolsSoftware
       .join(" ")
       .match(
-        /\b(Python|C\+\+|Java|RISC-V|SPICE|MATLAB|Scheme|React|Logisim|Verilog|Git|NumPy|Pandas|SQL)\b/gi
+        /\b(Python|C\+\+|Java|RISC-V|SPICE|MATLAB|Scheme|React|Logisim|Verilog|Git|NumPy|Pandas|SQL|PyTorch|ROS|Linux|Pintos)\b/gi
       ) || [];
 
   const knowledge =
     classInfo.coreKnowledge
       .join(" ")
       .match(
-        /\b(Algorithms|Data Structures|Circuits|Linear Algebra|Machine Learning|AI|OS|Networking|Security|Databases|Markov|Probability|Multivariable Calculus)\b/gi
+        /\b(Algorithms|Data Structures|Circuits|Linear Algebra|Machine Learning|Deep Learning|AI|OS|NLP|Robotics|Networking|Security|Databases|Markov|Probability|Multivariable Calculus|Transformers)\b/gi
       ) || [];
 
   const unique = new Map<string, string>();
@@ -215,7 +215,7 @@ export function HeroAcademicsSection({
             >
               {academics.units} units
               {academics.honorStudent
-                ? " · GPA 3.957 · Engineering Honor Student"
+                ? ` · GPA ${academics.gpa} · Engineering Honor Student`
                 : null}
             </p>
           </motion.header>

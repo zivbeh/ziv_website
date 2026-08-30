@@ -7,7 +7,8 @@ export interface ClassInfo {
 }
 
 export const academics = {
-  units: 97.2,
+  units: 136.22,
+  gpa: "3.98/4.00",
   honorStudent: true,
   classes: [
     {
@@ -254,6 +255,53 @@ export const academics = {
     },
 
     {
+      title: "CS C182 - Designing, Visualizing and Understanding Deep Neural Networks",
+      coreKnowledge: [
+        "Deep Learning design motifs that work in vision, language, robotics, and control: convolutional, recurrent, residual, and attention-based architectures.",
+        "Structure vs. parameter optimization: choosing architectures, initialization, normalization, regularization, and training dynamics that actually converge.",
+        "Backpropagation and automatic differentiation as the mechanism behind training; diagnosing vanishing/exploding gradients and unstable optimization.",
+        "Visualizing deep networks: feature maps, saliency/attribution, embedding projections, and using visualization to debug what a model has learned.",
+        "Methods with more formal footing: generative and adversarial models, latent-variable models, and tensor-factorization-style analyses.",
+        "Transfer across domains: when a motif from vision or language carries over, and when the inductive bias has to change.",
+      ],
+      toolsSoftware: [
+        "Python and NumPy for vectorized implementations and numerical checks.",
+        "PyTorch for training, inspecting, and visualizing deep models.",
+        "Jupyter notebooks for experiments, plots, and architecture ablations.",
+        "Visualization tooling (activation/gradient views, embedding plots) to study trained networks.",
+      ],
+      applicationsUsed: [
+        "Designing and training networks for vision and sequence tasks, then iterating from quantitative metrics and qualitative failure cases.",
+        "Using visualization to explain a model’s decisions and to catch representation collapse, shortcut learning, or dead units.",
+        "Implementing and comparing generative/adversarial setups and relating empirical behavior back to the underlying objective.",
+      ],
+      physicalDevices: ["GPUs / instructional compute for training and visualization."],
+    },
+
+    {
+      title: "EECS 183 - Natural Language Processing",
+      coreKnowledge: [
+        "NLP for speech and text: statistical models, early neural models, and transformer-based LLMs.",
+        "Model architecture, training, evaluation, and the social impacts of deploying language systems.",
+        "Core tasks and methods: machine translation, syntactic/semantic parsing, and prompting as an interface to large models.",
+        "Analysis and representation of speech, plus speech-recognition model families.",
+        "Strengths and failure modes of language systems: hallucination, brittleness, domain shift, and evaluation that is more than a leaderboard score.",
+      ],
+      toolsSoftware: [
+        "Python for end-to-end NLP pipelines.",
+        "PyTorch for neural and transformer-based models.",
+        "Tokenizers, evaluation harnesses, and standard NLP datasets/benchmarks.",
+        "Jupyter notebooks for error analysis and qualitative inspection of model outputs.",
+      ],
+      applicationsUsed: [
+        "Building weekly systems for text and speech tasks and measuring what they get right vs. where they break.",
+        "Training or adapting models for translation, parsing, and prompting-style interfaces, then analyzing errors.",
+        "Working with speech representations and recognition models and relating them to text-side NLP.",
+      ],
+      physicalDevices: ["(N/A: software-focused)."],
+    },
+
+    {
       title: "CS170 - Efficient Algorithms and Intractable Problems",
       coreKnowledge: [
         "Algorithm design paradigms: divide-and-conquer, greedy algorithms, dynamic programming, and reductions.",
@@ -302,6 +350,63 @@ export const academics = {
         "Building and validating hardware modules in labs, then writing tests to prove correctness/performance.",
       ],
       physicalDevices: ["Instructional servers/workstations for benchmarking and simulation."],
+    },
+
+    {
+      title: "CS162 - Operating Systems and System Programming",
+      coreKnowledge: [
+        "Concurrency: processes and threads, dispatching, and the hardware/OS structures that make multitasking possible.",
+        "Synchronization: mutual exclusion, semaphores, monitors, condition variables, deadlock, and language support for concurrent programs.",
+        "CPU scheduling, resource allocation, and performance evaluation of competing workloads.",
+        "Virtual memory: address translation, segmentation, paging, TLBs, demand paging, and caching.",
+        "File systems, naming/directories, disk management, I/O systems, and storage-device trade-offs.",
+        "Loading, linking, libraries, and the process of turning programs into running systems.",
+        "Basic networking and distributed systems: sockets, layering, APIs, reliability, and distributed file systems.",
+        "Protection, security, and privacy at the OS boundary (kernel vs. user address spaces).",
+      ],
+      toolsSoftware: [
+        "C for kernel-level and systems programming.",
+        "Pintos educational operating system for group projects.",
+        "GDB, QEMU/emulation, and Linux toolchains for debugging OS code.",
+        "Git/GitHub for group development, design docs, and autograded submissions.",
+        "Anderson & Dahlin (Operating Systems: Principles and Practice) plus OSTEP-style conceptual readings.",
+      ],
+      applicationsUsed: [
+        "Implementing OS subsystems in Pintos (threads, user programs, file systems / related project work) as a group of four.",
+        "Writing design documents, defending the design in TA reviews, then iterating after autograder and design feedback.",
+        "Debugging race conditions, memory-translation bugs, and filesystem consistency issues that only show up under concurrency.",
+        "Systems programming against sockets and OS APIs to connect OS concepts to networked/distributed behavior.",
+      ],
+      physicalDevices: ["Instructional Linux workstations and remote servers for emulation and grading."],
+    },
+
+    {
+      title: "EECS C106A - Introduction to Robotics",
+      coreKnowledge: [
+        "Rigid-body motion: rotation matrices, exponential coordinates, and frames for describing robot pose.",
+        "Serial-chain manipulators: forward kinematics, inverse kinematics, and the manipulator Jacobian.",
+        "Force relations, Lagrangian dynamics, and how energy/force models enter control.",
+        "Feedforward and feedback control for tracking and keeping a manipulator on a desired trajectory.",
+        "Geometric motion planning, obstacle avoidance, and trajectory generation under dynamic constraints.",
+        "Robotic vision and sensing: camera intrinsics/calibration, low-level vision, structure from motion, and a first look at vision and learning.",
+        "Current applications: active perception, medical robotics, autonomous vehicles, and related systems.",
+      ],
+      toolsSoftware: [
+        "ROS 2 for robot software, messaging, and lab bring-up.",
+        "Python and NumPy for kinematics, control, and vision numerical work.",
+        "Linux lab workstations and MoveIt-style motion-planning stacks used with the course robots.",
+        "Murray–Li–Sastry (A Mathematical Introduction to Robotic Manipulation) and course notes.",
+      ],
+      applicationsUsed: [
+        "Lab modules on ROS 2, forward/inverse kinematics, Jacobians, vision, dynamics, and control, checked off on hardware.",
+        "Commanding manipulators and mobile robots to hit poses, follow trajectories, and react to camera/sensor input.",
+        "A final project that combines perception, planning, and control on the course robots.",
+      ],
+      physicalDevices: [
+        "Universal Robots UR7e manipulator arms in the teaching lab.",
+        "TurtleBot mobile robots.",
+        "Lab workstations, cameras, and standard robotics lab safety/E-stop hardware.",
+      ],
     },
 
     {
@@ -357,6 +462,25 @@ export const academics = {
         "Small office/home office routers, access points, and wired infrastructure for practice.",
         "Cabling and patch panels used in hands-on networking labs.",
       ],
+    },
+
+    {
+      title: "UGBA 101A - Microeconomic Analysis for Business Decisions",
+      coreKnowledge: [
+        "Microeconomic analysis for firms: how prices, outputs, and inputs are determined.",
+        "Cost, demand, and market structure: competition, market power, and what that implies for firm decisions.",
+        "How the competitive environment shapes business strategy and government policy.",
+        "Applying equilibrium and comparative-statics reasoning to concrete business problems.",
+      ],
+      toolsSoftware: [
+        "Graphical and algebraic models of supply, demand, and firm cost curves.",
+        "Spreadsheet analysis for numerical examples and sensitivity checks.",
+      ],
+      applicationsUsed: [
+        "Analyzing pricing, output, and input choices for a business under different market structures.",
+        "Connecting competitive conditions to policy (regulation, antitrust-style questions) and to firm strategy.",
+      ],
+      physicalDevices: ["(N/A: theory/analysis-focused)."],
     },
   ],
 };
