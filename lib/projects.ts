@@ -50,7 +50,7 @@ export const projects = [
       "Physics-informed 3D ultrasonic imaging at BSAC. 3 abstracts to IEEE MEMS 2027; writing 1 journal paper.",
     description:
       "In the Berkeley Sensor & Actuator Center (BSAC) with Prof. Liwei Lin, I invented the first physics-informed learned reconstruction method for in-air 3D ultrasonic imaging. The system uses just 8 PMUT sensors (vs. hundreds conventionally) and cuts acquisition time by 10–100×, reconstructing target position, size, and orientation with 34 mm median surface error to ground truth. " +
-      "I also developed methods for synthetic-aperture and non-line-of-sight PMUT imaging, improving resolution 11.3× to 2.87 mm and localizing occluded targets up to 1.42 m away within 0.9 mm of ground truth. " +
+      "I also developed methods for synthetic-aperture and non-line-of-sight PMUT imaging, improving resolution 11.8× to 2.87 mm and localizing occluded targets up to 1.42 m away within 0.9 mm of ground truth. " +
       "This work has 3 abstracts submitted to IEEE MEMS 2027, and I am writing 1 journal paper. " +
       "The hardware is a compact in-air ultrasonic imager: piezoelectric micromachined ultrasonic transducers (PMUTs) driven from a mixed-signal stack I brought up. I wrote microcontroller firmware to coordinate pulse transmission and data acquisition, used a genetic algorithm to tune drive parameters and cut ringdown by over 90% so the reconstruction sees cleaner echoes, and designed a dual-rail inverting supply PCB so the pMUTs can drive 2× higher voltages for better resolution and a deeper field of view.",
     tools: [
