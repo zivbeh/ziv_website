@@ -62,7 +62,6 @@ const CLASS_ORDER = [
   "EE105",
   "CS61C",
   "CS61B",
-  "CCNA",
   "CS61A",
   "EECS16B",
   "CS70",
@@ -70,6 +69,7 @@ const CLASS_ORDER = [
   "MATH53",
   "PHYS7A/B",
   "UGBA 101A",
+  "CCNA",
 ];
 
 function orderedClasses(classes: ClassInfo[]) {

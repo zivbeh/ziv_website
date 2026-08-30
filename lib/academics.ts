@@ -328,7 +328,7 @@ export const academics = {
     },
 
     {
-      title: "CS152 - Computer Architecture and Engineering",
+      title: "CS152 - Advanced Computer Architecture",
       coreKnowledge: [
         "Processor microarchitecture: pipelines, hazards, forwarding, and control flow (branch prediction concepts).",
         "Memory hierarchy: caches, coherence concepts, virtual memory, and performance trade-offs.",
