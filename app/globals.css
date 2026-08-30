@@ -1124,9 +1124,9 @@ html[data-intro="pending"] body::before {
     height: 100%;
     min-height: 0;
     padding: 1.1rem 1.15rem 1.15rem;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.22);
     border-radius: 0.85rem;
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(255, 255, 255, 0.07);
     text-align: left;
     color: #f4f4f4;
     cursor: pointer;
@@ -1166,8 +1166,8 @@ html[data-intro="pending"] body::before {
 
 @media (hover: hover) and (pointer: fine) {
     .academics-card:hover {
-        border-color: rgba(255, 255, 255, 0.28);
-        background: rgba(255, 255, 255, 0.055);
+        border-color: rgba(255, 255, 255, 0.4);
+        background: rgba(255, 255, 255, 0.11);
     }
 }
 

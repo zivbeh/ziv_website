@@ -45,6 +45,42 @@ function shortTitle(title: string) {
   };
 }
 
+function classCode(title: string) {
+  const parts = shortTitle(title);
+  return typeof parts === "string" ? parts : parts.code;
+}
+
+/** Upper-div and job-relevant first; lower-div / theory last. */
+const CLASS_ORDER = [
+  "CS162",
+  "CS C182",
+  "CS189",
+  "EECS 183",
+  "CS170",
+  "EECS C106A",
+  "CS152",
+  "EE105",
+  "CS61C",
+  "CS61B",
+  "CCNA",
+  "CS61A",
+  "EECS16B",
+  "CS70",
+  "EECS16A",
+  "MATH53",
+  "PHYS7A/B",
+  "UGBA 101A",
+];
+
+function orderedClasses(classes: ClassInfo[]) {
+  const rank = new Map(CLASS_ORDER.map((code, i) => [code, i]));
+  return [...classes].sort(
+    (a, b) =>
+      (rank.get(classCode(a.title)) ?? 999) -
+      (rank.get(classCode(b.title)) ?? 999)
+  );
+}
+
 function ClassModal({
   classInfo,
   onClose,
@@ -221,7 +257,7 @@ export function HeroAcademicsSection({
           </motion.header>
 
           <ul className="academics-grid mt-12 md:mt-14">
-            {academics.classes.map((classInfo, index) => {
+            {orderedClasses(academics.classes).map((classInfo, index) => {
               const tags = extractTags(classInfo);
               const parts = shortTitle(classInfo.title);
               return (
