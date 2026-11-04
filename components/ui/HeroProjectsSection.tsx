@@ -22,9 +22,9 @@ const FONT = {
  * Each row is a full snap stage: copy + 1–3 media plates.
  */
 export const FEATURED_PROJECT_IDS = [
+  "bsac-liwei-lin-lab",
   "liftr",
   "library-seat-radar",
-  "bsac-liwei-lin-lab",
   "balloons-pop",
   "strata-bb-hacks",
 ] as const;
@@ -46,6 +46,19 @@ type FeaturedMeta = {
 };
 
 const FEATURED: FeaturedMeta[] = [
+  {
+    id: "bsac-liwei-lin-lab",
+    short: "PIML 3D Reconstruction",
+    lede:
+      "Invented the first physics-informed learned reconstruction method for in-air 3D ultrasonic imaging.",
+    body: "Uses just 8 PMUT sensors (vs. hundreds conventionally) and cuts acquisition time by 10–100×, reconstructing target position, size, and orientation with 34 mm median surface error to ground truth.",
+    tag: "Research",
+    media: [
+      { type: "image", src: "/research/gcurs-talk.jpg" },
+      { type: "image", src: "/research/pmut-stack.jpg" },
+      { type: "image", src: "/research/cal-reconstruction.png" },
+    ],
+  },
   {
     id: "liftr",
     short: "LIFTR",
@@ -71,19 +84,6 @@ const FEATURED: FeaturedMeta[] = [
         src: "/status/Outreach Stats One Month After Launch.png",
       },
       { type: "image", src: "/status/Berkeley Skydeck Incubator.jpeg" },
-    ],
-  },
-  {
-    id: "bsac-liwei-lin-lab",
-    short: "PIML 3D Reconstruction",
-    lede:
-      "Invented the first physics-informed learned reconstruction method for in-air 3D ultrasonic imaging.",
-    body: "Uses just 8 PMUT sensors (vs. hundreds conventionally) and cuts acquisition time by 10–100×, reconstructing target position, size, and orientation with 34 mm median surface error to ground truth.",
-    tag: "Research",
-    media: [
-      { type: "image", src: "/research/ultrasound-rig-desk.jpg" },
-      { type: "image", src: "/research/cal-reconstruction.png" },
-      { type: "image", src: "/research/pcb-layout.jpg" },
     ],
   },
   {

@@ -65,6 +65,8 @@ export const projects = [
     repoUrl: "https://github.com/zivbeh/pcb_inverter",
     size: "medium",
     images: [
+      "/research/gcurs-talk.jpg",
+      "/research/pmut-stack.jpg",
       "/research/ultrasound-rig-desk.jpg",
       "/research/ultrasound-target-setup.jpg",
       "/research/cal-reconstruction.png",
