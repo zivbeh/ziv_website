@@ -44,7 +44,7 @@ export function ProjectView({ project, onClose }: ProjectViewProps) {
     new Map()
   );
   const [galleryFillHeight, setGalleryFillHeight] = useState(480);
-  const [descExpanded, setDescExpanded] = useState(false);
+  const [descExpanded, setDescExpanded] = useState(true);
 
   const images = project?.images ?? (project?.image ? [project.image] : []);
   const videos = project?.videos ?? [];
@@ -64,7 +64,7 @@ export function ProjectView({ project, onClose }: ProjectViewProps) {
       ];
 
   useEffect(() => {
-    setDescExpanded(false);
+    setDescExpanded(true);
   }, [project?.id]);
 
   useEffect(() => {

@@ -62,6 +62,21 @@ export function AutoMediaGallery({
     count <= 5 &&
     sized.every((m) => m.height >= m.width * 1.05);
 
+  /**
+   * Rows that let a full-width justified layout fill the height budget.
+   * A full-width layout of R rows is ~ width·R²/Σaspect tall, so solve for R —
+   * otherwise extra rows overflow and fitScale shrinks the album into a narrow box.
+   */
+  const rows = useMemo(() => {
+    if (!ready || !fillHeight || fillHeight < 120 || count <= 4) {
+      return Math.ceil(count / MAX_PHOTOS_PER_ROW);
+    }
+    const aspectSum = sized.reduce((s, m) => s + m.width / m.height, 0);
+    const ideal = Math.round(Math.sqrt((fillHeight * aspectSum) / containerWidth));
+    return Math.min(count, Math.max(1, ideal));
+  }, [ready, fillHeight, count, sized, containerWidth]);
+  const maxPhotosPerRow = Math.max(MAX_PHOTOS_PER_ROW, Math.ceil(count / rows));
+
   const targetRowHeight = useMemo(() => {
     if (!fillHeight || fillHeight < 120) {
       return containerWidth < 500 ? 180 : 240;
@@ -69,12 +84,11 @@ export function AutoMediaGallery({
     if (count <= 4) {
       return Math.max(260, Math.floor(fillHeight * 0.92));
     }
-    const rows = Math.ceil(count / MAX_PHOTOS_PER_ROW);
     return Math.max(
-      180,
+      120,
       Math.floor((fillHeight - GAP * (rows - 1)) / rows)
     );
-  }, [fillHeight, count, containerWidth]);
+  }, [fillHeight, count, containerWidth, rows]);
 
   // Only shrink when the album overflows — never leave a short ribbon in a tall stage
   useLayoutEffect(() => {
@@ -197,7 +211,7 @@ export function AutoMediaGallery({
           spacing={GAP}
           padding={0}
           rowConstraints={{
-            maxPhotos: MAX_PHOTOS_PER_ROW,
+            maxPhotos: maxPhotosPerRow,
             minPhotos: 1,
             singleRowMaxHeight,
           }}
