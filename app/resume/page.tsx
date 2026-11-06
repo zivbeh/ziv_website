@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 export default function ResumePage() {
   return (
     <iframe
-      src="/CV.pdf?v=3"
+      src="/CV.pdf?v=4"
       title="Ziv Behar resume"
       className="fixed inset-0 z-50 h-dvh w-full border-0 bg-neutral-200"
     />
