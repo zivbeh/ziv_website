@@ -9,6 +9,8 @@ export const SITE_INTRO_DONE_EVENT = "zb-site-intro-done";
 export const BOOT = {
   /** Spinning + hold — minimum 1s */
   plusHold: 1000,
+  /** Cap on how long the + waits for assets before revealing anyway */
+  maxAssetWait: 10000,
   /** + unfolds into hollow square (match CSS edge morph) */
   toSquare: 800,
   /** Hollow square grows to fill the screen */

@@ -14,7 +14,7 @@ import { HeroAboutSection } from "@/components/ui/HeroAboutSection";
 import { HeroProjectsSection } from "@/components/ui/HeroProjectsSection";
 import { HeroContactArchiveStage } from "@/components/ui/HeroContactArchiveStage";
 import type { ContactDeckPanel } from "@/components/ui/HeroContactArchiveStage";
-import { useHeroBoot } from "@/hooks/useHeroBoot";
+import { markBootAssetReady, useHeroBoot } from "@/hooks/useHeroBoot";
 import { BOOT } from "@/lib/site-intro";
 
 /** Emil Kowalski strong ease-out — instant feedback, no sluggish ease-in */
@@ -548,10 +548,16 @@ export function HomeHeroLab() {
 
   useEffect(() => {
     setHydrated(true);
-    // Warm the ship asset during + / square so expand isn't waiting on the PNG
+    // Warm the ship asset during the + so expand isn't waiting on the PNG
     const img = new Image();
     img.src = SHIP_SRC;
+    img.decode().then(
+      () => markBootAssetReady("ship"),
+      () => markBootAssetReady("ship")
+    );
   }, []);
+
+  const onDitherReady = useCallback(() => markBootAssetReady("dither"), []);
 
   useEffect(() => {
     const root = scrollerRef.current;
@@ -690,6 +696,7 @@ export function HomeHeroLab() {
             {...DESK.dither}
             enableMouseInteraction={false}
             mouseRadius={0}
+            onReady={onDitherReady}
           />
         ) : null}
       </div>

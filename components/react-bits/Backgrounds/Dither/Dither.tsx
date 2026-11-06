@@ -307,6 +307,8 @@ interface DitherProps {
   disableAnimation?: boolean;
   enableMouseInteraction?: boolean;
   mouseRadius?: number;
+  /** Fires once the WebGL context exists and the first frame has painted */
+  onReady?: () => void;
 }
 
 export default function Dither({
@@ -318,7 +320,8 @@ export default function Dither({
   pixelSize = 2,
   disableAnimation = false,
   enableMouseInteraction = false,
-  mouseRadius = 1
+  mouseRadius = 1,
+  onReady
 }: DitherProps) {
   return (
     <Canvas
@@ -327,6 +330,9 @@ export default function Dither({
       camera={{ position: [0, 0, 6] }}
       dpr={1}
       gl={{ antialias: true, preserveDrawingBuffer: true }}
+      onCreated={() => {
+        requestAnimationFrame(() => requestAnimationFrame(() => onReady?.()));
+      }}
     >
       <DitheredWaves
         waveSpeed={waveSpeed}

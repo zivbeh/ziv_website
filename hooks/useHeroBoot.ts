@@ -34,15 +34,85 @@ const INITIAL: BootChrome = {
   nameReady: false,
 };
 
+/** What the + waits on before unfolding (capped by BOOT.maxAssetWait) */
+export type BootAsset = "page" | "fonts" | "dither" | "ship";
+
 /** Module singleton — survives Strict Mode remounts */
 let snap: BootChrome = { ...INITIAL };
 let started = false;
 let timer: number | null = null;
+let plusHeld = false;
+const waitingOn = new Set<BootAsset>(["page", "fonts", "dither", "ship"]);
 const listeners = new Set<(s: BootChrome) => void>();
 
 function publish(next: BootChrome) {
   snap = next;
   listeners.forEach((fn) => fn(snap));
+}
+
+/** Report an asset as loaded; the + leaves once the hold and every asset are done. */
+export function markBootAssetReady(asset: BootAsset) {
+  waitingOn.delete(asset);
+  maybeLeavePlus();
+}
+
+function maybeLeavePlus() {
+  if (!plusHeld || waitingOn.size > 0) return;
+  if (!snap.live || snap.visual !== "plus") return;
+  advance();
+}
+
+function advance() {
+  const idx = PHASES.indexOf(snap.visual);
+  if (idx < 0 || snap.visual === "done") return;
+
+  const next = PHASES[idx + 1];
+
+  if (next === "done") {
+    timer = null;
+    publish({
+      visual: "done",
+      live: true,
+      bypass: false,
+      nameReady: true,
+    });
+    markSiteIntroSeen();
+    document.body.style.overflow = "";
+    return;
+  }
+
+  publish({
+    visual: next,
+    live: true,
+    bypass: false,
+    nameReady: false,
+  });
+  timer = window.setTimeout(advance, DWELL[next]);
+}
+
+function watchPageAssets() {
+  if (document.readyState === "complete") {
+    markBootAssetReady("page");
+  } else {
+    window.addEventListener("load", () => markBootAssetReady("page"), {
+      once: true,
+    });
+  }
+
+  if (document.fonts) {
+    document.fonts.ready.then(
+      () => markBootAssetReady("fonts"),
+      () => markBootAssetReady("fonts")
+    );
+  } else {
+    markBootAssetReady("fonts");
+  }
+
+  // Never strand the visitor on the + if an asset fails or WebGL is unavailable
+  window.setTimeout(() => {
+    waitingOn.clear();
+    maybeLeavePlus();
+  }, BOOT.maxAssetWait);
 }
 
 function ensureBoot() {
@@ -75,39 +145,16 @@ function ensureBoot() {
     nameReady: false,
   });
 
-  const advance = () => {
-    const idx = PHASES.indexOf(snap.visual);
-    if (idx < 0 || snap.visual === "done") return;
-
-    const next = PHASES[idx + 1];
-
-    if (next === "done") {
-      timer = null;
-      publish({
-        visual: "done",
-        live: true,
-        bypass: false,
-        nameReady: true,
-      });
-      markSiteIntroSeen();
-      document.body.style.overflow = "";
-      return;
-    }
-
-    publish({
-      visual: next,
-      live: true,
-      bypass: false,
-      nameReady: false,
-    });
-    timer = window.setTimeout(advance, DWELL[next]);
-  };
-
-  timer = window.setTimeout(advance, DWELL.plus);
+  watchPageAssets();
+  timer = window.setTimeout(() => {
+    timer = null;
+    plusHeld = true;
+    maybeLeavePlus();
+  }, DWELL.plus);
 }
 
 /**
- * Always runs the boot (≥1s on the +, then square, then expand).
+ * Always runs the boot (≥1s on the +, held until assets load, then square, then expand).
  * Skip only for ?skipIntro=1.
  */
 export function useHeroBoot(): BootChrome {
